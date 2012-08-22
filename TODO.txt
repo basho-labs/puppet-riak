@@ -1,0 +1,9 @@
+http://www.slideshare.net/PuppetLabs/modern-module-development-ken-barber-2012-edinburgh-puppet-camp
+http://www.slideshare.net/Alvagante/puppet-modules-an-holistic-approach
+http://puppetlabs.com/blog/puppet-module-bounty-logstash-riak-and-graphite/?utm_campaign=blog&utm_medium=socnet&utm_source=twitter&utm_content=modbounty1
+http://puppetlabs.com/blog/the-next-generation-of-puppet-module-testing/
+
+ * Download Erlang
+ * Download Riak
+ * Configure Riak
+ * Notify cluster instances of each other

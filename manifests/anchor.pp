@@ -1,0 +1,3 @@
+# anchor stub
+class anchor {
+}
