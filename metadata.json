@@ -29,7 +29,7 @@
     "spec/classes/riak_spec.rb~": "d41d8cd98f00b204e9800998ecf8427e",
     "spec/classes/service_spec.rb": "d41d8cd98f00b204e9800998ecf8427e",
     "spec/shared_contexts.rb": "7215ee9c7d9dc229d2921a40e899ec5f",
-    "spec/spec_helper.rb": "29395f890e4d1b4fb13bbd1f0e2dbe9e",
+    "spec/spec_helper.rb": "14a014a46b4dcaa82245631e03e9e8a3",
     "tests/init.pp": "63a7323194d410e6388643ff0767fa08",
     "tests/vagrant-riak.pp": "88a1cb6270e5aeccb3deb93cc909a2da",
     "travis.sh": "e0739300f43aeedb47d770063b8d0acb"
