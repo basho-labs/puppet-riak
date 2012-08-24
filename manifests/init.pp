@@ -13,9 +13,9 @@
 # [Remember: No empty lines between comments and class definition]
 class riak($package = $riak::params::package) {
   include stdlib
-  anchor { 'riak::start': } ->
-  class { 'riak::package':} ~>
-  class { 'riak::config':}  ~>
-  class { 'riak::service':} ~>
+  anchor { 'riak::start': }  ->
+  class { 'riak::package': } ~>
+  class { 'riak::config': }  ~>
+  class { 'riak::service': } ~>
   anchor { 'riak::end': }
 }

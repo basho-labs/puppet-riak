@@ -1,18 +1,14 @@
 require 'spec_helper'
 
 describe 'riak', type => :class do
-
-  let :facts do 
-    { :operatingsystem => 'ubuntu' }
+  let :facts do
+    {}
   end
-  
-  describe 'when using default params' do
-    let :params do 
-      {}
-    end
-
-    it 'should include the riak class' do
-      subject.should contain_class('riak')
-    end
+  describe 'at baseline with defaults' do
+    let :params do ; {} ; end
+    it { should contain_class('riak') }
+    it { should contain_class('riak::package') }
+    it { should contain_class('riak::config') }
+    it { should contain_class('riak::service') }
   end
 end

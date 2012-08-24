@@ -1,2 +1,3 @@
 class riak::service {
+  
 }

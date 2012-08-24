@@ -10,3 +10,4 @@ description 'A module for managing Riak with Puppet, that supports clustering of
 
 You can test it out: \'vagrant up\' in the source folder.
 Also, run the tests with \'make tests\', to make sure that the module doesn\'t have any recently introduced bugs.'
+dependency 'puppetlabs/stdlib', '~3.0.1'
