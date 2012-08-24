@@ -18,7 +18,7 @@ class riak::params {
       # - no 32 bit version
       $architecture = 'amd64'
       $package = 'riak'
-      $pacakge_type = 'deb'
+      $package_type = 'deb'
     }
   }
 
@@ -27,7 +27,8 @@ class riak::params {
   $download_base = "http://downloads.basho.com.s3-website-us-east-1.amazonaws\
 .com/riak/CURRENT/$download_os"
 
-  $download_package = "${$download_base}/riak_${$version}-1_${architecture}\
+  $url_source = "${$download_base}/riak_${$version}-1_${architecture}\
 .${$package_type}"
 
+  $url_source_hash = "${$url_source}.sha"
 }
