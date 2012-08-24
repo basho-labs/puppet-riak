@@ -11,7 +11,12 @@
 # Sample Usage:
 #
 # [Remember: No empty lines between comments and class definition]
-class riak($package = $riak::params::package) {
+class riak(
+  $package = $riak::params::package,
+  $disable = false,
+  $disableboot = false,
+  $absent = false
+) {
   include stdlib
   anchor { 'riak::start': }  ->
   class { 'riak::package': } ~>

@@ -1,4 +1,5 @@
 require 'fileutils'
+# http://ruby-doc.org/stdlib-1.9.3/libdoc/net/http/rdoc/Net/HTTP.html
 require 'net/http'
 # http://www.ruby-doc.org/stdlib-1.9.3/libdoc/digest/rdoc/Digest.html
 require 'digest'
