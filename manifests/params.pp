@@ -5,7 +5,9 @@ class riak::params {
       $package = 'riak'
     }
     'ubuntu', 'debian', default: {
-      $package_arch = 'x86_64' # fail: http://wiki.basho.com/Installing-on-RHEL-and-CentOS.html - no 32 bit version
+      # fail: http://wiki.basho.com/Installing-on-RHEL-and-CentOS.html
+      # - no 32 bit version
+      $package_arch = 'x86_64'
       $package = 'riak'
     }
   }
