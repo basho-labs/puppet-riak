@@ -9,7 +9,7 @@
   "version": "0.0.1",
   "checksums": {
     "Gemfile": "8f8639e3f6b35d8d15034f17a1eacf0f",
-    "Gemfile.lock": "e063e17927391f8024631f0e630e4d7b",
+    "Gemfile.lock": "f95b7ab61fa7e52db79772b7a74d2cbf",
     "Modulefile": "09aaf61964ec915c78541bde723ff5da",
     "Rakefile": "f94265d95218f5cf2a2bbb8ac206dca0",
     "TODO.txt": "69fb05c10ea947f72cfdcb54322438f1",
@@ -25,12 +25,14 @@
     "manifests/service.pp": "306c043491c695b6a788ebc652f01362",
     "readme.md": "78183de4b4c0d4e4c937a114173be1eb",
     "spec/classes/package_spec.rb": "d41d8cd98f00b204e9800998ecf8427e",
-    "spec/classes/riak_spec.rb": "93a7d843ace3b797331225beb524ad5c",
+    "spec/classes/riak_spec.rb": "45a746c8bdb31ca2882b86e730d0ba23",
     "spec/classes/riak_spec.rb~": "d41d8cd98f00b204e9800998ecf8427e",
     "spec/classes/service_spec.rb": "d41d8cd98f00b204e9800998ecf8427e",
+    "spec/shared_contexts.rb": "7215ee9c7d9dc229d2921a40e899ec5f",
     "spec/spec_helper.rb": "29395f890e4d1b4fb13bbd1f0e2dbe9e",
     "tests/init.pp": "63a7323194d410e6388643ff0767fa08",
-    "tests/vagrant-riak.pp": "88a1cb6270e5aeccb3deb93cc909a2da"
+    "tests/vagrant-riak.pp": "88a1cb6270e5aeccb3deb93cc909a2da",
+    "travis.sh": "e0739300f43aeedb47d770063b8d0acb"
   },
   "dependencies": []
 }
