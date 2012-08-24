@@ -2,3 +2,4 @@
 *.rb~
 pkg/
 fixtures/
+*.rb~
