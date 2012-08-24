@@ -10,10 +10,8 @@ Puppet::Type.type(:httpfile).provide(:ruby) do
   
   has_feature :hash
 
-private:
   @h = ""
-
-public:
+  
   def hash
     return @h unless @h.empty?
     @h = Net::HTTP.get(resource[:hash]) if resource[:hash_is_uri]
@@ -29,10 +27,10 @@ public:
     try = 0
     max_tries = 3
     digest = ""
-        
-    while try++ < max_tries && 
-          hash != digest do
-          
+    
+    while try < max_tries && hash != digest
+      try++
+      
       sha1 = SHA1.new
       f = open(resource[:path])
       

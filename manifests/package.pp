@@ -1,6 +1,6 @@
 class riak::package(
   $version = $riak::params::version,
-  $name = $riak::params::package,
+  $pkgname = $riak::params::package,
   $url_source = $riak::params::url_source,
   $hash = $riak::params::url_source_hash,
   $type = $riak::params::package_type
@@ -11,7 +11,8 @@ class riak::package(
     hash   => $hash
   }
   
-  package { $name:
-    ensure => installed
+  package { $pkgname:
+    ensure  => installed,
+    require => Httpfile["/tmp/riak-$version.$type"] 
   }
 }
