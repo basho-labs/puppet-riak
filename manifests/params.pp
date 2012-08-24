@@ -7,28 +7,20 @@ class riak::params {
     default           => 'ubuntu/precise'
   }
 
-  case $::operatingsystem {
-    'centos','redhat': {
-      $architecture = 'el6.x86_64'
-      $package = 'riak'
-      $package_type = 'rpm'
-    }
-    'ubuntu', 'debian', default: {
-      # fail: http://wiki.basho.com/Installing-on-RHEL-and-CentOS.html
-      # - no 32 bit version
-      $architecture = 'amd64'
-      $package = 'riak'
-      $package_type = 'deb'
-    }
+  $package = $::operatingsystem ? {
+    /(centos|redhat)/ => 'riak',
+    default           => 'riak'
+  }
+
+  $architecture = $::operatingsystem ? {
+    /(centos|redhat)/ => 'el6.x86_64',
+    default           => 'amd64'
+  }
+
+  $package_type = $::operatingsystem ? {
+    /(centos|redhat)/ => 'rpm',
+    default           => 'deb'
   }
 
   $version = '1.2.0'
-
-  $download_base = "http://downloads.basho.com.s3-website-us-east-1.amazonaws\
-.com/riak/CURRENT/$download_os"
-
-  $url_source = "${$download_base}/riak_${$version}-1_${architecture}\
-.${$package_type}"
-
-  $url_source_hash = "${$url_source}.sha"
 }

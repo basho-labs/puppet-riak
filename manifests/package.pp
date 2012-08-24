@@ -1,18 +1,24 @@
 class riak::package(
   $version = $riak::params::version,
-  $pkgname = $riak::params::package,
-  $url_source = $riak::params::url_source,
-  $hash = $riak::params::url_source_hash,
-  $type = $riak::params::package_type
-) {
-  
-  httpfile {  "/tmp/riak-$version.$type":
+  $package = $riak::params::package,
+  $hash = ''
+) inherits riak::params {
+  $download_base = "http://downloads.basho.com.s3-website-us-east-1.amazonaws\
+.com/riak/CURRENT/${$riak::params::download_os}"
+
+  $url_source = "${$download_base}/riak_${$version}-1_\
+${$riak::params::architecture}.${$riak::params::package_type}"
+
+  $url_source_hash = "${$url_source}.sha"
+
+  httpfile {  "/tmp/${$package}-$version.${$riak::params::package_type}":
     ensure => present,
+    source => $url_source,
     hash   => $hash
   }
-  
-  package { $pkgname:
+
+  package { $package:
     ensure  => installed,
-    require => Httpfile["/tmp/riak-$version.$type"] 
+    require => Httpfile["/tmp/riak-$version.${$riak::params::package_type}"]
   }
 }
