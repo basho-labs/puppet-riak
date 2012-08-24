@@ -1,9 +1,7 @@
 require 'spec_helper'
 
-describe 'riak', type => :class do
-  let :facts do
-    {}
-  end
+describe 'riak', :type => :class do
+  let :facts do ; {} ; end
   describe 'at baseline with defaults' do
     let :params do ; {} ; end
     it { should contain_class('riak') }
