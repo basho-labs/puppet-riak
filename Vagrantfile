@@ -14,7 +14,8 @@ Vagrant::Config.run do |config|
   end
 
   # VBox is at .1, number ip.{5,6,7}
-  %w[riak-5 riak-6 riak-7].each {|r|
+  #%w[riak-5 riak-6 riak-7].each {|r|
+  %w[riak-5].each {|r|
     config.vm.define :"#{r}" do |cfg|
       cfg.vm.host_name = r
       cfg.vm.network :hostonly, "10.42.0.#{r.slice(4,1)}"

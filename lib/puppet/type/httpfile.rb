@@ -6,7 +6,15 @@ Puppet::Type.newtype(:httpfile) do
   
   feature :hash, 'The ability to hash the downloaded file', :methods => [:hash]
   
-  ensurable
+  ensurable do
+    newvalue :present do
+      provider.create unless provider.exists?
+    end
+    
+    newvalue :absent do
+      provider.destroy
+    end
+  end
   
   newparam :source do
 

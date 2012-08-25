@@ -1,9 +1,9 @@
-node riak-1 {
+node riak-5 {
   include riak
 }
-node riak-2 {
+node riak-6 {
   include riak
 }
-node riak-3 {
+node riak-7 {
   include riak
 }
