@@ -1,7 +1,7 @@
 class riak::package(
   $version = $riak::params::version,
   $package = $riak::params::package,
-  $hash = ''
+  $hash = undef
 ) inherits riak::params {
   $download_base = "http://downloads.basho.com.s3-website-us-east-1.amazonaws\
 .com/riak/CURRENT/${$riak::params::download_os}"
@@ -14,7 +14,11 @@ ${$riak::params::architecture}.${$riak::params::package_type}"
   httpfile {  "/tmp/${$package}-$version.${$riak::params::package_type}":
     ensure => present,
     source => $url_source,
-    hash   => $hash
+    hash   => $hash ? {
+      undef   => $url_source_hash,
+      ''      => $url_source_hash,
+      default => $hash
+    }
   }
 
   package { $package:

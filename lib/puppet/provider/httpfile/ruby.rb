@@ -9,73 +9,68 @@ Puppet::Type.type(:httpfile).provide(:ruby) do
   desc "Download the file with Ruby"
   
   has_feature :hash
-
-  @h = ""
   
   def hash
-    return @h unless @h.empty?
-    @h = Net::HTTP.get(resource[:hash]) if resource[:hash_is_uri]
-    @h = resource[:hash]
+    return @hash if @hash
+    if resource.parameter(:hash).was_uri then
+      h = resource[:hash]
+      @hash = Net::HTTP.get(h).split(' ').first
+    else
+      @hash = resource[:hash]
+    end
+    @hash
   end
 
   # create the file by downloading it
   def create
 
     # clean badly hashing files
-    FileUtils.rm resource[:path] if FileUtils.exists? resource[:path]
-
-    try = 0
-    max_tries = 3
-    digest = ""
+    FileUtils.rm resource[:path] if File.exists? resource[:path]
     
-    while try < max_tries && hash != digest
-      try++
-      
-      sha1 = SHA1.new
-      f = open(resource[:path])
-      
-      begin
-        # blocking...
-        http.request_get(resource[:source]) do |resp|
+    digester = Digest::SHA2.new
+    uri = resource[:source]
+
+    info "Starting to download Httpfile[#{resource[:name]}) from URI[#{uri.to_s}]/#{hash}"
+
+    Net::HTTP.start uri.host, uri.port do |http|
+      http.request_get uri.request_uri do |resp|
+        open resource[:path], "w+" do |io|
           resp.read_body do |segment|
-            f.write segment
-            sha1.update segment
+            io.write segment
+            digester.update segment
           end
         end
-        digest = sha1.hexdigest
-      ensure
-        f.close()
       end
-      
-      return
-
     end
-    
-    raise Error, 'the file didn\'t hash correctly, retry'
+
+    unless hash == digester.hexdigest
+      raise Puppet::Error, "Data at URI[#{uri.to_s}]/#{digester.hexdigest}]\
+ didn\'t match expected Httpfile[#{hash}], please retry or correct the hash." 
+    end
     
   end
 
   # remove the file if it exists, no matter its hash  
   def destroy
-    FileUtils.rm resource[:path] if FileUtils.exists? resource[:path]
+    FileUtils.rm resource[:path] if File.exists? resource[:path]
   end
   
   # it exists if it exists and it hashes properly
   def exists?
 
-    return false unless FileUtils.exists? resource[:path]
+    return false unless File.exists? resource[:path]
     
-    sha1 = SHA1.new
+    digester = Digest::SHA2.new
     
     File.open resource[:path] do |file|
       buffer = ''
       while not file.eof
-        file.read(512, buffer)
-        sha1.update(buffer)
+        file.read 512, buffer
+        digester.update buffer
       end
     end
     
-    sha1.hexdigest == hash
+    digester.hexdigest == hash
   end
   
 end
