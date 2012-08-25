@@ -11,18 +11,20 @@ ${$riak::params::architecture}.${$riak::params::package_type}"
 
   $url_source_hash = "${$url_source}.sha"
 
-  httpfile {  "/tmp/${$package}-$version.${$riak::params::package_type}":
+  $actual_hash = $hash ? {
+    undef   => $url_source_hash,
+    ''      => $url_source_hash,
+    default => $hash
+  }
+
+  httpfile {  "/tmp/${$package}-${$version}.${$riak::params::package_type}":
     ensure => present,
     source => $url_source,
-    hash   => $hash ? {
-      undef   => $url_source_hash,
-      ''      => $url_source_hash,
-      default => $hash
-    }
+    hash   => $actual_hash
   }
 
   package { $package:
     ensure  => installed,
-    require => Httpfile["/tmp/riak-$version.${$riak::params::package_type}"]
+    require => Httpfile["/tmp/riak-${$version}.${$riak::params::package_type}"]
   }
 }

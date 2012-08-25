@@ -1,3 +1,14 @@
+# Class: riak::params
+#
+# This class implements the module params pattern
+#
+# Parameters: none
+#
+# Actions: none
+#
+# Requires: none
+#
+# Sample Usage: none
 class riak::params {
 
   $download_os = $::operatingsystem ? {

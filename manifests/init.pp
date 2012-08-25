@@ -9,8 +9,8 @@
 # Requires:
 #
 # Sample Usage:
+# class { 'riak': }
 #
-# [Remember: No empty lines between comments and class definition]
 class riak(
   $package = $riak::params::package,
   $disable = false,
