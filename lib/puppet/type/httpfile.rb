@@ -9,10 +9,12 @@ Puppet::Type.newtype(:httpfile) do
   ensurable do
     newvalue :present do
       provider.create unless provider.exists?
+      nil # autogen event if returning nil
     end
     
     newvalue :absent do
       provider.destroy
+      nil
     end
   end
   
