@@ -30,19 +30,20 @@ describe 'riak', :type => :class do
       subject.should contain_httpfile('/tmp/custom_riak-1.2.0.deb').
         with({
           :path => '/tmp/custom_riak-1.2.0.deb',
-          :hash => 'abcd'
-        })
+          :hash => 'abcd' })
     end
-    it { should contain_package('custom_riak').with_ensure('latest') }
-    it { should contain_package('custom_riak').with_source('/tmp/custom_riak-1.2.0.deb') }
+    it { should contain_package('riak').
+        with({ 
+          :ensure => 'latest', 
+          :source =>'/tmp/custom_riak-1.2.0.deb'}) }
   end
   
   describe 'when changing configuration' do
     #before(:all) { puts catalogue.resources }
     it { catalogue.
           resource('file', '/etc/riak/app.config').
-          send(:parameters)[:notify].
-          should eq('Service[riak]') }
+          send(:parameters)[:notify].name.
+          should eq('Service/riak') }
   end
   
 end

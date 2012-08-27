@@ -72,6 +72,12 @@ ${$riak::params::architecture}.${$riak::params::package_type}"
 
   $pkgfile = "/tmp/${$package}-${$version}.${$riak::params::package_type}"
 
+  File {
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
+  }
+
   anchor { 'riak::start': }  ->
   
   httpfile {  $pkgfile:
@@ -103,7 +109,7 @@ ${$riak::params::architecture}.${$riak::params::package_type}"
     ensure  => running,
     enable  => true,
     require => [ 
-      File['/etc/riak/vm.args'], 
+      File['/etc/riak/vm.args'],
       File['/etc/riak/app.config'],
       Package['riak']
     ],
