@@ -1,0 +1,8 @@
+-name riak@<%= hostname %>
+-setcookie riak
+-heart disabled
++K true
++A 64
+-smp enable
+-env ERL_MAX_PORTS 4096
+-evn ERL_CRASH_DUMP <%= erl_log_dir %>/erl_crash.dmp

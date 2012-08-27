@@ -29,7 +29,7 @@ namespace :vagrant do
   
   desc 'Suspend the VM (alias \'suspend\')'
   task :down => [:spec_prep] do
-    system 'vagrant down'
+    system 'vagrant suspend'
   end
   
   task :suspend => :down

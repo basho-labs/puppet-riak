@@ -24,4 +24,9 @@ class riak::params {
   }
 
   $version = '1.2.0'
+  $vm_args_template = 'riak/vm.args.erb'
+  $source = 'puppet:///modules/riak/app.config'
+  
+  $log_dir = '/var/log/riak'
+  $erl_log_dir = '/var/log/riak'
 }

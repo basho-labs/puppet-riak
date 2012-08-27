@@ -3,6 +3,25 @@
 # This module manages Riak, the dynamo-based NoSQL database.
 #
 # == Parameters
+# 
+# version:
+#   Version of package to fetch
+#
+# package:
+#   Name of package as known by OS
+#
+# package_hash:
+#   A URL of a hash-file or sha2-string in hexdigest
+#
+# source:
+#   Sets the content of source parameter for main configuration file 
+#   If defined, riak's app.config file will have the param: source => $source
+#
+# architecture:
+#   What architecture to fetch/run on
+#
+# vm_args_template:
+#   File to use for templating vm.args
 #
 # == Actions
 #
@@ -17,8 +36,12 @@
 class riak(
   $version = $riak::params::version,
   $package = $riak::params::package,
-  $package_hash = undef,
+  $package_hash = '',
+  $source = $riak::params::source,
   $architecture = $riak::params::architecture,
+  $vm_args_template = $riak::params::vm_args_template,
+  $log_dir = $riak::params::log_dir,
+  $erl_log_dir = $riak::params::erl_log_dir,
   $disable = false,
   $disableboot = false,
   $absent = false
@@ -57,23 +80,34 @@ ${$riak::params::architecture}.${$riak::params::package_type}"
     hash   => $actual_hash
   }
 
-  package { $package:
+  package { 'riak':
     ensure  => latest,
-    require => Httpfile["/tmp/riak-${$version}.${$riak::params::package_type}"],
     provider=> dpkg,
-    source  => $pkgfile
-  } ->
+    source  => $pkgfile,
+    require => Httpfile[$pkgfile],
+  }
   
   file { '/etc/riak/app.config':
-    ensure => present,
-    source => 'puppet:///modules/riak/app.config'
-  }  ~>
+    ensure  => present,
+    source  => 'puppet:///modules/riak/app.config',
+    notify  => Service['riak']
+  }
+  
+  file { '/etc/riak/vm.args':
+    ensure  => present,
+    content  => template($vm_args_template),
+    notify  => Service['riak']
+  }
   
   service { 'riak':
-    ensure  => installed,
-    require => [ File['/etc/riak/vm.args'], File['/etc/riak/app.config'] ],
-    enable  => true
-  } ->
+    ensure  => running,
+    enable  => true,
+    require => [ 
+      File['/etc/riak/vm.args'], 
+      File['/etc/riak/app.config'],
+      Package['riak']
+    ],
+  } ~>
   
   anchor { 'riak::end': }
 }
