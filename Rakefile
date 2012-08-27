@@ -8,6 +8,12 @@ Bundler.setup(:default)
 
 require 'puppetlabs_spec_helper/rake_tasks'
 
+desc 'like \'rake spec\' but without deleting fixture contents'
+task :specs do
+  Rake::Task[:spec_prep].invoke
+  Rake::Task[:spec_standalone].invoke
+end
+
 namespace :vagrant do
 
   task :ensure_pp do

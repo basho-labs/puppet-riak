@@ -1,22 +1,12 @@
-# Class: riak::params
+# == Class: riak::params
 #
 # This class implements the module params pattern
 #
-# Parameters: none
+# == Usage
+#  
+# Don't use this class directly; it's inherited where it is needed
 #
-# Actions: none
-#
-# Requires: none
-#
-# Sample Usage: none
 class riak::params {
-
-  $download_os = $::operatingsystem ? {
-    /(centos|redhat)/ => 'rhel/6',
-    'ubuntu'          => 'ubuntu/precise',
-    'debian'          => 'ubuntu/precise',
-    default           => 'ubuntu/precise'
-  }
 
   $package = $::operatingsystem ? {
     /(centos|redhat)/ => 'riak',
