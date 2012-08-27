@@ -1,12 +1,6 @@
 require 'spec_helper'
 require 'puppet'
 
-##mp = RSpec.configuration.module_path
-##Puppet[:modulepath] = Puppet[:modulepath] + ':' + mp if mp
-##libs = Puppet[:modulepath].split(':').collect{ |p| Dir["#{p}/*/lib"].entries }.flatten.join(File::PATH_SEPARATOR)
-##puts "libs: "+libs
-##Puppet[:libdir] = libs
-$:.unshift File.join(File.dirname(__FILE__), '..', 'fixtures/modules/riak/lib')
 describe 'riak::package', :type => :class do
 
   let :facts do

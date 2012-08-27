@@ -6,3 +6,8 @@ gem 'puppet-lint'
 gem 'rspec'
 gem 'rspec-puppet'
 gem 'puppetlabs_spec_helper'
+
+
+group :integration do
+  gem 'vagrant'
+end

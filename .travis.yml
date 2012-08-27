@@ -2,7 +2,7 @@ language: ruby
 rvm:
   - 1.8.7
 #  - 1.9.3 
-script: "rake spec"
+script: "bundle exec rake spec"
 branches:
   only:
     - master
@@ -10,4 +10,4 @@ env:
   - PUPPET_VERSION=2.7.17
 notifications:
   email: false
-gemfile: Gemfile
+bundler_args: --without integration
