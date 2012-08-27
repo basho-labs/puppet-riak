@@ -10,4 +10,5 @@ gem 'puppetlabs_spec_helper'
 
 group :integration do
   gem 'vagrant'
+  gem 'vagrant-vbguest'
 end

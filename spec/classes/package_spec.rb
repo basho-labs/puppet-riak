@@ -27,12 +27,8 @@ describe 'riak::package', :type => :class do
       })
     end
 
-    it 'should have the riak package' do 
-      #pending "waiting for working lib folder for custom types"
-      should contain_package('custom_riak').with({
-        :ensure => 'installed'
-      })
-    end 
+    it { should contain_package('custom_riak').with_ensure('latest') }
+    it { should contain_package('custom_riak').with_source('/tmp/custom_riak-1.2.0.deb') }
     
   end
 end

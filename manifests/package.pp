@@ -1,3 +1,16 @@
+# Class: riak::package
+#
+# Handles the Riak package; its downloading and installation/removal.
+#
+# Parameters:
+#
+#
+#
+# Actions: none
+#
+# Requires: none
+#
+# Sample Usage: none
 class riak::package(
   $version = $riak::params::version,
   $package = $riak::params::package,
@@ -17,14 +30,18 @@ ${$riak::params::architecture}.${$riak::params::package_type}"
     default => $hash
   }
 
-  httpfile {  "/tmp/${$package}-${$version}.${$riak::params::package_type}":
+  $pkgfile = "/tmp/${$package}-${$version}.${$riak::params::package_type}"
+
+  httpfile {  $pkgfile:
     ensure => present,
     source => $url_source,
     hash   => $actual_hash
   }
 
   package { $package:
-    ensure  => installed,
-    require => Httpfile["/tmp/riak-${$version}.${$riak::params::package_type}"]
+    ensure  => latest,
+    require => Httpfile["/tmp/riak-${$version}.${$riak::params::package_type}"],
+    provider=> dpkg,
+    source  => $pkgfile
   }
 }

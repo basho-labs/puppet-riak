@@ -14,6 +14,7 @@ Puppet::Type.type(:httpfile).provide(:ruby) do
     return @hash if @hash
     if resource.parameter(:hash).was_uri then
       h = resource[:hash]
+      # REVISIT: make extendable for other file formats
       @hash = Net::HTTP.get(h).split(' ').first
     else
       @hash = resource[:hash]
@@ -22,10 +23,16 @@ Puppet::Type.type(:httpfile).provide(:ruby) do
   end
 
   # create the file by downloading it
+  #
+  # pre-condition: 
+  #   exists? has been called and returned false 
   def create
 
     # clean badly hashing files
-    FileUtils.rm resource[:path] if File.exists? resource[:path]
+    if File.exists? resource[:path] then
+      FileUtils.rm resource[:path]
+      info 'cleaned out existing file, since it hashed badly or was outdated'
+    end
     
     digester = Digest::SHA2.new
     uri = resource[:source]
@@ -42,6 +49,8 @@ Puppet::Type.type(:httpfile).provide(:ruby) do
         end
       end
     end
+    
+    info 'download complete, verifying file integrity'
 
     unless hash == digester.hexdigest
       raise Puppet::Error, "Data at URI[#{uri.to_s}]/#{digester.hexdigest}]\
