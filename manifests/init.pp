@@ -15,13 +15,22 @@
 #
 # source:
 #   Sets the content of source parameter for main configuration file 
-#   If defined, riak's app.config file will have the param: source => $source
+#   If defined, riak's app.config file will have the param: source => $source.
+#   Mutually exclusive with $template.
+#
+# template:
+#   Sets the content of the content parameter for the main configuration file
+#
+# vm_args_source:
+#   Sets the source parameter for the configuration file.
+#   Mutually exclusive with vm_args_template.
+#
+# vm_args_template:
+#   File to use for templating vm.args
 #
 # architecture:
 #   What architecture to fetch/run on
 #
-# vm_args_template:
-#   File to use for templating vm.args
 #
 # == Actions
 #
@@ -33,15 +42,21 @@
 #
 # class { 'riak': }
 #
+# == Author
+#   Henrik Feldt, github.com/haf/puppet-riak.
+#
 class riak(
   $version = $riak::params::version,
   $package = $riak::params::package,
   $package_hash = '',
   $source = $riak::params::source,
-  $architecture = $riak::params::architecture,
+  $template = $riak::params::template,
+  $vm_args_source = $riak::params::vm_args_source,
   $vm_args_template = $riak::params::vm_args_template,
+  $architecture = $riak::params::architecture,
   $log_dir = $riak::params::log_dir,
   $erl_log_dir = $riak::params::erl_log_dir,
+  $service_autorestart = true,
   $disable = false,
   $disableboot = false,
   $absent = false
@@ -78,6 +93,11 @@ ${$riak::params::architecture}.${$riak::params::package_type}"
     mode    => '0644',
   }
 
+  $manage_service_autorestart = $service_autorestart ? {
+    true => 'Service[riak]',
+    false => undef,
+  }
+
   anchor { 'riak::start': }  ->
   
   httpfile {  $pkgfile:
@@ -95,14 +115,16 @@ ${$riak::params::architecture}.${$riak::params::package_type}"
   
   file { '/etc/riak/app.config':
     ensure  => present,
-    source  => 'puppet:///modules/riak/app.config',
-    notify  => Service['riak']
+    # todo: support source
+    content => template($template),
+    notify  => $manage_service_autorestart
   }
   
   file { '/etc/riak/vm.args':
     ensure  => present,
-    content  => template($vm_args_template),
-    notify  => Service['riak']
+    # todo: support source
+    content => template($vm_args_template),
+    notify  => $manage_service_autorestart
   }
   
   service { 'riak':

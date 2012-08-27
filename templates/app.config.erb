@@ -12,7 +12,7 @@
 
             %% pb_ip is the IP address that the Riak Protocol Buffers interface
             %% will bind to.  If this is undefined, the interface will not run.
-            {pb_ip,   "{{pb_ip}}" },
+            {pb_ip,   "<%= ipaddress %>" },
 
             %% pb_port is the TCP port that the Riak Protocol Buffers interface
             %% will bind to
@@ -30,7 +30,7 @@
 
               %% http is a list of IP addresses and TCP ports that the Riak
               %% HTTP interface will bind.
-              {http, [ {"{{web_ip}}", {{web_port}} } ]},
+              {http, [ {"<%= ipaddress %>", 8098 } ]},
 
               %% https is a list of IP addresses and TCP ports that the Riak
               %% HTTPS interface will bind.

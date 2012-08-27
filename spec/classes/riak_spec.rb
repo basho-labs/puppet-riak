@@ -6,7 +6,7 @@ require 'spec_helper'
 describe 'riak', :type => :class do
 
   let(:title) { "riak" }
-  let(:facts) {{}}
+  let(:facts) {{ :ipaddress => '10.42.0.5'}}
   
   describe 'at baseline with defaults' do
     let(:params) {{}}
@@ -25,7 +25,7 @@ describe 'riak', :type => :class do
   
   describe 'custom package configuration' do
     let(:params) { { :version => '1.2.0', :package => 'custom_riak', 
-                    :package_hash => 'abcd' } }
+                     :package_hash => 'abcd' } }
     it 'should be downloading latest' do
       subject.should contain_httpfile('/tmp/custom_riak-1.2.0.deb').
         with({
@@ -38,12 +38,20 @@ describe 'riak', :type => :class do
           :source =>'/tmp/custom_riak-1.2.0.deb'}) }
   end
   
+  def res t, n
+    catalogue.resource(t, n).send(:parameters)
+  end
+
   describe 'when changing configuration' do
     #before(:all) { puts catalogue.resources }
-    it { catalogue.
-          resource('file', '/etc/riak/app.config').
-          send(:parameters)[:notify].name.
-          should eq('Service/riak') }
+    it("will restart Service") { 
+      res('file', '/etc/riak/app.config')[:notify].
+        should eq('Service[riak]') }
   end
-  
+
+  describe 'when changing configuration, the service' do
+    let(:params) { { :service_autorestart => false } }
+    it('will not restart') { 
+      res('file', '/etc/riak/app.config')[:notify].nil?.should be_true }
+  end
 end

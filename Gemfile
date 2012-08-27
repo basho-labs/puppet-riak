@@ -7,6 +7,15 @@ gem 'rspec'
 gem 'rspec-puppet'
 gem 'puppetlabs_spec_helper'
 
+group :testing do
+  gem 'guard' # for running specs easily
+  gem 'libnotify' #requires: 'sudo apt-get install libnotify-bin'
+  gem 'guard-rake' # for running 'rake vagrant:provision' when editing
+  gem 'guard-rspec' # for running specs automatically 
+end
+#if Windows
+#gem 'win32console'
+#endif
 
 group :integration do
   gem 'vagrant'
