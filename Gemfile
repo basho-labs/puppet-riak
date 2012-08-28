@@ -16,11 +16,9 @@ group :testing do
   gem 'guard-rspec' # for running specs automatically
   gem 'guard-puppet-lint'
 end
-#if Windows
-#gem 'win32console'
-#endif
 
 group :integration do
   gem 'vagrant'
   gem 'vagrant-vbguest'
+  #gem 'vagrant-hiera'
 end

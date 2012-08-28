@@ -1,9 +1,18 @@
 node riak-5 {
-  include riak
+  package { 'hiera-puppet':
+    ensure => latest
+  } ~>
+  class { 'riak': }
 }
 node riak-6 {
-  include riak
+  package { 'hiera-puppet':
+    ensure => latest
+  } ~>
+  class { 'riak': }
 }
 node riak-7 {
-  include riak
+  package { 'hiera-puppet':
+    ensure => latest
+  } ~>
+  class { 'riak': }
 }

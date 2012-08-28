@@ -45,11 +45,19 @@
 # == Author
 #   Henrik Feldt, github.com/haf/puppet-riak.
 #
+# == Notes
+#
+#  Uses hiera:
+#   * https://github.com/puppetlabs/hiera-puppet <- required module
+#   * https://github.com/gposton/vagrant-hiera <- for vagrant testing
+#   * https://github.com/amfranz/rspec-hiera-puppet <- for rspec testing
+#   * https://github.com/puppetlabs/hiera <- actual hiera DB
+#
 class riak(
-  $version = $riak::params::version,
-  $package = $riak::params::package,
-  $package_hash = '',
-  $source = $riak::params::source,
+  $version = hiera('version'),
+  $package = hiera('package'),
+  $package_hash = hiera('package_hash', ''),
+  $source = hiera('source', ''),
   $template = $riak::params::template,
   $vm_args_source = $riak::params::vm_args_source,
   $vm_args_template = $riak::params::vm_args_template,

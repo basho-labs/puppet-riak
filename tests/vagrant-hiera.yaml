@@ -1,2 +1,14 @@
+---
+:backends:
+  - yaml
+  - puppet
+
+:hierarchy:
+  - %{environment}
+  - common
+
 :yaml:
-  :datadir: /tmp/vagrant-hiera/data
+   :datadir: /tmp/vagrant-hiera/data
+
+:puppet:
+  :datasource: params
