@@ -5,6 +5,17 @@ This module allows you to manage Riak with puppet.
 Usage and details on puppet-y stuff, to follow. Meanwhile, how to get 
 started on dev:
 
+
+## Environment
+
+Requires 64 bit server OS, because that's what Basho creates packages for.
+
+Tested on:
+
+ * Ubuntu 12.04 64-bit
+ * Debian 6.0 64-bit
+ * CentOs 6.0 64-bit
+ 
 ## Development Environment
 
 You can simply clone this module like normal to your puppet-modules-folder. 
