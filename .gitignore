@@ -4,3 +4,4 @@ pkg/
 fixtures/
 *.rb~
 .vagrant
+.settings/
