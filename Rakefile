@@ -26,29 +26,29 @@ namespace :vagrant do
   task :up => [:spec_prep] do
     system 'vagrant up'
   end
-  
+
   desc 'Suspend the VM (alias \'suspend\')'
   task :down => [:spec_prep] do
     system 'vagrant suspend'
   end
-  
+
   task :suspend => :down
-  
+
   desc 'Provision VM when already running'
   task :provision => [:spec_prep, :"vagrant:ensure_pp"] do
     system 'vagrant provision'
   end
-  
+
   desc 'Destroy the VM completely'
   task :destroy do
     system 'vagrant destroy'
   end
-  
+
   desc 'Get the status'
   task :status do
     system 'vagrant status'
   end
-  
+
   task :reload => [:spec_prep] do
     system 'vagrant reload'
   end

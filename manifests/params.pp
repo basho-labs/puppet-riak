@@ -3,7 +3,7 @@
 # This class implements the module params pattern
 #
 # == Usage
-#  
+#
 # Don't use this class directly; it's inherited where it is needed
 #
 class riak::params {
@@ -26,7 +26,7 @@ class riak::params {
   $version = '1.2.0'
   $vm_args_source = ''
   $vm_args_template = 'riak/vm.args.erb'
-  
+
   $source = ''
   $template = 'riak/app.config.erb'
 

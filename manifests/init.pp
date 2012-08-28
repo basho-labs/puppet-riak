@@ -3,7 +3,7 @@
 # This module manages Riak, the dynamo-based NoSQL database.
 #
 # == Parameters
-# 
+#
 # version:
 #   Version of package to fetch
 #
@@ -14,7 +14,7 @@
 #   A URL of a hash-file or sha2-string in hexdigest
 #
 # source:
-#   Sets the content of source parameter for main configuration file 
+#   Sets the content of source parameter for main configuration file
 #   If defined, riak's app.config file will have the param: source => $source.
 #   Mutually exclusive with $template.
 #
@@ -99,7 +99,7 @@ ${$riak::params::architecture}.${$riak::params::package_type}"
   }
 
   anchor { 'riak::start': }  ->
-  
+
   httpfile {  $pkgfile:
     ensure => present,
     source => $url_source,
@@ -112,30 +112,30 @@ ${$riak::params::architecture}.${$riak::params::package_type}"
     source  => $pkgfile,
     require => Httpfile[$pkgfile],
   }
-  
+
   file { '/etc/riak/app.config':
     ensure  => present,
     # todo: support source
     content => template($template),
     notify  => $manage_service_autorestart
   }
-  
+
   file { '/etc/riak/vm.args':
     ensure  => present,
     # todo: support source
     content => template($vm_args_template),
     notify  => $manage_service_autorestart
   }
-  
+
   service { 'riak':
     ensure  => running,
     enable  => true,
-    require => [ 
+    require => [
       File['/etc/riak/vm.args'],
       File['/etc/riak/app.config'],
       Package['riak']
     ],
   } ~>
-  
+
   anchor { 'riak::end': }
 }

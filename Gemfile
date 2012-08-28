@@ -5,13 +5,16 @@ gem 'puppet'
 gem 'puppet-lint'
 gem 'rspec'
 gem 'rspec-puppet'
+gem 'rspec-hiera-puppet' # for unit-testing using hiera data
 gem 'puppetlabs_spec_helper'
 
 group :testing do
   gem 'guard' # for running specs easily
   gem 'libnotify' #requires: 'sudo apt-get install libnotify-bin'
-  gem 'guard-rake' # for running 'rake vagrant:provision' when editing
-  gem 'guard-rspec' # for running specs automatically 
+  # for running 'rake vagrant:provision' when editing
+  gem 'guard-rake', :git => 'git://github.com/joergschiller/guard-rake.git'
+  gem 'guard-rspec' # for running specs automatically
+  gem 'guard-puppet-lint'
 end
 #if Windows
 #gem 'win32console'
