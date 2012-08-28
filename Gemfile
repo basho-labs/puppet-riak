@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem 'mocha'
 gem 'puppet'
 gem 'puppet-lint'
+gem 'hiera-puppet'
 gem 'rspec'
 gem 'rspec-puppet'
 gem 'rspec-hiera-puppet' # for unit-testing using hiera data

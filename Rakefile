@@ -12,6 +12,7 @@ desc 'like \'rake spec\' but without deleting fixture contents'
 task :specs do
   Rake::Task[:spec_prep].invoke
   Rake::Task[:spec_standalone].invoke
+  system 'find tests -name init.pp | xargs -n 1 -t bundle exec puppet apply --noop --modulepath=spec/fixtures/modules'
 end
 
 namespace :vagrant do

@@ -89,6 +89,7 @@ DEPENDENCIES
   guard-puppet-lint
   guard-rake!
   guard-rspec
+  hiera-puppet
   libnotify
   mocha
   puppet
