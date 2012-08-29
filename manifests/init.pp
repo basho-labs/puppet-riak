@@ -103,7 +103,7 @@ ${$riak::params::architecture}.${$riak::params::package_type}"
 
   $manage_package = $absent ? {
     true => 'absent',
-    false => 'latest',
+    default => 'latest',
   }
 
   $manage_service_ensure = $disable ? {
@@ -120,7 +120,7 @@ ${$riak::params::architecture}.${$riak::params::package_type}"
       true => false,
       default => $absent ? {
         true => false,
-        false => true,
+        default => true,
       },
     },
   }
@@ -132,7 +132,7 @@ ${$riak::params::architecture}.${$riak::params::package_type}"
 
   $manage_service_autorestart = $service_autorestart ? {
     /true/ => 'Service[riak]',
-    /false/ => undef,
+    default => undef,
   }
 
   anchor { 'riak::start': }  ->
