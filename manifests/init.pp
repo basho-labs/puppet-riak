@@ -58,17 +58,17 @@ class riak(
   $package = hiera('package'),
   $package_hash = hiera('package_hash', ''),
   $source = hiera('source', ''),
-  $template = $riak::params::template,
-  $vm_args_source = $riak::params::vm_args_source,
-  $vm_args_template = $riak::params::vm_args_template,
-  $architecture = $riak::params::architecture,
-  $log_dir = $riak::params::log_dir,
-  $erl_log_dir = $riak::params::erl_log_dir,
-  $service_autorestart = true,
+  $template = hiera('template'),
+  $vm_args_source = hiera('vm_args_source', ''),
+  $vm_args_template = hiera('vm_args_template'),
+  $architecture = hiera('architecture'),
+  $log_dir = hiera('log_dir'),
+  $erl_log_dir = hiera('erl_log_dir'),
+  $service_autorestart = hiera('service_autorestart', 'true'),
   $disable = false,
   $disableboot = false,
   $absent = false
-) inherits riak::params {
+) {
 
   include stdlib
 
@@ -102,8 +102,8 @@ ${$riak::params::architecture}.${$riak::params::package_type}"
   }
 
   $manage_service_autorestart = $service_autorestart ? {
-    true => 'Service[riak]',
-    false => undef,
+    /true/ => 'Service[riak]',
+    /false/ => undef,
   }
 
   anchor { 'riak::start': }  ->

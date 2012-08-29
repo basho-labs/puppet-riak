@@ -20,8 +20,6 @@ class riak::params {
     default           => 'deb'
   }
 
-  $package_hash = ''
-
   $architecture = $::operatingsystem ? {
     /(centos|redhat)/ => 'el6.x86_64',
     default           => 'amd64'
@@ -29,10 +27,8 @@ class riak::params {
 
   $version = '1.2.0'
 
-  $vm_args_source = ''
   $vm_args_template = 'riak/vm.args.erb'
 
-  $source = 'z'
   $template = 'riak/app.config.erb'
 
   $log_dir = '/var/log/riak'

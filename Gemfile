@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem 'mocha'
 gem 'puppet'
 gem 'puppet-lint'
+gem 'hiera' #, :git => 'git://github.com/puppetlabs/hiera.git' <- not working
 gem 'hiera-puppet'
 gem 'rspec'
 gem 'rspec-puppet'

@@ -8,5 +8,5 @@ end
 guard 'rspec', :version => 2, :spec_paths => ["spec/classes", "spec/defines"], :cli => '--color' do
   watch(%r{^spec\/.+_spec\.rb$})
   watch(%r{^spec\/shared_contexts\.rb$})
-  watch(%r{^.+\.pp$})
+  watch(%r{^manifests\/.+\.pp$})
 end

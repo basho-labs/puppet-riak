@@ -12,6 +12,10 @@ desc 'like \'rake spec\' but without deleting fixture contents'
 task :specs do
   Rake::Task[:spec_prep].invoke
   Rake::Task[:spec_standalone].invoke
+end
+
+desc 'runs \'puppet apply --noop\' on the manifests'
+task :noop do
   system 'find tests -name init.pp | xargs -n 1 -t bundle exec puppet apply --noop --modulepath=spec/fixtures/modules'
 end
 
