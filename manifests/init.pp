@@ -126,7 +126,7 @@ ${$riak::params::architecture}.${$riak::params::package_type}"
     default => undef,
   }
 
-  anchor { 'riak::start': }  ->
+  anchor { 'riak::start': } ->
 
   httpfile {  $pkgfile:
     ensure => present,
@@ -141,11 +141,11 @@ ${$riak::params::architecture}.${$riak::params::package_type}"
     require => Httpfile[$pkgfile],
   }
 
-  file { '/etc/riak/app.config':
-    ensure  => $manage_file,
-    # todo: support source
-    content => template($template),
-    notify  => $manage_service_autorestart
+  class { 'riak::appconfig':
+    absent   => $absent,
+    source   => $source,
+    template => $template,
+    notify   => $manage_service_autorestart
   }
 
   class { 'riak::vmargs':
@@ -157,8 +157,8 @@ ${$riak::params::architecture}.${$riak::params::package_type}"
     ensure  => $manage_service_ensure,
     enable  => $manage_service_enable,
     require => [
-      File['/etc/riak/vm.args'],
-      File['/etc/riak/app.config'],
+      Class['riak::appconfig'],
+      Class['riak::vmargs'],
       Package['riak']
     ],
   } ~>

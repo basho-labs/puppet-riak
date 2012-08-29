@@ -48,14 +48,14 @@ describe 'riak', :type => :class do
   describe 'when changing configuration' do
     #before(:all) { puts catalogue.resources }
     it("will restart Service") {
-      res('file', '/etc/riak/app.config')[:notify].
+      res('class', 'Riak::Appconfig')[:notify].
         should eq('Service[riak]') }
   end
 
   describe 'when changing configuration, the service' do
     let(:params) { { :service_autorestart => false } }
     it('will not restart') {
-      res('file', '/etc/riak/app.config')[:notify].nil?.should be_true }
+      res('class', 'Riak::Appconfig')[:notify].nil?.should be_true }
   end
 
   describe 'when decommissioning (absent):' do

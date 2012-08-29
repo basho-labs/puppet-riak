@@ -1,7 +1,7 @@
--name riak@<%= ipaddress %>
--setcookie riak
-+K true
-+A 64
--smp enable
--env ERL_MAX_PORTS 4096
--env ERL_CRASH_DUMP <%= erl_log_dir %>/erl_crash.dmp
+-name <%= nodename %>@<%= ipaddress %>
+-setcookie <%= cookie %>
++K <%= K %>
++A <%= A %>
+-smp <%= smp %>
+-env ERL_MAX_PORTS <%= env_max_ports %>
+-env ERL_CRASH_DUMP <%= manage_env_crash_dump %>

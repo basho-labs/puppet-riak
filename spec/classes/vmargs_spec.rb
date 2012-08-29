@@ -23,6 +23,7 @@ describe 'riak::vmargs', :type => :class do
       { :absent => true }
     end
     it { 
+      # https://github.com/amfranz/rspec-hiera-puppet/issues/3
       pending 'strange: hiera should look at :hiera_data, before looking at default'
       should contain_file('/etc/riak/vm.args').with_ensure('absent') }  
   end
