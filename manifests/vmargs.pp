@@ -18,8 +18,6 @@ class riak::vmargs(
   $absent = hiera('absent', 'false')
 ) {
 
-  notify { "Got absent value: ${$absent}":}
-
   $manage_file = $absent ? {
     true    => 'absent',
     default => 'present'
