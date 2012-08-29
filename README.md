@@ -58,3 +58,8 @@ http://www.slideshare.net/PuppetLabs/modern-module-development-ken-barber-2012-e
 http://www.slideshare.net/Alvagante/puppet-modules-an-holistic-approach
 http://puppetlabs.com/blog/puppet-module-bounty-logstash-riak-and-graphite/?utm_campaign=blog&utm_medium=socnet&utm_source=twitter&utm_content=modbounty1
 http://puppetlabs.com/blog/the-next-generation-of-puppet-module-testing/
+
+
+#### Example42
+
+From your excellent presentations I could find online, and your samples at your github. Thanks Alessandro.
