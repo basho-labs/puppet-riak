@@ -21,13 +21,6 @@
 # template:
 #   Sets the content of the content parameter for the main configuration file
 #
-# vm_args_source:
-#   Sets the source parameter for the configuration file.
-#   Mutually exclusive with vm_args_template.
-#
-# vm_args_template:
-#   File to use for templating vm.args
-#
 # architecture:
 #   What architecture to fetch/run on
 #
@@ -59,8 +52,6 @@ class riak(
   $package_hash = hiera('package_hash', ''),
   $source = hiera('source', ''),
   $template = hiera('template'),
-  $vm_args_source = hiera('vm_args_source', ''),
-  $vm_args_template = hiera('vm_args_template'),
   $architecture = hiera('architecture'),
   $log_dir = hiera('log_dir'),
   $erl_log_dir = hiera('erl_log_dir'),
@@ -157,11 +148,9 @@ ${$riak::params::architecture}.${$riak::params::package_type}"
     notify  => $manage_service_autorestart
   }
 
-  file { '/etc/riak/vm.args':
-    ensure  => $manage_file,
-    # todo: support source
-    content => template($vm_args_template),
-    notify  => $manage_service_autorestart
+  class { 'riak::vmargs':
+    absent => $absent,
+    notify => $manage_service_autorestart,
   }
 
   service { 'riak':

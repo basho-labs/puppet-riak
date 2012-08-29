@@ -7,7 +7,6 @@ require 'shared_contexts'
 describe 'riak', :type => :class do
 
   let(:title) { "riak" }
-  let(:facts) {{ :ipaddress => '10.42.0.5'}}
 
   include_context 'hieradata'
 
@@ -24,6 +23,7 @@ describe 'riak', :type => :class do
         :group => 'root', :mode => '0644', :ensure => 'present' }) }
     it { should contain_file('/etc/riak/vm.args').with({ :owner => 'root',
         :group => 'root', :mode => '0644', :ensure => 'present' }) }
+    it { should contain_riak__vmargs().with_notify('Service[riak]') }
   end
 
   describe 'custom package configuration' do
