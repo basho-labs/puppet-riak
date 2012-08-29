@@ -1,3 +1,5 @@
+#ruby=1.8.7
+#ruby-gemset=puppet-riak
 # this Gemfile is for the development of the module, you don't need all of these to RUN the module with puppet
 source 'https://rubygems.org'
 gem 'mocha'
@@ -22,5 +24,5 @@ end
 group :integration do
   gem 'vagrant'
   gem 'vagrant-vbguest'
-  #gem 'vagrant-hiera'
+  gem 'vagrant-hiera', :path => File.join(File.expand_path('.'), '..', 'vagrant-hiera')
 end

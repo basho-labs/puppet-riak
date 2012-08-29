@@ -5,3 +5,4 @@ fixtures/
 *.rb~
 .vagrant
 .settings/
+Gemfile.lock
