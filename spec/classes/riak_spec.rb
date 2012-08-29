@@ -36,8 +36,8 @@ describe 'riak', :type => :class do
           :hash => 'abcd' })
     end
     it { should contain_package('riak').
-        with({ 
-          :ensure => 'latest', 
+        with({
+          :ensure => 'latest',
           :source =>'/tmp/custom_riak-1.2.0.deb'}) }
   end
 
@@ -47,14 +47,29 @@ describe 'riak', :type => :class do
 
   describe 'when changing configuration' do
     #before(:all) { puts catalogue.resources }
-    it("will restart Service") { 
+    it("will restart Service") {
       res('file', '/etc/riak/app.config')[:notify].
         should eq('Service[riak]') }
   end
 
   describe 'when changing configuration, the service' do
     let(:params) { { :service_autorestart => false } }
-    it('will not restart') { 
+    it('will not restart') {
       res('file', '/etc/riak/app.config')[:notify].nil?.should be_true }
   end
+
+  describe 'when decommissioning (absent):' do
+    let(:params) { { :absent => true } }
+    it("should remove the riak package") {
+      should contain_package('riak').with_ensure('absent') }
+    it("should remove configuration file File[/etc/riak/vm.args]") {
+      should contain_file('/etc/riak/vm.args').with_ensure('absent') }
+    it("remove configuration File[/etc/riak/app.config]") {
+      should contain_file('/etc/riak/app.config').with_ensure('absent') }
+    it("should stop Service[riak]") {
+      should contain_service('riak').with_ensure('stopped') }
+    it("should disable boot of Service[riak]") {
+      should contain_service('riak').with_enable('false') }
+  end
+
 end

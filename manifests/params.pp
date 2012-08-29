@@ -26,11 +26,8 @@ class riak::params {
   }
 
   $version = '1.2.0'
-
   $vm_args_template = 'riak/vm.args.erb'
-
   $template = 'riak/app.config.erb'
-
   $log_dir = '/var/log/riak'
   $erl_log_dir = '/var/log/riak'
 }

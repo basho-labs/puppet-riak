@@ -101,6 +101,35 @@ ${$riak::params::architecture}.${$riak::params::package_type}"
     mode    => '0644',
   }
 
+  $manage_package = $absent ? {
+    true => 'absent',
+    false => 'latest',
+  }
+
+  $manage_service_ensure = $disable ? {
+    true => 'stopped',
+    default => $absent ? {
+      true => 'stopped',
+      default => 'running',
+    },
+  }
+
+  $manage_service_enable = $disableboot ? {
+    true => false,
+    default => $disable ? {
+      true => false,
+      default => $absent ? {
+        true => false,
+        false => true,
+      },
+    },
+  }
+
+  $manage_file = $absent ? {
+    true    => 'absent',
+    default => 'present'
+  }
+
   $manage_service_autorestart = $service_autorestart ? {
     /true/ => 'Service[riak]',
     /false/ => undef,
@@ -115,29 +144,29 @@ ${$riak::params::architecture}.${$riak::params::package_type}"
   }
 
   package { 'riak':
-    ensure  => latest,
+    ensure  => $manage_package,
     provider=> dpkg,
     source  => $pkgfile,
     require => Httpfile[$pkgfile],
   }
 
   file { '/etc/riak/app.config':
-    ensure  => present,
+    ensure  => $manage_file,
     # todo: support source
     content => template($template),
     notify  => $manage_service_autorestart
   }
 
   file { '/etc/riak/vm.args':
-    ensure  => present,
+    ensure  => $manage_file,
     # todo: support source
     content => template($vm_args_template),
     notify  => $manage_service_autorestart
   }
 
   service { 'riak':
-    ensure  => running,
-    enable  => true,
+    ensure  => $manage_service_ensure,
+    enable  => $manage_service_enable,
     require => [
       File['/etc/riak/vm.args'],
       File['/etc/riak/app.config'],
