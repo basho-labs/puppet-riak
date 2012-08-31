@@ -5,10 +5,10 @@
 # == Parameters
 #
 # version:
-#   Version of package to fetch
+#   Version of package to fetch.
 #
 # package:
-#   Name of package as known by OS
+#   Name of package as known by OS.
 #
 # package_hash:
 #   A URL of a hash-file or sha2-string in hexdigest
