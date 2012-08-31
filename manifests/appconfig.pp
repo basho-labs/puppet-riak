@@ -1,4 +1,13 @@
-# docs
+# For docs, see
+# http://wiki.basho.com/Configuration-Files.html#app.config
+#
+# == Parameters
+#
+# cfg:
+#   A configuration hash of erlang to be written to File[/etc/riak/app.config]
+#
+# source:
+#
 class riak::appconfig(
   $cfg = hiera_hash('cfg', {
     kernel => {
@@ -24,7 +33,7 @@ class riak::appconfig(
       platform_log_dir   => $riak::params::log_dir
     },
     riak_kv => {
-      storage_backend       => 'riak_kv_bitcask_backend', # atom...
+      storage_backend       => '__atom_riak_kv_bitcask_backend',
       mapred_name           => 'mapred',
       mapred_system         => 'pipe',
       mapred_2i_pipe        => true,
@@ -55,10 +64,8 @@ class riak::appconfig(
     lager => {
       handlers => {
         lager_file_backend   => [
-          # error : Erlang Atom
-          # list : Erlang Tuple
-          [$riak::params::error_log, 'error', 10485760, '$D0', 5],
-          [$riak::params::info_log,  'info' ,  10485760, '$D0', 5]
+          ['__tuple', $riak::params::error_log, '__atom_error', 10485760, '$D0', 5],
+          ['__tuple', $riak::params::info_log,  '__atom_info' ,  10485760, '$D0', 5]
         ],
         crash_log             => $riak::params::crash_log,
         crash_log_msg_side    => 65536,
@@ -83,11 +90,11 @@ class riak::appconfig(
     riak_control => {
       enabled   => false,
       auth      => 'userlist',
-      userlist  => ['user', 'pass'], # erl tuple
+      userlist  => ['__tuple', 'user', 'pass'],
       admin     => true
     },
   }),
-  $source = hiera('source'),
+  $source = hiera('source', ''),
   $template = hiera('template'),
   $absent = hiera('absent', 'false')
 ) {
@@ -102,12 +109,17 @@ class riak::appconfig(
     default => template($template)
   }
 
+  $manage_source = $source ? {
+    ''      => undef,
+    default => $source
+  }
+
   anchor { 'riak::appconfig::start': } ->
 
   file { '/etc/riak/app.config':
     ensure  => $manage_file,
     content => $manage_template,
-    source  => $source
+    source  => $manage_source
   } ~>
 
   anchor { 'riak::appconfig::end':}
