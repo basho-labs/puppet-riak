@@ -2,15 +2,43 @@
 
 This module allows you to manage Riak with puppet.
 
-Usage and details on puppet-y stuff, to follow. Meanwhile, how to get 
-started on dev:
+Riak is a Dynamo-inspired key/value store that scales predictably and easily.  Riak combines a decentralized key/value store, a flexible map/reduce engine, and a friendly HTTP/JSON query interface to provide a database ideally suited for Web applications. And, without any object-relational mappers and other heavy middleware, applications built on Riak can be both simpler and more powerful.  For complete documentation and source code, see the Riak home page at [Basho][1].
 
+## Getting Started
 
-## Environment
+Requires a 64-bit operating system, tested on Puppet 2.7.17 and 3.0-rc5. Requires a basic configuration of Hiera.
 
-Requires 64 bit server OS, because that's what Basho creates packages for.
+#### Adding the module
 
-Tested on:
+First clone the module,
+
+```
+$ git clone git://github.com/haf/puppet-riak.git /etc/puppet/modules/riak
+```
+
+Make sure you are shipping the custom functions in this module to your i
+nodes, by setting pluginsync=true;
+
+```
+[main]
+    pluginsync = true
+```
+
+### Basic Installation
+
+This will install Riak using all of the defaults:
+
+```
+class { 'riak': }
+```
+
+or
+
+```
+include riak
+```
+
+### Tested on:
 
  * Ubuntu 12.04 64-bit
  * Debian 6.0 64-bit
@@ -62,9 +90,39 @@ Henrik.
 ### Outstanding External Issues
 
  * https://github.com/gposton/vagrant-hiera/issues/2
+
+   This issue surfaces every time PuppetLabs releases a new version of their
+   puppet deb, because then the old one doesn't install properly anymore.
+
  * https://github.com/rodjek/rspec-puppet/issues/44
+
+   This issue affects the tests, making them impossible to run cleanly
+   together at the moment. The only way around it, is to launch rspec
+   first for `classes`, then for `functions`.
+
  * https://github.com/rubyist/guard-rake/issues/12
+
+   This issue is solved by Joerg, but he hasn't submitted a pull request,
+   so I've cloned his repository and am using my own clone of that, until
+   the issue is resolved (about 4 lines of code) in master. Affects
+   running of rake when the task raises errors.
+
+ * http://projects.puppetlabs.com/issues/15820
+
+   This issue is what is currently failing all of `spec/classes/`. A fix
+   HAS been released, but not as a gem. The repository doesn't allow me
+   to report issues conveniently, and there's no gemspec file, so I can't
+   just reference the repo either.
+
+ * https://github.com/amfranz/rspec-hiera-puppet/issues/3
+
+   This issue affects a single test that exposed the issue; overriding
+   puppet variables with rspec variables. The test is currently marked as
+   pending.
 
 #### Example42
 
-From your excellent presentations I could find online, and your samples at your github. Thanks Alessandro.
+From your excellent presentations I could find online, and your samples
+at your github. Thanks Alessandro.
+
+[1]: http://basho.com/

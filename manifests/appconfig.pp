@@ -23,7 +23,7 @@
 #   the system.
 #
 class riak::appconfig(
-  $cfg = hiera_hash('cfg', {}),
+  $cfg = {},
   $source = hiera('source', ''),
   $template = hiera('template'),
   $absent = hiera('absent', 'false')

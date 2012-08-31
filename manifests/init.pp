@@ -24,27 +24,50 @@
 # architecture:
 #   What architecture to fetch/run on
 #
-#
-# == Actions
-#
 # == Requires
 #
 # * stdlib (module)
+# * hiera-puppet (module)
+# * hiera (package in 2.7.x, but included inside Puppet 3.0)
 #
 # == Usage
 #
+# === Default usage:
+#   This gives you all the defaults:
+#
 # class { 'riak': }
+#
+# === Overriding configuration
+#
+#   In this example, we're adding HTTPS configuration
+#   with a certificate file / public key and a private
+#   key, both placed in the /etc/riak folder.
+#
+#   When you add items to the 'cfg' parameter, they will override the
+#   already defined defaults with those keys defined. The hash is not
+#   hard-coded, so you don't need to change the manifest when new config
+#   options are made available.
+#
+#   You can probably benefit from using hiera's hierarchical features
+#   in this case, by defining defaults in a yaml file for all nodes
+#   and only then configuring specifics for each node.
+#
+#  class { 'riak':
+#    cfg => {
+#      riak_core => {
+#        https => {
+#          "__string_${$::ipaddress}" => 8443
+#        },
+#        ssl => {
+#          certfile => "${etc_dir}/cert.pem",
+#          keyfile  => "${etc_dir}/key.pem"
+#        }
+#      }
+#    }
+#  }
 #
 # == Author
 #   Henrik Feldt, github.com/haf/puppet-riak.
-#
-# == Notes
-#
-#  Uses hiera:
-#   * https://github.com/puppetlabs/hiera-puppet <- required module
-#   * https://github.com/gposton/vagrant-hiera <- for vagrant testing
-#   * https://github.com/amfranz/rspec-hiera-puppet <- for rspec testing
-#   * https://github.com/puppetlabs/hiera <- actual hiera DB
 #
 class riak(
   $version = hiera('version'),
@@ -58,6 +81,7 @@ class riak(
   $etc_dir = hiera('etc_dir'),
   $data_dir = hiera('data_dir'),
   $service_autorestart = hiera('service_autorestart', 'true'),
+  $cfg = hiera_hash('cfg', {}),
   $disable = false,
   $disableboot = false,
   $absent = false
@@ -153,6 +177,7 @@ ${$riak::params::architecture}.${$riak::params::package_type}"
     source   => $source,
     template => $template,
     require  => File[$etc_dir],
+    cfg      => $cfg,
     notify   => $manage_service_autorestart
   }
 
@@ -161,7 +186,7 @@ ${$riak::params::architecture}.${$riak::params::package_type}"
     require => File[$etc_dir],
     notify  => $manage_service_autorestart,
   }
-  
+
   user { 'riak':
     ensure  => ['present'],
     gid     => 'riak',
