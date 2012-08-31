@@ -4,12 +4,34 @@
 # == Parameters
 #
 # cfg:
-#   A configuration hash of erlang to be written to File[/etc/riak/app.config]
+#   A configuration hash of erlang to be written to 
+#   File[/etc/riak/app.config]. It's recommended to browse
+#   the 'appconfig.pp' file to see sample values.
 #
 # source:
+#   The source of the app.config file, if you wish to define it
+#   explicitly rather than rely on the hash. This parameter
+#   is mutually exclusive with 'template'.
+#
+# template:
+#   An ERB template file for app.config, if you wish to define it
+#   explicitly rather than rely on the hash. This parameter
+#   is mutually exclusive with 'source'.
+#
+# absent:
+#   If true, the configuration file is ensured to be absent from
+#   the system.
 #
 class riak::appconfig(
-  $cfg = hiera_hash('cfg', {
+  $cfg = hiera_hash('cfg', {}),
+  $source = hiera('source', ''),
+  $template = hiera('template'),
+  $absent = hiera('absent', 'false')
+) {
+
+  # merge the given $cfg parameter with the default,
+  # favoring the givens, rather than the defaults
+  $manage_cfg = merge({
     kernel => {
       inet_dist_listen_min => 6000,
       inet_dist_listen_max => 7999
@@ -93,11 +115,7 @@ class riak::appconfig(
       userlist  => ['__tuple', 'user', 'pass'],
       admin     => true
     },
-  }),
-  $source = hiera('source', ''),
-  $template = hiera('template'),
-  $absent = hiera('absent', 'false')
-) {
+  }, $cfg)
 
   $manage_file = $absent ? {
     true    => 'absent',
