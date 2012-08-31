@@ -14,8 +14,8 @@ class riak::vmargs(
   $erl_log_dir = hiera('erl_log_dir'),
   $env_max_ports = hiera('env_max_ports', '4096'),
   $env_crash_dump = hiera('env_crash_dump', undef),
-  $source = hiera('source', ''),
-  $template = hiera('template', ''),
+  $source = hiera('vm_args_source', ''),
+  $template = hiera('vm_args_template', ''),
   $absent = hiera('absent', 'false')
 ) {
 
@@ -30,7 +30,7 @@ class riak::vmargs(
   }
 
   $manage_source = $source ? {
-    ''      => $source,
+    ''      => undef,
     default => $source
   }
 
@@ -44,7 +44,7 @@ class riak::vmargs(
   file { '/etc/riak/vm.args':
     ensure  => $manage_file,
     content => $manage_template,
-    source  => $source
+    source  => $manage_source
   } ~>
 
   anchor { 'riak::vmargs::end': }

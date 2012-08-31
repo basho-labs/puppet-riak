@@ -55,6 +55,8 @@ class riak(
   $architecture = hiera('architecture'),
   $log_dir = hiera('log_dir'),
   $erl_log_dir = hiera('erl_log_dir'),
+  $etc_dir = hiera('etc_dir'),
+  $data_dir = hiera('data_dir'),
   $service_autorestart = hiera('service_autorestart', 'true'),
   $disable = false,
   $disableboot = false,
@@ -141,16 +143,29 @@ ${$riak::params::architecture}.${$riak::params::package_type}"
     require => Httpfile[$pkgfile],
   }
 
+  file { $etc_dir:
+    ensure => directory,
+    mode   => '0755'
+  }
+
   class { 'riak::appconfig':
     absent   => $absent,
     source   => $source,
     template => $template,
+    require  => File[$etc_dir],
     notify   => $manage_service_autorestart
   }
 
   class { 'riak::vmargs':
-    absent => $absent,
-    notify => $manage_service_autorestart,
+    absent  => $absent,
+    require => File[$etc_dir],
+    notify  => $manage_service_autorestart,
+  }
+  
+  user { 'riak':
+    ensure  => ['present'],
+    gid     => 'riak',
+    home    => $data_dir
   }
 
   service { 'riak':
@@ -159,6 +174,7 @@ ${$riak::params::architecture}.${$riak::params::package_type}"
     require => [
       Class['riak::appconfig'],
       Class['riak::vmargs'],
+      User['riak'],
       Package['riak']
     ],
   } ~>

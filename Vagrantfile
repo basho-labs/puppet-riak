@@ -15,6 +15,7 @@ Vagrant::Config.run do |config|
   config.hiera.config_path = './tests/config'
   config.hiera.config_file = 'vagrant-hiera.yaml'
   config.hiera.data_path   = './tests/data'
+  config.hiera.puppet_version = '3.0.0-0.1rc5puppetlabs1'
 
   config.vbguest.auto_update = false
 

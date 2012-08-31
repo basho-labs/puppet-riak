@@ -29,19 +29,15 @@ class riak::params {
   $vm_args_template = 'riak/vm.args.erb'
   $template = 'riak/app.config.erb'
 
-  $log_dir = '/var/log/riak'
   $error_log = "${log_dir}/error.log"
   $info_log = "${log_dir}/console.log"
   $crash_log = "${log_dir}/crash.log"
 
+  $log_dir = '/var/log/riak'
   $erl_log_dir = '/var/log/riak'
-
-
   $data_dir = '/var/lib/riak'
+  $lib_dir = '/usr/lib/riak'
 
   $bin_dir = '/usr/sbin'
-
   $etc_dir = '/etc/riak'
-
-  $lib_dir = '/usr/lib/riak'
 }

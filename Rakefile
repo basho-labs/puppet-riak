@@ -21,12 +21,6 @@ end
 
 namespace :vagrant do
 
-  task :ensure_pp do
-    vpp = File.join 'tests', 'vagrant-riak.pp'
-    mfs = File.join 'spec', 'fixtures', 'manifests'
-    cp vpp, mfs
-  end
-
   desc 'Bring the VM up'
   task :up => [:spec_prep] do
     system 'vagrant up'
@@ -40,7 +34,7 @@ namespace :vagrant do
   task :suspend => :down
 
   desc 'Provision VM when already running'
-  task :provision => [:spec_prep, :"vagrant:ensure_pp"] do
+  task :provision => [:spec_prep] do
     system 'vagrant provision'
   end
 
