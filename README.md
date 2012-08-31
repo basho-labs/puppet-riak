@@ -45,10 +45,28 @@ or
 include riak
 ```
 
+You can modify the cfg variable like such:
+
+```
+class { 'riak':
+  cfg => {
+    riak_core => {
+      https => {
+        "__string_${$::ipaddress}" => 8443
+      },
+      ssl => {
+        certfile => "${etc_dir}/cert.pem",
+        keyfile  => "${etc_dir}/key.pem"
+      }
+    }
+  }
+}
+```
+
 ### Tested on:
 
- * Ubuntu 12.04 64-bit
- * Debian 6.0 64-bit
+ * Ubuntu 12.04 LTS (Precise) 64-bit
+ * Debian 6.0 (Squeeze) 64-bit
  * CentOs 6.0 64-bit
 
 ## Development Environment
@@ -126,6 +144,11 @@ Henrik.
    This issue affects a single test that exposed the issue; overriding
    puppet variables with rspec variables. The test is currently marked as
    pending.
+
+ * https://gist.github.com/3560970
+
+   Unmet dependencies on vanilla Debian 6.0. I'm probably going to have
+   to make apt-get add a source for this OS.
 
 #### Example42
 

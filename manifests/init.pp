@@ -159,12 +159,18 @@ ${$riak::params::architecture}.${$riak::params::package_type}"
     source => $url_source,
     hash   => $actual_hash
   }
+  
+  package { $riak::params::deps:
+    ensure  => $manage_package
+  }
 
   package { 'riak':
     ensure  => $manage_package,
-    provider=> dpkg,
     source  => $pkgfile,
-    require => Httpfile[$pkgfile],
+    require => [
+      Httpfile[$pkgfile],
+      Package[$riak::params::deps]
+    ]
   }
 
   file { $etc_dir:

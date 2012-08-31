@@ -15,6 +15,10 @@ class riak::params {
     default           => 'riak'
   }
 
+  $deps = $::operatingssytem ? {
+    default => ['libc6', 'libssl1.0.0', 'libtinfo5']
+  }
+
   $package_type = $::operatingsystem ? {
     /(centos|redhat)/ => 'rpm',
     default           => 'deb'
