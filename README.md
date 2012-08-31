@@ -2,11 +2,18 @@
 
 This module allows you to manage Riak with puppet.
 
-Riak is a Dynamo-inspired key/value store that scales predictably and easily.  Riak combines a decentralized key/value store, a flexible map/reduce engine, and a friendly HTTP/JSON query interface to provide a database ideally suited for Web applications. And, without any object-relational mappers and other heavy middleware, applications built on Riak can be both simpler and more powerful.  For complete documentation and source code, see the Riak home page at [Basho][1].
+Riak is a Dynamo-inspired key/value store that scales predictably and easily.
+Riak combines a decentralized key/value store, a flexible map/reduce engine,
+and a friendly HTTP/JSON query interface to provide a database ideally suited 
+for Web applications. And, without any object-relational mappers and other 
+heavy middleware, applications built on Riak can be both simpler and more 
+powerful.  For complete documentation and source code, see the Riak home page 
+at [Basho][1].
 
 ## Getting Started
 
-Requires a 64-bit operating system, tested on Puppet 2.7.17 and 3.0-rc5. Requires a basic configuration of Hiera.
+Requires a 64-bit operating system, tested on Puppet 2.7.17 and 3.0-rc5. 
+Requires a basic configuration of Hiera (only the most basic YAML config).
 
 #### Adding the module
 

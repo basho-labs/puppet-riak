@@ -135,23 +135,23 @@ class riak::appconfig(
   anchor { 'riak::appconfig::start': } ->
 
   file { [
-      $cfg[riak_core][platform_log_dir],
-      $cfg[riak_core][platform_lib_dir],
-      $cfg[riak_core][platform_data_dir]
+      $manage_cfg[riak_core][platform_log_dir],
+      $manage_cfg[riak_core][platform_lib_dir],
+      $manage_cfg[riak_core][platform_data_dir]
     ]:
     ensure => directory,
     mode   => 0755,
     owner  => 'riak'
   }
 
-  file { "${$cfg[riak_core][platform_etc_dir]}/app.config":
+  file { "${$manage_cfg[riak_core][platform_etc_dir]}/app.config":
     ensure  => $manage_file,
     content => $manage_template,
     source  => $manage_source,
     require => [
-      File["${$cfg[riak_core][platform_log_dir]}"],
-      File["${$cfg[riak_core][platform_lib_dir]}"],
-      File["${$cfg[riak_core][platform_data_dir]}"]
+      File["${$manage_cfg[riak_core][platform_log_dir]}"],
+      File["${$manage_cfg[riak_core][platform_lib_dir]}"],
+      File["${$manage_cfg[riak_core][platform_data_dir]}"]
     ]
   } ~>
 

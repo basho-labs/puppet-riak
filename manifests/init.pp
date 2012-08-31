@@ -187,10 +187,15 @@ ${$riak::params::architecture}.${$riak::params::package_type}"
     notify  => $manage_service_autorestart,
   }
 
+  group { 'riak':
+    ensure => present
+  }
+
   user { 'riak':
     ensure  => ['present'],
     gid     => 'riak',
-    home    => $data_dir
+    home    => $data_dir,
+    require => Group['riak']
   }
 
   service { 'riak':
