@@ -17,4 +17,7 @@ describe 'write_erl_config', :type => :puppet_function do
     })
     output.should eq('[{lager, [{handlers, [{error_logger_redirect, true}, {lager_file_backend, [{"/var/log/riak/error.log", error, 10485760, "$D0", 5}]}]}]}].')
   end
+  it 'should output numbers as numbers' do
+    subject.call({ :a => [['__tuple', '__atom_mykey', 5 ]]}).should eq('[{a, [{mykey, 5}]}].')
+  end
 end

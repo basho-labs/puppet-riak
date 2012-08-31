@@ -22,7 +22,7 @@ class riak::appconfig(
       ring_state_dir => "${$riak::params::data_dir}/ring",
       ring_creation_size => 64,
       http               => {
-        "${$::ipaddress}" => 8098
+        "__string_${$::ipaddress}" => 8098
       },
       handoff_port       => 8099,
       dtrace_support     => false,

@@ -15,7 +15,7 @@ Tested on:
  * Ubuntu 12.04 64-bit
  * Debian 6.0 64-bit
  * CentOs 6.0 64-bit
- 
+
 ## Development Environment
 
 You can simply clone this module like normal to your puppet-modules-folder. 
@@ -54,11 +54,16 @@ Henrik.
 
 ### References
 
-http://www.slideshare.net/PuppetLabs/modern-module-development-ken-barber-2012-edinburgh-puppet-camp
-http://www.slideshare.net/Alvagante/puppet-modules-an-holistic-approach
-http://puppetlabs.com/blog/puppet-module-bounty-logstash-riak-and-graphite/?utm_campaign=blog&utm_medium=socnet&utm_source=twitter&utm_content=modbounty1
-http://puppetlabs.com/blog/the-next-generation-of-puppet-module-testing/
+ * http://www.slideshare.net/PuppetLabs/modern-module-development-ken-barber-2012-edinburgh-puppet-camp
+ * http://www.slideshare.net/Alvagante/puppet-modules-an-holistic-approach
+ * http://puppetlabs.com/blog/puppet-module-bounty-logstash-riak-and-graphite/?utm_campaign=blog&utm_medium=socnet&utm_source=twitter&utm_content=modbounty1
+ * http://puppetlabs.com/blog/the-next-generation-of-puppet-module-testing/
 
+### Outstanding External Issues
+
+ * https://github.com/gposton/vagrant-hiera/issues/2
+ * https://github.com/rodjek/rspec-puppet/issues/44
+ * https://github.com/rubyist/guard-rake/issues/12
 
 #### Example42
 

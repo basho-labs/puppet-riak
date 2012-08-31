@@ -1,28 +1,3 @@
-module Eth
-  module Erlang
-    module String
-      def to_erl_string
-        "__string_#{self}"
-      end
-
-      def to_erl_binary
-        "__binary_#{self}"
-      end
-    end
-
-    module Array
-      def to_erl_tuple
-        ["__tuple"] + self
-      end
-
-      def to_erl_list
-        ["__list"] + self
-      end
-    end
-  end
-
-
-end
 
 module Puppet::Parser::Functions
 
@@ -30,7 +5,11 @@ module Puppet::Parser::Functions
     def convert(value)
       case value
       when ::String
-        ::Puppet::Parser::Functions::String.new(value)
+        if value =~ /^[0-9]+$/ then
+          ::Puppet::Parser::Functions::Value.new(Integer(value))
+        else
+          ::Puppet::Parser::Functions::String.new(value)
+        end
       when ::Array
         ::Puppet::Parser::Functions::Array.new(value)
       when ::Hash
@@ -151,7 +130,13 @@ module Puppet::Parser::Functions
     def initialize(hsh)
       @data = []
       hsh.sort.map do |k,v|
-        k1 = ::Puppet::Parser::Functions::String.new('__atom_' + k.to_s)
+        tmp = ''
+        if k.to_s.start_with?"__string_" then
+          tmp = k.to_s
+        else
+          tmp = '__atom_' + k.to_s
+        end
+        k1 = ::Puppet::Parser::Functions::String.new(tmp)
         v1 = convert(v)
         @data << [k1, v1]
       end
@@ -215,7 +200,7 @@ module Puppet::Parser::Functions
     end
   end
 
-  newfunction(:write_erl_config, :type => :rvalue, :doc => 
+  newfunction(:write_erl_config, :type => :rvalue, :doc =>
     "Output an erlang configuration from the given hash.") do |args|
     #pp args
     #raise ArgumentError.new("write_erl_hash only takes a single non-nil arg") if args.nil?
