@@ -6,6 +6,7 @@
 #   File to use for templating vm.args
 class riak::vmargs(
   $nodename = hiera('nodename', 'riak'),
+  $cookie = hiera('cookie', 'riak'),
   $ip = hiera('ipaddress'),
   $K = hiera('K', 'true'),
   $A = hiera('A', '64'),

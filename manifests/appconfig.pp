@@ -1,8 +1,91 @@
 # docs
 class riak::appconfig(
   $cfg = hiera_hash('cfg', {
-    bcd => 3,
-    a   => 4
+    kernel => {
+      inet_dist_listen_min => 6000,
+      inet_dist_listen_max => 7999
+    },
+    riak_api => {
+      pb_ip   => $::ipaddress,
+      bp_port => 8087
+    },
+    riak_core => {
+      ring_state_dir => "${$riak::params::data_dir}/ring",
+      ring_creation_size => 64,
+      http               => {
+        "${$::ipaddress}" => 8098
+      },
+      handoff_port       => 8099,
+      dtrace_support     => false,
+      platform_bin_dir   => $riak::params::bin_dir,
+      platform_data_dir  => $riak::params::data_dir,
+      platform_etc_dir   => $riak::params::etc_dir,
+      platform_lib_dir   => $riak::params::lib_dir,
+      platform_log_dir   => $riak::params::log_dir
+    },
+    riak_kv => {
+      storage_backend       => 'riak_kv_bitcask_backend', # atom...
+      mapred_name           => 'mapred',
+      mapred_system         => 'pipe',
+      mapred_2i_pipe        => true,
+      map_js_vm_count       => 8,
+      reduce_js_vm_count    => 6,
+      hook_js_vm_count      => 2,
+      js_max_vm_mem         => 8,
+      js_thread_stack       => 16,
+      http_url_encoding     => 'on',
+      vnode_vclocks         => true,
+      legacy_keylisting     => false,
+      listkeys_backpressure => true
+    },
+    riak_search => {
+      enabled => false
+    },
+    merge_index => {
+      data_root            => "${$riak::params::data_dir}/merge_index",
+      buffer_rollover_size => 1048576,
+      max_compact_segments => 20
+    },
+    bitcask => {
+      data_root => "${$riak::params::data_dir}/bitcask"
+    },
+    leveldb => {
+      data_root => "${$riak::params::data_dir}/leveldb"
+    },
+    lager => {
+      handlers => {
+        lager_file_backend   => [
+          # error : Erlang Atom
+          # list : Erlang Tuple
+          [$riak::params::error_log, 'error', 10485760, '$D0', 5],
+          [$riak::params::info_log,  'info' ,  10485760, '$D0', 5]
+        ],
+        crash_log             => $riak::params::crash_log,
+        crash_log_msg_side    => 65536,
+        crash_log_size        => 10485760,
+        crash_log_date        => '$D0',
+        crash_log_count       => 5,
+        error_logger_redirect => true
+      }
+    },
+    riak_sysmon => {
+      process_limit => 20,
+      post_limit => 2,
+      gc_ms_limit => 100,
+      heap_word_limit => 40111000,
+      busy_port => true,
+      busy_dist_port => true
+    },
+    sasl => {
+      sasl_error_logger => false,
+      utc_log           => true
+    },
+    riak_control => {
+      enabled   => false,
+      auth      => 'userlist',
+      userlist  => ['user', 'pass'], # erl tuple
+      admin     => true
+    },
   }),
   $source = hiera('source'),
   $template = hiera('template'),
