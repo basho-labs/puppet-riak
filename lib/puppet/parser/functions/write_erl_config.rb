@@ -205,6 +205,6 @@ module Puppet::Parser::Functions
     #pp args
     #raise ArgumentError.new("write_erl_hash only takes a single non-nil arg") if args.nil?
     return "" if args.nil?
-    Puppet::Parser::Functions::Config.new(args).pp
+    Puppet::Parser::Functions::Config.new(args).to_s
   end
 end
