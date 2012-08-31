@@ -215,9 +215,11 @@ module Puppet::Parser::Functions
     end
   end
 
-  newfunction(:write_erl_hash) do |args|
-    pp args
-    raise ArgumentError.new("write_erl_hash only takes a single non-nil arg") if args.nil?
+  newfunction(:write_erl_config, :type => :rvalue, :doc => 
+    "Output an erlang configuration from the given hash.") do |args|
+    #pp args
+    #raise ArgumentError.new("write_erl_hash only takes a single non-nil arg") if args.nil?
+    return "" if args.nil?
     Puppet::Parser::Functions::Config.new(args).to_s
   end
 end

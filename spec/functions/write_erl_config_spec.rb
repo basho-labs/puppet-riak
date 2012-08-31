@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 require 'spec_helper'
 
-describe 'write_erl_hash', :type => :puppet_function do
+describe 'write_erl_config', :type => :puppet_function do
   it { subject.call({ :a => 4 }).should eq('[{a, 4}].') }
   it 'should gen correct erlang' do
     output = subject.call({
