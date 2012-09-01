@@ -4,7 +4,7 @@
 # == Parameters
 #
 # cfg:
-#   A configuration hash of erlang to be written to 
+#   A configuration hash of erlang to be written to
 #   File[/etc/riak/app.config]. It's recommended to browse
 #   the 'appconfig.pp' file to see sample values.
 #
@@ -86,8 +86,10 @@ class riak::appconfig(
     lager => {
       handlers => {
         lager_file_backend   => [
-          ['__tuple', $riak::params::error_log, '__atom_error', 10485760, '$D0', 5],
-          ['__tuple', $riak::params::info_log,  '__atom_info' ,  10485760, '$D0', 5]
+          ['__tuple', $riak::params::error_log, '__atom_error',
+            10485760, '$D0', 5],
+          ['__tuple', $riak::params::info_log,  '__atom_info',
+            10485760, '$D0', 5]
         ],
         crash_log             => $riak::params::crash_log,
         crash_log_msg_side    => 65536,
@@ -140,7 +142,7 @@ class riak::appconfig(
       $appcfg[riak_core][platform_data_dir]
     ]:
     ensure => directory,
-    mode   => 0755,
+    mode   => '0755',
     owner  => 'riak'
   }
 

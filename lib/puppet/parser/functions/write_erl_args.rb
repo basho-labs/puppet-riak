@@ -7,7 +7,7 @@ module Puppet::Parser::Functions
 
     raise(Puppet::ParseError, "write_erl_args(): Wrong number of arguments " +
           "given (#{args.size} for 1 or 2)") if args.size < 1
-    
+
     if args[0].is_a? Array
         args = args[0]
     end

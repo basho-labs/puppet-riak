@@ -80,7 +80,7 @@ class riak(
   $erl_log_dir = hiera('erl_log_dir', $riak::params::erl_log_dir),
   $etc_dir = hiera('etc_dir', $riak::params::etc_dir),
   $data_dir = hiera('data_dir', $riak::params::data_dir),
-  $service_autorestart = hiera('service_autorestart', 
+  $service_autorestart = hiera('service_autorestart',
     $riak::params::service_autorestart
   ),
   $cfg = hiera_hash('cfg', {}),
@@ -161,7 +161,7 @@ ${$riak::params::architecture}.${$riak::params::package_type}"
     source => $url_source,
     hash   => $actual_hash
   }
-  
+
   package { $riak::params::deps:
     ensure  => $manage_package
   }

@@ -41,6 +41,6 @@ class riak::params {
   $lib_dir = '/usr/lib/riak'
   $bin_dir = '/usr/sbin'
   $etc_dir = '/etc/riak'
-  
+
   $service_autorestart = true
 }

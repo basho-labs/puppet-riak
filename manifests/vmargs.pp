@@ -36,7 +36,7 @@ class riak::vmargs(
     ''      => write_erl_args(vmargs_cfg),
     default => template($template)
   }
-  
+
   $manage_source = $source ? {
     ''      => undef,
     default => $source

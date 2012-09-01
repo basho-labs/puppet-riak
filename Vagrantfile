@@ -6,15 +6,10 @@ require 'fileutils'
 Vagrant::Config.run do |config|
   config.vm.box = 'precise64'
   config.vm.box_url = 'http://files.vagrantup.com/precise64.box'
-
   #config.vm.box = 'debian-6.0'
   #config.vm.box_url = 'http://puppetlabs.s3.amazonaws.com/pub/Squeeze64.box'
-
   #config.vm.box = 'centos-6.0'
   #config.vm.box_url = 'http://dl.dropbox.com/u/9227672/CentOS-6.0-x86_64-netboot-4.1.6.box'
-
-  # config.vm.forward_port 80, 8080
-  # config.vm.share_folder 'files-puppet', '/etc/puppet/files', 'files'
 
   config.vm.share_folder 'riak-module', "#{FileUtils.pwd}", "."
 

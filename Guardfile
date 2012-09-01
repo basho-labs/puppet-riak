@@ -5,7 +5,8 @@ guard 'rake', :task => 'lint' do
   watch(%r{^.+\.pp$})
 end
 
-guard 'rspec', :version => 2, :spec_paths => ['spec/*/*_spec.rb'], :cli => '--color' do
+# ['spec/*/*_spec.rb']
+guard 'rspec', :version => 2, :spec_paths => 'spec/functions/', :cli => '--color' do
   watch(%r{^spec\/.+_spec\.rb$})
   watch(%r{^spec\/shared_contexts\.rb$})
   watch(%r{^manifests\/(.+)\.pp$}) {
