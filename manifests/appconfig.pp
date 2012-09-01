@@ -29,6 +29,8 @@ class riak::appconfig(
   $absent = false
 ) {
 
+  require riak::params
+
   # merge the given $cfg parameter with the default,
   # favoring the givens, rather than the defaults
   $appcfg = merge({

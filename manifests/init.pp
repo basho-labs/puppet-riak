@@ -87,7 +87,7 @@ class riak(
   $disable = false,
   $disableboot = false,
   $absent = false
-) {
+) inherits riak::params {
 
   include stdlib
 
@@ -167,9 +167,10 @@ ${$riak::params::architecture}.${$riak::params::package_type}"
   }
 
   package { 'riak':
-    ensure  => $manage_package,
-    source  => $pkgfile,
-    require => [
+    ensure   => $manage_package,
+    source   => $pkgfile,
+    provider => $riak::params::package_provider,
+    require  => [
       Httpfile[$pkgfile],
       Package[$riak::params::deps]
     ]

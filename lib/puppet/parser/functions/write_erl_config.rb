@@ -1,4 +1,6 @@
-require 'puppet/parser/util/erly'
+# https://projects.puppetlabs.com/issues/4248
+# require 'puppet/parser/util/erly'
+require File.join(File.dirname(__FILE__), '/../util/erly')
 
 module Puppet::Parser::Functions
   newfunction(:write_erl_config, :type => :rvalue, :doc => <<-DOC) do |*args|

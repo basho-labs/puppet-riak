@@ -24,6 +24,11 @@ class riak::params {
     default           => 'deb'
   }
 
+  $package_provider = $::operatingsystem ? {
+    /(centos|redhat)/ => 'yum',
+    default           => 'dpkg'
+  }
+
   $architecture = $::operatingsystem ? {
     /(centos|redhat)/ => 'el6.x86_64',
     default           => 'amd64'

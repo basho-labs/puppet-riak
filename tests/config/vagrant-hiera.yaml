@@ -5,7 +5,7 @@
 
 :hierarchy:
   - %{environment}
-  - common
+  #- common
 
 :yaml:
    :datadir: /tmp/vagrant-hiera/data
