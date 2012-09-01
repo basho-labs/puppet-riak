@@ -12,7 +12,7 @@
 #   with source.
 #
 class riak::vmargs(
-  $cfg = hiera('vmargs_cfg', {}),
+  $cfg = {},
   $erl_log_dir = hiera('erl_log_dir', $riak::params::erl_log_dir),
   $template = hiera('vm_args_template', ''),
   $source = hiera('vm_args_source', ''),

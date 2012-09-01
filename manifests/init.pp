@@ -84,6 +84,7 @@ class riak(
     $riak::params::service_autorestart
   ),
   $cfg = hiera_hash('cfg', {}),
+  $vmargs_cfg = hiera_hash('vmargs_cfg', {}),
   $disable = false,
   $disableboot = false,
   $absent = false
@@ -185,13 +186,14 @@ ${$riak::params::architecture}.${$riak::params::package_type}"
     absent   => $absent,
     source   => $source,
     template => $template,
-    require  => File[$etc_dir],
     cfg      => $cfg,
+    require  => File[$etc_dir],
     notify   => $manage_service_autorestart
   }
 
   class { 'riak::vmargs':
     absent  => $absent,
+    cfg     => $vmargs_cfg,
     require => File[$etc_dir],
     notify  => $manage_service_autorestart,
   }
