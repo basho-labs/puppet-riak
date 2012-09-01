@@ -70,17 +70,19 @@
 #   Henrik Feldt, github.com/haf/puppet-riak.
 #
 class riak(
-  $version = hiera('version'),
-  $package = hiera('package'),
+  $version = hiera('version', $riak::params::version),
+  $package = hiera('package', $riak::params::package),
   $package_hash = hiera('package_hash', ''),
   $source = hiera('source', ''),
-  $template = hiera('template'),
-  $architecture = hiera('architecture'),
-  $log_dir = hiera('log_dir'),
-  $erl_log_dir = hiera('erl_log_dir'),
-  $etc_dir = hiera('etc_dir'),
-  $data_dir = hiera('data_dir'),
-  $service_autorestart = hiera('service_autorestart', 'true'),
+  $template = hiera('template', ''),
+  $architecture = hiera('architecture', $riak::params::architecture),
+  $log_dir = hiera('log_dir', $riak::params::log_dir),
+  $erl_log_dir = hiera('erl_log_dir', $riak::params::erl_log_dir),
+  $etc_dir = hiera('etc_dir', $riak::params::etc_dir),
+  $data_dir = hiera('data_dir', $riak::params::data_dir),
+  $service_autorestart = hiera('service_autorestart', 
+    $riak::params::service_autorestart
+  ),
   $cfg = hiera_hash('cfg', {}),
   $disable = false,
   $disableboot = false,

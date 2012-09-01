@@ -25,13 +25,13 @@
 class riak::appconfig(
   $cfg = {},
   $source = hiera('source', ''),
-  $template = hiera('template'),
-  $absent = hiera('absent', 'false')
+  $template = hiera('template', ''),
+  $absent = false
 ) {
 
   # merge the given $cfg parameter with the default,
   # favoring the givens, rather than the defaults
-  $manage_cfg = merge({
+  $appcfg = merge({
     kernel => {
       inet_dist_listen_min => 6000,
       inet_dist_listen_max => 7999
@@ -123,7 +123,7 @@ class riak::appconfig(
   }
 
   $manage_template = $template ? {
-    ''      => undef,
+    ''      => write_erl_config($appcfg),
     default => template($template)
   }
 
@@ -135,23 +135,23 @@ class riak::appconfig(
   anchor { 'riak::appconfig::start': } ->
 
   file { [
-      $manage_cfg[riak_core][platform_log_dir],
-      $manage_cfg[riak_core][platform_lib_dir],
-      $manage_cfg[riak_core][platform_data_dir]
+      $appcfg[riak_core][platform_log_dir],
+      $appcfg[riak_core][platform_lib_dir],
+      $appcfg[riak_core][platform_data_dir]
     ]:
     ensure => directory,
     mode   => 0755,
     owner  => 'riak'
   }
 
-  file { "${$manage_cfg[riak_core][platform_etc_dir]}/app.config":
+  file { "${$appcfg[riak_core][platform_etc_dir]}/app.config":
     ensure  => $manage_file,
     content => $manage_template,
     source  => $manage_source,
     require => [
-      File["${$manage_cfg[riak_core][platform_log_dir]}"],
-      File["${$manage_cfg[riak_core][platform_lib_dir]}"],
-      File["${$manage_cfg[riak_core][platform_data_dir]}"]
+      File["${$appcfg[riak_core][platform_log_dir]}"],
+      File["${$appcfg[riak_core][platform_lib_dir]}"],
+      File["${$appcfg[riak_core][platform_data_dir]}"]
     ]
   } ~>
 

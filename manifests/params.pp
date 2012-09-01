@@ -30,8 +30,6 @@ class riak::params {
   }
 
   $version = '1.2.0'
-  $vm_args_template = 'riak/vm.args.erb'
-  $template = 'riak/app.config.erb'
 
   $error_log = "${log_dir}/error.log"
   $info_log = "${log_dir}/console.log"
@@ -41,7 +39,8 @@ class riak::params {
   $erl_log_dir = '/var/log/riak'
   $data_dir = '/var/lib/riak'
   $lib_dir = '/usr/lib/riak'
-
   $bin_dir = '/usr/sbin'
   $etc_dir = '/etc/riak'
+  
+  $service_autorestart = true
 }
