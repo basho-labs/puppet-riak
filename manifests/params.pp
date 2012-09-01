@@ -11,27 +11,31 @@
 class riak::params {
 
   $package = $::operatingsystem ? {
-    /(centos|redhat)/ => 'riak',
     default           => 'riak'
   }
 
   $deps = $::operatingssytem ? {
-    default => ['libc6', 'libssl1.0.0', 'libtinfo5']
+    'centos' => [],
+    'redhat' => [],
+    default  => ['libc6', 'libssl1.0.0', 'libtinfo5']
   }
 
   $package_type = $::operatingsystem ? {
-    /(centos|redhat)/ => 'rpm',
-    default           => 'deb'
+    'centos' => 'rpm',
+    'redhat' => 'rpm',
+    default  => 'deb'
   }
 
   $package_provider = $::operatingsystem ? {
-    /(centos|redhat)/ => 'yum',
-    default           => 'dpkg'
+    'centos' => 'yum',
+    'redhat' => 'yum',
+    default  => 'dpkg'
   }
 
   $architecture = $::operatingsystem ? {
-    /(centos|redhat)/ => 'el6.x86_64',
-    default           => 'amd64'
+    'redhat' => 'el6.x86_64',
+    'centos' => 'el6.x86_64',
+    default  => 'amd64'
   }
 
   $version = '1.2.0'

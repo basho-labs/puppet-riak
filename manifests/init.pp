@@ -93,7 +93,8 @@ class riak(
   include stdlib
 
   $download_os = $::operatingsystem ? {
-    /(centos|redhat)/ => 'rhel/6',
+    'centos'          => 'rhel/6',
+    'redhat'          => 'rhel/6',
     'ubuntu'          => 'ubuntu/precise',
     'debian'          => 'ubuntu/precise',
     default           => 'ubuntu/precise'
