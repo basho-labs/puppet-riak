@@ -12,56 +12,7 @@ at [Basho][1].
 
 ## Getting Started
 
-Requires a 64-bit operating system, tested on Puppet 2.7.17 and 3.0-rc5. 
-Requires a basic configuration of Hiera (only the most basic YAML config).
-
-#### Adding the module
-
-First clone the module,
-
-```
-$ git clone git://github.com/haf/puppet-riak.git /etc/puppet/modules/riak
-```
-
-Make sure you are shipping the custom functions in this module to your i
-nodes, by setting pluginsync=true;
-
-```
-[main]
-    pluginsync = true
-```
-
-### Basic Installation
-
-This will install Riak using all of the defaults:
-
-```
-class { 'riak': }
-```
-
-or
-
-```
-include riak
-```
-
-You can modify the cfg variable like such:
-
-```
-class { 'riak':
-  cfg => {
-    riak_core => {
-      https => {
-        "__string_${$::ipaddress}" => 8443
-      },
-      ssl => {
-        certfile => "${etc_dir}/cert.pem",
-        keyfile  => "${etc_dir}/key.pem"
-      }
-    }
-  }
-}
-```
+**Have a look at the [Wiki][2].**
 
 ### Tested on:
 
@@ -156,3 +107,4 @@ From your excellent presentations I could find online, and your samples
 at your github. Thanks Alessandro.
 
 [1]: http://basho.com/
+[2]: https://github.com/haf/puppet-riak/wiki
