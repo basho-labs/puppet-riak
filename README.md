@@ -106,6 +106,15 @@ Henrik.
    This gem should be bundled with puppet, or there ought to be a way to
    make the module install it.
 
+ * Problem building and pushing module:
+
+   ```puppet
+   xyz@co-data:~/labs/puppet-riak$ puppet module build .
+   Error: undefined method `provide' for nil:NilClass
+   Error: Try 'puppet help module build' for usage
+   ```
+
+
 #### Example42
 
 From your excellent presentations I could find online, and your samples
