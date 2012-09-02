@@ -96,6 +96,11 @@ For more details info, see [Testing with Vagrant](wiki/Testing-with-Vagrant) on 
     * https://github.com/alup/puppet-rbenv/issues/27
     * http://projects.puppetlabs.com/issues/4416
 
+   And it might be that fixing [#4248](http://projects.puppetlabs.com/issues/4248)
+   solves the problem, since I'm forced to do 
+   `require File.join(File.dirname(__FILE__), '/../util/erly')` at the time of
+   writing.
+
 
 #### Example42
 
