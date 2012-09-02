@@ -72,7 +72,8 @@
 class riak(
   $version = hiera('version', $riak::params::version),
   $package = hiera('package', $riak::params::package),
-  $package_hash = hiera('package_hash', ''),
+  $download = hiera('download', $riak::params::download),
+  $doanload_hash = hiera('download_hash', $riak::params::download_hash),
   $source = hiera('source', ''),
   $template = hiera('template', ''),
   $architecture = hiera('architecture', $riak::params::architecture),
@@ -91,28 +92,6 @@ class riak(
 ) inherits riak::params {
 
   include stdlib
-
-  $download_os = $::operatingsystem ? {
-    'centos'          => 'rhel/6',
-    'redhat'          => 'rhel/6',
-    'ubuntu'          => 'ubuntu/precise',
-    'debian'          => 'ubuntu/precise',
-    default           => 'ubuntu/precise'
-  }
-
-  $download_base = "http://downloads.basho.com.s3-website-us-east-1.amazonaws\
-.com/riak/CURRENT/${download_os}"
-
-  $url_source = "${$download_base}/riak_${$version}-1_\
-${$riak::params::architecture}.${$riak::params::package_type}"
-
-  $url_source_hash = "${$url_source}.sha"
-
-  $actual_hash = $package_hash ? {
-    undef   => $url_source_hash,
-    ''      => $url_source_hash,
-    default => $package_hash
-  }
 
   $pkgfile = "/tmp/${$package}-${$version}.${$riak::params::package_type}"
 
@@ -160,8 +139,12 @@ ${$riak::params::architecture}.${$riak::params::package_type}"
 
   httpfile {  $pkgfile:
     ensure => present,
-    source => $url_source,
-    hash   => $actual_hash
+    source => $download,
+    hash   => $download_hash
+  }
+  
+  notify { 'url':
+    message => "Downloaded file from ##${download}/${download_hash}##"
   }
 
   package { $riak::params::deps:
@@ -173,6 +156,7 @@ ${$riak::params::architecture}.${$riak::params::package_type}"
     source   => $pkgfile,
     provider => $riak::params::package_provider,
     require  => [
+      Notify[url],
       Httpfile[$pkgfile],
       Package[$riak::params::deps]
     ]
