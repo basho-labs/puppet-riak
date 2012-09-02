@@ -41,6 +41,13 @@ For more details info, see [Testing with Vagrant](wiki/Testing-with-Vagrant) on 
 
 ### Outstanding External Issues
 
+Working on this module has been really nice, but unfortunately it's
+noticeable that not most people actually unit-test their puppet modules.
+
+I think puppet is an awesome project, and I would love for the tooling
+around creating powerful modules to improve. Here are some of my experienced
+bumps in the road.
+
  * https://github.com/gposton/vagrant-hiera/issues/2
 
    This issue surfaces every time PuppetLabs releases a new version of their
