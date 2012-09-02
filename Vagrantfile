@@ -4,12 +4,12 @@
 require 'fileutils'
 
 Vagrant::Config.run do |config|
-  #config.vm.box = 'precise64'
-  #config.vm.box_url = 'http://files.vagrantup.com/precise64.box'
+  config.vm.box = 'precise64'
+  config.vm.box_url = 'http://files.vagrantup.com/precise64.box'
   #config.vm.box = 'debian-6.0'
   #config.vm.box_url = 'http://puppetlabs.s3.amazonaws.com/pub/Squeeze64.box'
-  config.vm.box = 'centos-6.3-64bit'
-  config.vm.box_url = 'https://dl.dropbox.com/u/7225008/Vagrant/CentOS-6.3-x86_64-minimal.box'
+  #config.vm.box = 'centos-6.3-64bit'
+  #config.vm.box_url = 'https://dl.dropbox.com/u/7225008/Vagrant/CentOS-6.3-x86_64-minimal.box'
 
   config.vm.share_folder 'riak-module', "#{FileUtils.pwd}", "."
 

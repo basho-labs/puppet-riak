@@ -16,9 +16,9 @@ at [Basho][1].
 
 ### Tested on:
 
- * Ubuntu 12.04 LTS (Precise) 64-bit
- * Debian 6.0 (Squeeze) 64-bit
- * CentOs 6.0 64-bit
+ * Ubuntu 12.04 LTS (Precise) 64-bit - works, need to ssh and run 'gem install hiera-puppet' first.
+ * Debian 6.0 (Squeeze) 64-bit - doesn't work, Riak's dependencies aren't available.
+ * CentOs 6.0 64-bit - works - need to ssh and run 'gem install hiera-puppet' first.
 
 ## Development Environment
 
@@ -100,6 +100,11 @@ Henrik.
 
    Unmet dependencies on vanilla Debian 6.0. I'm probably going to have
    to make apt-get add a source for this OS.
+
+ * no such gem 'hiera-puppet' - I can't provision out of the box with
+   Puppet 2.7, because the hiera-puppet module fails with an import error.
+   This gem should be bundled with puppet, or there ought to be a way to
+   make the module install it.
 
 #### Example42
 
