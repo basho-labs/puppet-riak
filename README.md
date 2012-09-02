@@ -30,7 +30,7 @@ If you want to check that it works, then install `vagrant`, `rake` and
 
 ----
 
-For more details info, see [Testing with Vagrant](wiki/Testing-with-Vagrant) on the wiki.
+**For more details info, see [Testing with Vagrant](wiki/Testing-with-Vagrant) on the wiki.**
 
 ### References
 
