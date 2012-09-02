@@ -90,6 +90,12 @@ For more details info, see [Testing with Vagrant](wiki/Testing-with-Vagrant) on 
    Error: Try 'puppet help module build' for usage
    ```
 
+   Similar to
+
+    * http://projects.puppetlabs.com/issues/14962
+    * https://github.com/alup/puppet-rbenv/issues/27
+    * http://projects.puppetlabs.com/issues/4416
+
 
 #### Example42
 
