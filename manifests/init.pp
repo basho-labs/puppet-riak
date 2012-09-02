@@ -142,7 +142,7 @@ class riak(
     source => $download,
     hash   => $download_hash
   }
-  
+
   notify { 'url':
     message => "Downloaded file from ##${download}/${download_hash}##"
   }
