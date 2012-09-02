@@ -4,10 +4,10 @@ This module allows you to manage Riak with puppet.
 
 Riak is a Dynamo-inspired key/value store that scales predictably and easily.
 Riak combines a decentralized key/value store, a flexible map/reduce engine,
-and a friendly HTTP/JSON query interface to provide a database ideally suited 
-for Web applications. And, without any object-relational mappers and other 
-heavy middleware, applications built on Riak can be both simpler and more 
-powerful.  For complete documentation and source code, see the Riak home page 
+and a friendly HTTP/JSON query interface to provide a database ideally suited
+for Web applications. And, without any object-relational mappers and other
+heavy middleware, applications built on Riak can be both simpler and more
+powerful.  For complete documentation and source code, see the Riak home page
 at [Basho][1].
 
 ## Getting Started
@@ -22,39 +22,15 @@ at [Basho][1].
 
 ## Development Environment
 
-You can simply clone this module like normal to your puppet-modules-folder. 
+You can simply clone this module like normal to your puppet-modules-folder.
 It'll work. Done.
 
-If you want to check that it works, then install `vagrant`, `rake` and 
+If you want to check that it works, then install `vagrant`, `rake` and
 `VirtualBox`, then run `rake vagrant:up`.
 
 ----
 
-With that out of the world. Here's how to set up the full chaboom:
-
- 1. `git clone https://github.com/haf/puppet-riak.git`
- 1. `cd puppet-riak`
- 1. Install RVM and bundler. `curl -L https://get.rvm.io | bash -s stable --ruby --gems=bundler,rubygems-bundler`
- 1. `rvm requirements`: follow these instructions. I'm using RMI 1.9.3.
- 1. `bundle install`
- 1. `gem regenerate_binstubs`
- 1. `rake vagrant:up`
-
-So what have you got now? By installing all required gems with bundler, you 
-now have a complete development environment for testing puppet modules and 
-manifests, including autotesting them when you change the source files.
-
-When running `vagrant up`, you started three virtual machines that were
-provisioned to run Riak, and connect all three of them together. This is 
-your lab environment. You can make the `Guardfile` provision all machines
-any time you change a puppet (.pp) file.
-
-If you have ubuntu, you can start writing tests/manifests. Start the watcher
-by running `guard`. Edit a spec file and watch how it runs. If you don't have
-ubuntu, then look at your options at 
-[guard/guard](https://github.com/guard/guard#readme).
-
-Henrik.
+For more details info, see [Testing with Vagrant](wiki/Testing-with-Vagrant) on the wiki.
 
 ### References
 
