@@ -84,7 +84,7 @@ For more details info, see [Testing with Vagrant](wiki/Testing-with-Vagrant) on 
 
  * Problem building and pushing module:
 
-   ```puppet
+   ```
    xyz@co-data:~/labs/puppet-riak$ puppet module build .
    Error: undefined method `provide' for nil:NilClass
    Error: Try 'puppet help module build' for usage
