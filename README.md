@@ -30,7 +30,7 @@ If you want to check that it works, then install `vagrant`, `rake` and
 
 ----
 
-**For more details info, see [Testing with Vagrant](wiki/Testing-with-Vagrant) on the wiki.**
+**For more details info, see [Testing with Vagrant][3] on the wiki.**
 
 ### References
 
@@ -116,3 +116,4 @@ at your github. Thanks Alessandro.
 
 [1]: http://basho.com/
 [2]: https://github.com/haf/puppet-riak/wiki
+[3]: https://github.com/haf/puppet-riak/wiki/Testing-with-Vagrant
