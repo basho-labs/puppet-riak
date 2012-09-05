@@ -14,11 +14,11 @@ Vagrant::Config.run do |config|
   config.vm.share_folder 'riak-module', "#{FileUtils.pwd}", "."
 
   # Plugins:
-  #config.hiera.config_path = './tests/config'
-  #config.hiera.config_file = 'vagrant-hiera.yaml'
-  #config.hiera.data_path   = './tests/data'
+  config.hiera.config_path = './tests/config'
+  config.hiera.config_file = 'vagrant-hiera.yaml'
+  config.hiera.data_path   = './tests/data'
   #config.hiera.puppet_version = '3.0.0-0.1rc5puppetlabs1'
-  #config.vbguest.auto_update = false
+  config.vbguest.auto_update = false
 
   config.vm.provision :puppet do |puppet|
     puppet.manifests_path = File.join 'spec', 'fixtures', 'manifests'
