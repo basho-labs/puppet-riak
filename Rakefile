@@ -159,7 +159,7 @@ namespace :module do
         cp f, File.join('pkg', 'riak', f)
       end
     system 'puppet module build pkg/riak'
-    cp 'pkg/riak/pkg/*.tar.gz', 'pkg'
+    Dir.glob('pkg/riak/pkg/*.tar.gz').each { |f| cp f, 'pkg' }
   end
 
   task :build_ do
