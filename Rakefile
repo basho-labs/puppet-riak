@@ -63,3 +63,19 @@ namespace :vagrant do
     system 'vagrant reload'
   end
 end
+
+namespace :module do
+
+  directory 'pkg'
+
+  task :build => 'pkg' do
+    `git ls-files`.split("\n").
+      reject { |f| f =~ /^(\.|Guardfile|Gemfile|Rakefile|Vagrantfile)/ }.
+      each  do |f|
+        if f =~ /\//
+          FileUtils.mkdir_p(File.join('pkg', File.dirname(f)))
+        end
+        cp f, File.join('pkg', f)
+      end
+  end
+end
