@@ -86,26 +86,6 @@ bumps in the road.
    This gem should be bundled with puppet, or there ought to be a way to
    make the module install it.
 
- * Problem building and pushing module:
-
-   ```
-   xyz@co-data:~/labs/puppet-riak$ puppet module build .
-   Error: undefined method `provide' for nil:NilClass
-   Error: Try 'puppet help module build' for usage
-   ```
-
-   Similar to
-
-    * http://projects.puppetlabs.com/issues/14962
-    * https://github.com/alup/puppet-rbenv/issues/27
-    * http://projects.puppetlabs.com/issues/4416
-
-   And it might be that fixing [#4248](http://projects.puppetlabs.com/issues/4248)
-   solves the problem, since I'm forced to do
-   `require File.join(File.dirname(__FILE__), '/../util/erly')` at the time of
-   writing.
-
-
 #### Example42
 
 From your excellent presentations I could find online, and your samples
