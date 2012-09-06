@@ -16,9 +16,11 @@ at [Basho][1].
 
 ### Tested on:
 
- * Ubuntu 12.04 LTS (Precise) 64-bit - works, need to ssh and run 'gem install hiera-puppet' first.
- * Debian 6.0 (Squeeze) 64-bit - doesn't work, Riak's dependencies aren't available.
- * CentOs 6.0 64-bit - works - need to ssh and run 'gem install hiera-puppet' first.
+You need to ssh and run 'gem install hiera-puppet' after launch.
+
+ * Ubuntu 12.04 LTS (Precise) 64-bit - works, 
+ * Debian 6.0 (Squeeze) 64-bit
+ * CentOs 6.0 64-bit
 
 ## Development Environment
 
@@ -47,11 +49,6 @@ noticeable that not most people actually unit-test their puppet modules.
 I think puppet is an awesome project, and I would love for the tooling
 around creating powerful modules to improve. Here are some of my experienced
 bumps in the road.
-
- * https://github.com/gposton/vagrant-hiera/issues/2
-
-   This issue surfaces every time PuppetLabs releases a new version of their
-   puppet deb, because then the old one doesn't install properly anymore.
 
  * https://github.com/rodjek/rspec-puppet/issues/44
 
@@ -104,7 +101,7 @@ bumps in the road.
     * http://projects.puppetlabs.com/issues/4416
 
    And it might be that fixing [#4248](http://projects.puppetlabs.com/issues/4248)
-   solves the problem, since I'm forced to do 
+   solves the problem, since I'm forced to do
    `require File.join(File.dirname(__FILE__), '/../util/erly')` at the time of
    writing.
 

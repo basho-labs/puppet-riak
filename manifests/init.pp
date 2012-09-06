@@ -156,10 +156,10 @@ class riak(
     source   => $pkgfile,
     provider => $riak::params::package_provider,
     require  => [
-      Notify[url],
       Httpfile[$pkgfile],
       Package[$riak::params::deps]
-    ]
+    ],
+    notify => Notify[url]
   }
 
   file { $etc_dir:
@@ -203,7 +203,7 @@ class riak(
       User['riak'],
       Package['riak']
     ],
-  } ~>
+  } ->
 
   anchor { 'riak::end': }
 }

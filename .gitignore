@@ -7,3 +7,4 @@ fixtures/
 .settings/
 Gemfile.lock
 files/packages/
+graphs/
