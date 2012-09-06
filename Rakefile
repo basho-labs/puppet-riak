@@ -19,6 +19,15 @@ task :noop do
   system 'find tests -name init.pp | xargs -n 1 -t bundle exec puppet apply --noop --modulepath=spec/fixtures/modules'
 end
 
+directory 'graphs'
+
+desc "Convert too dotfiles in the graph folder to png files"
+task :dot_to_png => 'graphs' do
+  Dir.glob('graph/*.dot') do |dot|
+    system "dot -Tpng #{dot} -o #{File.basename(dot, '.*')}.png"
+  end
+end
+
 namespace :vagrant do
 
   desc 'Bring the VM up'
@@ -33,10 +42,10 @@ namespace :vagrant do
 
   task :suspend => :down
 
+  task :_provision do ; system 'vagrant provision' ; end
+
   desc 'Provision VM when already running'
-  task :provision => [:spec_prep] do
-    system 'vagrant provision'
-  end
+  task :provision => [:spec_prep, :"vagrant:_provision", :dot_to_png]
 
   desc 'Destroy the VM completely'
   task :destroy do

@@ -157,7 +157,14 @@ class riak::appconfig(
       File["${$appcfg[riak_core][platform_lib_dir]}"],
       File["${$appcfg[riak_core][platform_data_dir]}"]
     ]
-  } ~>
+  }
 
-  anchor { 'riak::appconfig::end':}
+  anchor { 'riak::appconfig::end':
+    require => [
+      File["${$appcfg[riak_core][platform_etc_dir]}/app.config"],
+      File["${$appcfg[riak_core][platform_log_dir]}"],
+      File["${$appcfg[riak_core][platform_lib_dir]}"],
+      File["${$appcfg[riak_core][platform_data_dir]}"]
+    ]
+  }
 }

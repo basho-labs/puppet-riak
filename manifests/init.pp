@@ -143,9 +143,9 @@ class riak(
     hash   => $download_hash
   }
 
-  notify { 'url':
-    message => "Downloaded file from ##${download}/${download_hash}##"
-  }
+  #notify { 'url':
+  #  message => "Downloaded file from ##${download}/${download_hash}##",
+  #}
 
   package { $riak::params::deps:
     ensure  => $manage_package
@@ -158,8 +158,7 @@ class riak(
     require  => [
       Httpfile[$pkgfile],
       Package[$riak::params::deps]
-    ],
-    notify => Notify[url]
+    ]
   }
 
   file { $etc_dir:
@@ -197,6 +196,7 @@ class riak(
   service { 'riak':
     ensure  => $manage_service_ensure,
     enable  => $manage_service_enable,
+    status  => 'riak-admin test',
     require => [
       Class['riak::appconfig'],
       Class['riak::vmargs'],

@@ -4,8 +4,6 @@
 require 'fileutils'
 
 Vagrant::Config.run do |config|
-  # give all nodes a little bit more memory:
-  config.vm.customize ["modifyvm", :id, "--memory", 1024]
 
   # choices for virtual machines:
   config.vm.box = 'precise64'
@@ -24,14 +22,6 @@ Vagrant::Config.run do |config|
 
   config.vbguest.auto_update = false
 
-  # specify puppet for provisioning
-  config.vm.provision :puppet do |puppet|
-    puppet.manifests_path = File.join 'spec', 'fixtures', 'manifests'
-    puppet.module_path    = File.join 'spec', 'fixtures', 'modules'
-    puppet.manifest_file  = 'vagrant-riak.pp'
-    #puppet.options        = [ '--trace', '--debug', '--verbose' ]
-  end
-
   # specify all Riak VMs:
   nodes = 3
   baseip = 5
@@ -41,6 +31,18 @@ Vagrant::Config.run do |config|
     config.vm.define name do |cfg|
       cfg.vm.host_name = name
       cfg.vm.network :hostonly, ip
+
+      # give all nodes a little bit more memory:
+      cfg.vm.customize ["modifyvm", :id, "--memory", 1024]
+
+      # specify puppet for provisioning
+      cfg.vm.provision :puppet do |puppet|
+        puppet.manifests_path = File.join 'spec', 'fixtures', 'manifests'
+        puppet.module_path    = File.join 'spec', 'fixtures', 'modules'
+        puppet.manifest_file  = 'vagrant-riak.pp'
+        # '--trace', '--debug', '--verbose',
+        puppet.options        = ['--graph', '--graphdir /vagrant/graphs/']
+      end
     end
   end
 
@@ -49,5 +51,11 @@ Vagrant::Config.run do |config|
     cfg.vm.host_name = 'coroutine.local'
     cfg.vm.network :hostonly, "10.42.0.20"
     cfg.vm.customize ["modifyvm", :id, "--memory", 512]
+    cfg.vm.provision :puppet do |puppet|
+      puppet.manifests_path = File.join 'spec', 'fixtures', 'manifests'
+      puppet.module_path    = File.join 'spec', 'fixtures', 'modules'
+      puppet.manifest_file  = 'vagrant-coroutine.pp'
+      puppet.options        = []
+    end
   end
 end
