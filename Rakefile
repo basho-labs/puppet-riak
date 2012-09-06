@@ -70,7 +70,7 @@ namespace :module do
 
   task :build => 'pkg' do
     `git ls-files`.split("\n").
-      reject { |f| f =~ /^(\.|Guardfile|Gemfile|Rakefile|Vagrantfile)/ }.
+      reject { |f| f =~ /^(\.|Guardfile|Gemfile|Rakefile|Vagrantfile|spec\/|tests\/)/ }.
       each  do |f|
         if f =~ /\//
           FileUtils.mkdir_p(File.join('pkg', File.dirname(f)))
