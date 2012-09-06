@@ -23,8 +23,10 @@ directory 'graphs'
 
 desc "Convert too dotfiles in the graph folder to png files"
 task :dot_to_png => 'graphs' do
-  Dir.glob('graph/*.dot') do |dot|
-    system "dot -Tpng #{dot} -o #{File.basename(dot, '.*')}.png"
+  Dir.glob('graphs/*.dot') do |dot|
+    puts "Converting #{dot} to png"
+    which = RUBY_PLATFORM =~ /(win|w)32$/ ? "where dot >NUL 2>&1" : "which dot >/dev/null 2>&1"
+    system "dot -Tpng #{dot} -o graphs/#{File.basename(dot, '.*')}.png" if system(which)
   end
 end
 
