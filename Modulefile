@@ -1,4 +1,4 @@
-name 'haf-puppet-riak'
+name 'haf-riak'
 version '0.0.1'
 
 author 'Henrik Feldt'
