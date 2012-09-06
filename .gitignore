@@ -6,3 +6,4 @@ fixtures/
 .vagrant
 .settings/
 Gemfile.lock
+files/packages/
