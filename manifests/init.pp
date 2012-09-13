@@ -72,11 +72,11 @@
 class riak(
   $version = hiera('version', $riak::params::version),
   $package = hiera('package', $riak::params::package),
-  $download = hiera('download', $riak::params::download),
-  $doanload_hash = hiera('download_hash', $riak::params::download_hash),
+  #$download = hiera('download', $riak::params::download),
+  #$doanload_hash = hiera('download_hash', $riak::params::download_hash),
   $source = hiera('source', ''),
   $template = hiera('template', ''),
-  $architecture = hiera('architecture', $riak::params::architecture),
+  #$architecture = hiera('architecture', $riak::params::architecture),
   $log_dir = hiera('log_dir', $riak::params::log_dir),
   $erl_log_dir = hiera('erl_log_dir', $riak::params::erl_log_dir),
   $etc_dir = hiera('etc_dir', $riak::params::etc_dir),
@@ -92,8 +92,8 @@ class riak(
 ) inherits riak::params {
 
   include stdlib
-
-  $pkgfile = "/tmp/${$package}-${$version}.${$riak::params::package_type}"
+  include riak::config
+  #$pkgfile = "/tmp/${$package}-${$version}.${$riak::params::package_type}"
 
   File {
     owner   => 'root',
@@ -103,7 +103,7 @@ class riak(
 
   $manage_package = $absent ? {
     true => 'absent',
-    default => 'latest',
+    default => 'installed',
   }
 
   $manage_service_ensure = $disable ? {
@@ -137,11 +137,11 @@ class riak(
 
   anchor { 'riak::start': } ->
 
-  httpfile {  $pkgfile:
-    ensure => present,
-    source => $download,
-    hash   => $download_hash
-  }
+  # httpfile {  $pkgfile:
+  #   ensure => present,
+  #   source => $download,
+  #   hash   => $download_hash
+  # }
 
   #notify { 'url':
   #  message => "Downloaded file from ##${download}/${download_hash}##",
@@ -151,15 +151,30 @@ class riak(
     ensure  => $manage_package
   }
 
+  # package { 'riak':
+  #   ensure   => $manage_package,
+  #   source   => $pkgfile,
+  #   provider => $riak::params::package_provider,
+  #   require  => [
+  #     Httpfile[$pkgfile],
+  #     Package[$riak::params::deps]
+  #   ]
+  # }
+
+
+
+
+
   package { 'riak':
     ensure   => $manage_package,
-    source   => $pkgfile,
-    provider => $riak::params::package_provider,
     require  => [
-      Httpfile[$pkgfile],
+      Class[riak::config],
       Package[$riak::params::deps]
     ]
   }
+
+
+
 
   file { $etc_dir:
     ensure => directory,
