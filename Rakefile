@@ -61,6 +61,7 @@ task :spec_prep do
     File::exists?(target) || FileUtils::ln_s(source, target)
   end
 
+  FileUtils::mkdir_p("tests/data") unless File.exists? "tests/data"
   FileUtils::mkdir_p("spec/fixtures/manifests")
   file = 'spec/fixtures/manifests/vagrant-riak.pp'
   File.open(file, 'w+') { |f| f.puts 'node default { include riak }' } unless File.exists? file
