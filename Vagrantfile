@@ -47,15 +47,15 @@ Vagrant::Config.run do |config|
   end
 
   # for serving packages
-  config.vm.define :"coroutine.local" do |cfg|
-    cfg.vm.host_name = 'coroutine.local'
-    cfg.vm.network :hostonly, "10.42.0.20"
-    cfg.vm.customize ["modifyvm", :id, "--memory", 512]
-    cfg.vm.provision :puppet do |puppet|
-      puppet.manifests_path = File.join 'spec', 'fixtures', 'manifests'
-      puppet.module_path    = File.join 'spec', 'fixtures', 'modules'
-      puppet.manifest_file  = 'vagrant-coroutine.pp'
-      puppet.options        = []
-    end
-  end
+ #config.vm.define :"coroutine.local" do |cfg|
+ #  cfg.vm.host_name = 'coroutine.local'
+ #  cfg.vm.network :hostonly, "10.42.0.20"
+ #  cfg.vm.customize ["modifyvm", :id, "--memory", 512]
+ #  cfg.vm.provision :puppet do |puppet|
+ #    puppet.manifests_path = File.join 'spec', 'fixtures', 'manifests'
+ #    puppet.module_path    = File.join 'spec', 'fixtures', 'modules'
+ #    puppet.manifest_file  = 'vagrant-coroutine.pp'
+ #    puppet.options        = []
+ #  end
+ #end
 end
