@@ -16,9 +16,10 @@ Vagrant::Config.run do |config|
   config.vm.share_folder 'riak-module', "#{FileUtils.pwd}", "."
 
   # Plugins:
-  config.hiera.config_path = './tests/config'
-  config.hiera.config_file = 'vagrant-hiera.yaml'
-  config.hiera.data_path   = './tests/data'
+  #config.hiera.config_path = './tests/config'
+  #config.hiera.config_file = 'vagrant-hiera.yaml'
+  #config.hiera.data_path   = './tests/data'
+  #config.hiera.apt_opts    = ''
 
   config.vbguest.auto_update = false
 
@@ -41,7 +42,8 @@ Vagrant::Config.run do |config|
         puppet.module_path    = File.join 'spec', 'fixtures', 'modules'
         puppet.manifest_file  = 'vagrant-riak.pp'
         # '--trace', '--debug', '--verbose',
-        puppet.options        = ['--graph', '--graphdir /vagrant/graphs/']
+        puppet.options        = ['--trace', '--debug', '--verbose','--graph', '--graphdir /vagrant/graphs/']
+
       end
     end
   end

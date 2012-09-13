@@ -24,6 +24,6 @@ end
 group :integration do
   gem 'vagrant'
   gem 'vagrant-vbguest'
-  # alternative: :path => File.join(File.expand_path('.'), '..', 'vagrant-hiera')
-  gem 'vagrant-hiera', :git => 'git://github.com/gposton/vagrant-hiera.git'
+  # gem 'vagrant-hiera', :path => File.join(File.expand_path('.'), '..', 'vagrant-hiera')
+  # gem 'vagrant-hiera', :git => 'git://github.com/gposton/vagrant-hiera.git'
 end
