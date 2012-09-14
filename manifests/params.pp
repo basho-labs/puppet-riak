@@ -21,7 +21,7 @@ class riak::params {
 
   $version = '1.2.0'
 
-   $error_log = "${log_dir}/error.log"
+  $error_log = "${log_dir}/error.log"
   $info_log = "${log_dir}/console.log"
   $crash_log = "${log_dir}/crash.log"
 

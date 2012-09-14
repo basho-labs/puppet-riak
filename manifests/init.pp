@@ -79,6 +79,7 @@ class riak(
   $etc_dir = hiera('etc_dir', $riak::params::etc_dir),
   $data_dir = hiera('data_dir', $riak::params::data_dir),
   $service_autorestart = hiera('service_autorestart',
+
     $riak::params::service_autorestart
   ),
   $cfg = hiera_hash('cfg', {}),
@@ -89,7 +90,6 @@ class riak(
 ) inherits riak::params {
 
   include stdlib
-  include riak::config
 
   File {
     owner   => 'root',
@@ -134,7 +134,6 @@ class riak(
   anchor { 'riak::start': } ->
 
 
-
   package { $riak::params::deps:
     ensure  => $manage_package
   }
@@ -163,6 +162,11 @@ class riak(
     notify   => $manage_service_autorestart
   }
 
+  class { 'riak::config':
+    absent   => $absent
+  }
+
+
   class { 'riak::vmargs':
     absent  => $absent,
     cfg     => $vmargs_cfg,
@@ -184,10 +188,10 @@ class riak(
   service { 'riak':
     ensure  => $manage_service_ensure,
     enable  => $manage_service_enable,
-    status  => 'riak-admin test',
     require => [
       Class['riak::appconfig'],
       Class['riak::vmargs'],
+      Class['riak::config'],
       User['riak'],
       Package['riak']
     ],
