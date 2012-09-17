@@ -72,16 +72,14 @@
 class riak(
   $version = hiera('version', $riak::params::version),
   $package = hiera('package', $riak::params::package),
-  $download = hiera('download', $riak::params::download),
-  $doanload_hash = hiera('download_hash', $riak::params::download_hash),
   $source = hiera('source', ''),
   $template = hiera('template', ''),
-  $architecture = hiera('architecture', $riak::params::architecture),
   $log_dir = hiera('log_dir', $riak::params::log_dir),
   $erl_log_dir = hiera('erl_log_dir', $riak::params::erl_log_dir),
   $etc_dir = hiera('etc_dir', $riak::params::etc_dir),
   $data_dir = hiera('data_dir', $riak::params::data_dir),
   $service_autorestart = hiera('service_autorestart',
+
     $riak::params::service_autorestart
   ),
   $cfg = hiera_hash('cfg', {}),
@@ -93,8 +91,6 @@ class riak(
 
   include stdlib
 
-  $pkgfile = "/tmp/${$package}-${$version}.${$riak::params::package_type}"
-
   File {
     owner   => 'root',
     group   => 'root',
@@ -103,7 +99,7 @@ class riak(
 
   $manage_package = $absent ? {
     true => 'absent',
-    default => 'latest',
+    default => 'installed',
   }
 
   $manage_service_ensure = $disable ? {
@@ -137,29 +133,20 @@ class riak(
 
   anchor { 'riak::start': } ->
 
-  httpfile {  $pkgfile:
-    ensure => present,
-    source => $download,
-    hash   => $download_hash
-  }
-
-  #notify { 'url':
-  #  message => "Downloaded file from ##${download}/${download_hash}##",
-  #}
 
   package { $riak::params::deps:
     ensure  => $manage_package
   }
 
+
   package { 'riak':
     ensure   => $manage_package,
-    source   => $pkgfile,
-    provider => $riak::params::package_provider,
     require  => [
-      Httpfile[$pkgfile],
+      Class[riak::config],
       Package[$riak::params::deps]
     ]
   }
+
 
   file { $etc_dir:
     ensure => directory,
@@ -174,6 +161,11 @@ class riak(
     require  => File[$etc_dir],
     notify   => $manage_service_autorestart
   }
+
+  class { 'riak::config':
+    absent   => $absent
+  }
+
 
   class { 'riak::vmargs':
     absent  => $absent,
@@ -196,10 +188,10 @@ class riak(
   service { 'riak':
     ensure  => $manage_service_ensure,
     enable  => $manage_service_enable,
-    status  => 'riak-admin test',
     require => [
       Class['riak::appconfig'],
       Class['riak::vmargs'],
+      Class['riak::config'],
       User['riak'],
       Package['riak']
     ],

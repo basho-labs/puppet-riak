@@ -6,12 +6,12 @@ require 'fileutils'
 Vagrant::Config.run do |config|
 
   # choices for virtual machines:
-  config.vm.box = 'precise64'
-  config.vm.box_url = 'http://files.vagrantup.com/precise64.box'
+  #config.vm.box = 'precise64'
+  #config.vm.box_url = 'http://files.vagrantup.com/precise64.box'
   #config.vm.box = 'debian-6.0'
   #config.vm.box_url = 'http://puppetlabs.s3.amazonaws.com/pub/Squeeze64.box'
-  #config.vm.box = 'centos-6.3-64bit'
-  #config.vm.box_url = 'https://dl.dropbox.com/u/7225008/Vagrant/CentOS-6.3-x86_64-minimal.box'
+  config.vm.box = 'centos 6.3'
+  config.vm.box_url = 'https://dl.dropbox.com/u/7225008/Vagrant/CentOS-6.3-x86_64-minimal.box'
 
   config.vm.share_folder 'riak-module', "#{FileUtils.pwd}", "."
 
@@ -36,6 +36,8 @@ Vagrant::Config.run do |config|
       # give all nodes a little bit more memory:
       cfg.vm.customize ["modifyvm", :id, "--memory", 1024]
 
+      #get those gems installed
+      cfg.vm.provision :shell, :path => "shellprovision/bootstrap.sh"
       # specify puppet for provisioning
       cfg.vm.provision :puppet do |puppet|
         puppet.manifests_path = File.join 'spec', 'fixtures', 'manifests'

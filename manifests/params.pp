@@ -19,31 +19,7 @@ class riak::params {
     default               => []
   }
 
-  $package_type = $::operatingsystem ? {
-    /(?i:centos|redhat)/ => 'rpm',
-    default              => 'deb'
-  }
-
-  $package_provider = $::operatingsystem ? {
-    /(?i:centos|redhat)/  => 'rpm',
-    default               => 'dpkg'
-  }
-
-  $architecture = $::operatingsystem ? {
-    /(?i:centos|redhat)/  => 'x86_64',
-    default               => 'amd64'
-  }
-
   $version = '1.2.0'
-
-  $get = $::operatingsystem ? {
-    /(?i:centos|redhat)/ => "/riak/CURRENT/rhel/6/riak-${version}-1.el6.${architecture}.${package_type}",
-    default              => "/riak/CURRENT/ubuntu/precise/riak_${version}-1_${architecture}.${package_type}"
-  }
-
-  $download = "http://downloads.basho.com.s3-website-us-east-1.amazonaws.com${get}"
-
-  $download_hash = "${download}.sha"
 
   $error_log = "${log_dir}/error.log"
   $info_log = "${log_dir}/console.log"
