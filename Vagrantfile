@@ -24,7 +24,7 @@ Vagrant::Config.run do |config|
   config.vbguest.auto_update = false
 
   # specify all Riak VMs:
-  nodes = 3
+  nodes = 1
   baseip = 5
   (1..nodes).each do |n|
     ip   = "10.42.0.#{baseip + n.to_i}"
