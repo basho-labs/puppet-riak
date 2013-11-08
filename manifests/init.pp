@@ -173,7 +173,7 @@ class riak (
       require => Anchor['riak::start'],
       before  => Anchor['riak::end'],
     }
-    package { 'riak':
+    package { $package:
       ensure   => $manage_package,
       source   => $pkgfile,
       provider => $riak::params::package_provider,

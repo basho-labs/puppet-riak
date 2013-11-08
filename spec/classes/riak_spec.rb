@@ -33,7 +33,7 @@ describe 'riak', :type => :class do
           :path => '/tmp/custom_riak-1.2.0.deb',
           :hash => 'abcd' })
     end
-    it { should contain_package('riak').
+    it { should contain_package('custom_riak').
         with({
           :ensure => 'installed',
           :source =>'/tmp/custom_riak-1.2.0.deb'}) }
