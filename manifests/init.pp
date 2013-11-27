@@ -113,6 +113,18 @@ class riak (
     default => 'installed',
   }
 
+  # if $version is supplied then manage version of riak when installed via
+  # repository (unless we're uninstalling it)
+  case $version ? {
+    /[0-9]/: {
+      $riak_pkg_ensure = $manage_package ? {
+        'installed' => $version,
+        default     => $manage_package,
+      }
+    }
+    default: { $riak_pkg_ensure = $manage_package }
+  }
+
   $manage_repos_real = $use_repos ? {
     true    => $manage_repos,
     default => false
@@ -157,7 +169,7 @@ class riak (
 
   if $use_repos == true {
     package { $package:
-      ensure  => $manage_package,
+      ensure  => $riak_pkg_ensure,
       require => [
         Class[riak::config],
         Package[$riak::params::deps],
