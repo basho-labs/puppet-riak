@@ -141,7 +141,7 @@ class riak::appconfig(
       $appcfg[riak_core][platform_data_dir],
     ]:
     ensure  => directory,
-    mode    => '0644',
+    mode    => '0755',
     owner   => 'riak',
     group   => 'riak',
     require => Anchor['riak::appconfig::start'],
