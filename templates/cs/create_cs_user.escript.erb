@@ -1,0 +1,49 @@
+#!/usr/bin/env escript
+%% -*- coding: utf-8 -*-
+%%! -pa /usr/lib64/riak-cs/lib/riakc-1.4.1/ebin /usr/lib64/riak-cs/lib/riak_pb-1.4.1.1/ebin /usr/lib64/riak-cs/lib/protobuffs-0.8.1/ebin /usr/lib/riak-cs/lib/riakc-1.4.1/ebin /usr/lib/riak-cs/lib/riak_pb-1.4.1.1/ebin /usr/lib/riak-cs/lib/protobuffs-0.8.1/ebin /usr/lib/riak-cs/ebin
+%%! -pa /usr/lib64/riak-cs/lib/riakc-1.3.1.1/ebin /usr/lib64/riak-cs/lib/riak_pb-1.3.0/ebin /usr/lib64/riak-cs/lib/protobuffs-0.8.0/ebin /usr/lib/riak-cs/lib/riakc-1.3.1.1/ebin /usr/lib/riak-cs/lib/riak_pb-1.3.0/ebin /usr/lib/riak-cs/lib/protobuffs-0.8.0/ebin /usr/lib/riak-cs/ebin
+%%! -pa /Users/kelly/basho/repos/riak_cs/deps/riakc/ebin /Users/kelly/basho/repos/riak_cs/deps/riak_pb/ebin /Users/kelly/basho/repos/riak_cs/deps/protobuffs/ebin /Users/kelly/basho/repos/riak_cs/deps/riakc/ebin /Users/kelly/basho/repos/riak_cs/deps/riak_pb/ebin /Users/kelly/basho/repos/riak_cs/deps/protobuffs/ebin /Users/kelly/basho/repos/riak_cs/deps/mochiweb/ebin /Users/kelly/basho/repos/riak_cs/ebin
+
+-define(USERS_BUCKET, <<"moss.users">>).
+-define(DEFAULT_RIAK_IP, "127.0.0.1").
+-define(DEFAULT_RIAK_PORT, 8087).
+
+-record(rcs_user_v2, {
+          name :: string(),
+          display_name :: string(),
+          email :: string(),
+          key_id :: string(),
+          key_secret :: string(),
+          canonical_id :: string(),
+          buckets=[] :: [cs_bucket()],
+          status=enabled :: enabled | disabled}).
+
+usage() ->
+    io:format("Usage: ./create_cs_user.escript <Name> <Email> <KeyId> <KeySecret> <Id> [<RiakIP>] [<RiakPort>]~n").
+
+main(Args) when length(Args) =:= 5 ->
+    main(Args ++ [?DEFAULT_RIAK_IP, ?DEFAULT_RIAK_PORT]);
+main(Args) when length(Args) < 7 ->
+    usage();
+main(Args) when length(Args) > 7 ->
+    main(lists:sublist(Args, 7));
+main(Args) when length(Args) =:= 7 ->
+    [Name, Email, KeyId, KeySecret, Id, RiakHost, Port] = Args,
+    RiakPort = format_port(Port),
+    DisplayName = hd(string:tokens(Email, [$@])),
+    {ok, Pid} = riakc_pb_socket:start(RiakHost, RiakPort),
+    UserRecord = #rcs_user_v2{name=Name,
+                              display_name=DisplayName,
+                              email=Email,
+                              key_id=KeyId,
+                              key_secret=KeySecret,
+                              canonical_id=Id},
+    UserObj = riakc_obj:new(?USERS_BUCKET, list_to_binary(KeyId), term_to_binary(UserRecord)),
+    _ = riakc_pb_socket:put(Pid, UserObj),
+    riakc_pb_socket:stop(Pid),
+    io:format("User record for ~p updated~n", [Email]).
+
+format_port(Port) when is_integer(Port) ->
+    Port;
+format_port(Port) when is_list(Port) ->
+    list_to_integer(Port).
