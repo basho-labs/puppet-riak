@@ -73,7 +73,7 @@ class riak::config (
   file { '/etc/security/limits.conf':
     owner   => 'root',
     group   => 'root',
-    mode    => '644',
+    mode    => '0644',
     content => template($limits_template)
   }
 }

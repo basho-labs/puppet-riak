@@ -237,15 +237,15 @@ class riak (
   }
 
   group { 'riak':
-    ensure => present,
-    system => true,
+    ensure  => present,
+    system  => true,
     require => Anchor['riak::start'],
     before  => Anchor['riak::end'],
   }
 
   user { 'riak':
     ensure  => ['present'],
-    system => true,
+    system  => true,
     gid     => 'riak',
     home    => $data_dir,
     require => [
@@ -267,7 +267,7 @@ class riak (
       Package[$package],
       Anchor['riak::start'],
     ],
-    before  => Anchor['riak::end'],
+    before     => Anchor['riak::end'],
   }
 
   anchor { 'riak::end': }
