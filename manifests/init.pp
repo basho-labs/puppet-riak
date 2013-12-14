@@ -95,7 +95,8 @@ class riak (
   $disableboot         = false,
   $absent              = false,
   $ulimit              = $riak::params::ulimit,
-  $limits_template     = $riak::params::limits_template
+  $limits_template     = $riak::params::limits_template,
+  $ulimit_etc_default  = false,
 ) inherits riak::params {
 
   include stdlib
@@ -253,6 +254,15 @@ class riak (
       Anchor['riak::start'],
     ],
     before  => Anchor['riak::end'],
+  }
+
+  if $ulimit_etc_default == true {
+    file { '/etc/default/riak':
+      ensure  => present,
+      mode    => '0644',
+      path    => '/etc/default/riak',
+      content => "ulimit -n ${ulimit}",
+    }
   }
 
   service { 'riak':

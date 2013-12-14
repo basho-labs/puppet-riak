@@ -40,7 +40,7 @@ class riak::params {
     default                     => false,
   }
 
-  $version = '1.3.0'
+  $version = '1.4.2'
   $version_maj_min = semver_maj_min($version)
   $use_repos = true
   $get = $::operatingsystem ? {
@@ -65,6 +65,6 @@ class riak::params {
 
   $service_autorestart = true
 
-  $ulimit = 4096
+  $ulimit = 65536
   $limits_template = 'riak/limits.conf.erb'
 }
