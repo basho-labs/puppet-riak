@@ -115,7 +115,7 @@ class riak (
 
   # if $version is supplied then manage version of riak when installed via
   # repository (unless we're uninstalling it)
-  case $version ? {
+  case $version {
     /[0-9]/: {
       $riak_pkg_ensure = $manage_package ? {
         'installed' => $version,
