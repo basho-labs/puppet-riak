@@ -201,8 +201,8 @@ class riak::cs (
   }
 
   service { 'riak-cs':
-    ensure     => $manage_service_ensure,
-    enable     => $manage_service_enable,
+    ensure     => undef,
+    enable     => true,
     hasrestart => $riak::cs::params::has_restart,
     require    => [
       Class['riak::cs::appconfig'],
@@ -210,7 +210,6 @@ class riak::cs (
       User['riakcs'],
       Package[$package],
       Anchor['riak::cs::start'],
-      Package['riak']
     ],
     before     => Anchor['riak::cs::end'],
   }
