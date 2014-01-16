@@ -6,7 +6,7 @@ class riak::stanchion (
   $version             = hiera('version', $riak::stanchion::params::version),
   $package             = hiera('package', $riak::stanchion::params::package),
   $download            = hiera('download', $riak::stanchion::params::download),
-  $use_repos           = hiera('use_repos', $riak::params::use_repos),
+  $use_repos           = hiera('use_repos', $riak::stanchion::params::use_repos),
   $manage_repos        = hiera('manage_repos', true),
   $download_hash       = hiera('download_hash', $riak::stanchion::params::download_hash),
   $source              = hiera('source', ''),
@@ -99,7 +99,7 @@ class riak::stanchion (
     package { $package:
       ensure  => $manage_package,
       require => [
-        Class[riak::config],
+        Class[riak::stanchion::appconfig],
         Package[$riak::stanchion::params::deps],
         Anchor['riak::stanchion::start'],
       ],
@@ -173,7 +173,7 @@ class riak::stanchion (
       Group['stanchion'],
       Anchor['riak::stanchion::start'],
     ],
-    before  => Anchor['riak::end'],
+    before  => Anchor['riak::stanchion::end'],
   }
 
   if $ulimit_etc_default == true {

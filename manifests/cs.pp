@@ -101,7 +101,7 @@ class riak::cs (
     package { $package:
       ensure  => $riak_pkg_ensure,
       require => [
-        Class[riak::config],
+       # Class[riak::config],
         Package[$riak::cs::params::deps],
         Anchor['riak::cs::start'],
       ],
