@@ -100,6 +100,8 @@ class riak (
 ) inherits riak::params {
 
   include stdlib
+  include riak::repo
+  include riak::limits
 
   $pkgfile = "/tmp/${$package}-${$version}.${$riak::params::package_type}"
 
@@ -172,7 +174,7 @@ class riak (
     package { $package:
       ensure  => $riak_pkg_ensure,
       require => [
-        Class[riak::config],
+        Class[riak::repo],
         Package[$riak::params::deps],
         Anchor['riak::start'],
       ],
@@ -217,13 +219,6 @@ class riak (
     ],
     notify   => $manage_service_autorestart,
     before   => Anchor['riak::end'],
-  }
-
-  class { 'riak::config':
-    absent       => $absent,
-    manage_repos => $manage_repos_real,
-    require      => Anchor['riak::start'],
-    before       => Anchor['riak::end'],
   }
 
   class { 'riak::vmargs':
@@ -272,7 +267,7 @@ class riak (
     require    => [
       Class['riak::appconfig'],
       Class['riak::vmargs'],
-      Class['riak::config'],
+      Class['riak::repo'],
       User['riak'],
       Package[$package],
       Anchor['riak::start'],

@@ -1,17 +1,9 @@
-# == Class: riak::config
+# == Class: riak::repo
 
-# Doing some fun stuff such as setting up the repositories
-# in the case of centos / rhel, this assumes you haven't installed
-# the basho-release-*.rpm.
-# there is a bug in our debian startup script -- it doesn't have
-# a "status" parameter, yet.  Working around that for now.
+# the basho-release-*
 
-class riak::config (
-  $absent       = false,
-  $manage_repos = true,
-) {
-  $ulimit = $riak::ulimit
-  $limits_template = $riak::limits_template
+class riak::repo () { 
+  $manage_repos = true
 
   $package_repo_type = $::operatingsystem ? {
     /(?i:centos|redhat|Amazon)/ => 'yum',
@@ -70,10 +62,4 @@ class riak::config (
     }
   }
 
-  file { '/etc/security/limits.conf':
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0644',
-    content => template($limits_template)
-  }
 }

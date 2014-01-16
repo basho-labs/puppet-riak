@@ -20,6 +20,8 @@ class riak::cs (
   $service_autorestart = hiera('service_autorestart',
     $riak::cs::params::service_autorestart),
   $cfg                 = hiera_hash('cfg', {}),
+  $riak_cfg            = hiera_hash('riak_cfg', {}),
+  $riak_version        = hiera_hash('riak_version', ''),
   $vmargs_cfg          = hiera_hash('vmargs_cfg', {}),
   $disable             = false,
   $disableboot         = false,
@@ -27,8 +29,9 @@ class riak::cs (
   $ulimit              = $riak::cs::params::ulimit,
   $ulimit_etc_default  = false,
 ) inherits riak::cs::params {
-
+ 
   include stdlib
+  include riak::repo
 
   $pkgfile = "/tmp/${$package}-${$version}.${$riak::cs::params::package_type}"
 
@@ -101,7 +104,7 @@ class riak::cs (
     package { $package:
       ensure  => $riak_pkg_ensure,
       require => [
-       # Class[riak::config],
+        Class[riak::repo],
         Package[$riak::cs::params::deps],
         Anchor['riak::cs::start'],
       ],
@@ -207,6 +210,7 @@ class riak::cs (
       User['riakcs'],
       Package[$package],
       Anchor['riak::cs::start'],
+      Package['riak']
     ],
     before     => Anchor['riak::cs::end'],
   }
