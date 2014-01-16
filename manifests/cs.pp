@@ -105,6 +105,7 @@ class riak::cs (
       ensure  => $riak_pkg_ensure,
       require => [
         Class[riak::repo],
+        File[$etc_dir],
         Package[$riak::cs::params::deps],
         Anchor['riak::cs::start'],
       ],
@@ -135,6 +136,12 @@ class riak::cs (
     ensure  => directory,
     mode    => '0755',
   }
+  # fix deb pkg bug
+  file { "$etc_dir/tokenfile":
+    ensure  => file,
+    mode    => '0755',
+  }
+
 
   file { '/usr/sbin/create_cs_user':
     owner   => 'root',
