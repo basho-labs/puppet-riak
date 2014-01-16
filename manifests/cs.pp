@@ -199,12 +199,16 @@ class riak::cs (
       content => "ulimit -n ${ulimit}",
     }
   }
-
+  exec {"wait for riak":
+     notify => Service["riak"],
+     command => "/usr/bin/uptime"
+  }
   service { 'riak-cs':
-    ensure     => undef,
+    ensure     => running,
     enable     => true,
     hasrestart => $riak::cs::params::has_restart,
     require    => [
+      Exec["wait for riak"],
       Class['riak::cs::appconfig'],
       Class['riak::cs::vmargs'],
       User['riakcs'],
