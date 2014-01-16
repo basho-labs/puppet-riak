@@ -134,8 +134,6 @@ class riak::cs (
   file { $etc_dir:
     ensure  => directory,
     mode    => '0755',
-    require => Anchor['riak::cs::start'],
-    before  => Anchor['riak::cs::end'],
   }
 
   file { '/usr/sbin/create_cs_user':
@@ -200,7 +198,7 @@ class riak::cs (
     }
   }
   exec {"wait for riak":
-     notify => Service["riak"],
+     require =>  Service["riak"],
      command => "/usr/bin/uptime"
   }
   service { 'riak-cs':
