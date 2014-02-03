@@ -142,12 +142,11 @@ class riak::cs (
     mode    => '0755',
   }
 
-
-  file { '/usr/sbin/create_cs_user':
+  file { '/usr/sbin/riak-cs-tool':
     owner   => 'root',
     group   => 'root',
     mode    => '0755',
-    content => template('riak/cs/create_cs_user.escript.erb'),
+    source  => 'puppet:///modules/riak/riak-cs-tool',
     require => [
       Package[$package],
     ],

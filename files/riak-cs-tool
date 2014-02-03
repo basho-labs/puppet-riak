@@ -1,0 +1,75 @@
+#!/usr/sbin/riak-cs escript
+%% -*- coding: utf-8 -*-
+
+-define(USERS_BUCKET, <<"moss.users">>).
+-define(DEFAULT_RIAK_IP, "127.0.0.1").
+-define(DEFAULT_RIAK_PORT, 8087).
+
+-record(rcs_user_v2, {
+          name :: string(),
+          display_name :: string(),
+          email :: string(),
+          key_id :: string(),
+          key_secret :: string(),
+          canonical_id :: string(),
+          buckets=[] :: [cs_bucket()],
+          status=enabled :: enabled | disabled}).
+
+usage() ->
+    io:format("Usage: riak-cs-tool create-user <Name> <Email> <Key> <Secret> <Id> [<IP> <Port>]~n"),
+    io:format("                    verify-user <Key>~n").
+
+main(["create-user"|Args]) ->
+    create_user(Args);
+main(["verify-user"|Args]) ->
+    verify_user(Args);
+main(_) -> 
+  usage(),
+  halt_error("Unknown command").
+
+halt_error(Msg) ->
+  io:format(standard_error, "~s~n", [Msg]),
+  halt(1).
+
+verify_user(Args) when length(Args) =:= 1 ->
+    verify_user(Args ++ [?DEFAULT_RIAK_IP, ?DEFAULT_RIAK_PORT]);
+verify_user(Args) when length(Args) =/= 3 ->
+    halt_error("Invalid number of arguments for verify-user");
+verify_user(Args) when length(Args) =:= 3 ->
+    [KeyId, RiakHost, Port] = Args,
+    RiakPort = format_port(Port),
+    {ok, Pid} = riakc_pb_socket:start(RiakHost, RiakPort),
+    Code = case riakc_pb_socket:get(Pid, ?USERS_BUCKET, list_to_binary(KeyId)) of
+        {ok, _O} -> io:format("Key Found~n"),
+                    0;
+        {error, notfound} -> io:format("Key Not Found~n"),
+                    1;
+        Err      -> io:format(standard_error, "Unknown Error: ~p~n", [Err]),
+                    1
+    end,
+    halt(Code).
+
+create_user(Args) when length(Args) =:= 5 ->
+    create_user(Args ++ [?DEFAULT_RIAK_IP, ?DEFAULT_RIAK_PORT]);
+create_user(Args) when length(Args) =/= 7 ->
+    halt_error("Invalid number of arguments for create-user");
+create_user(Args) when length(Args) =:= 7 ->
+    [Name, Email, KeyId, KeySecret, Id, RiakHost, Port] = Args,
+    RiakPort = format_port(Port),
+    DisplayName = hd(string:tokens(Email, [$@])),
+    {ok, Pid} = riakc_pb_socket:start(RiakHost, RiakPort),
+    UserRecord = #rcs_user_v2{name=Name,
+                              display_name=DisplayName,
+                              email=Email,
+                              key_id=KeyId,
+                              key_secret=KeySecret,
+                              canonical_id=Id},
+    UserObj = riakc_obj:new(?USERS_BUCKET, list_to_binary(KeyId), term_to_binary(UserRecord)),
+    _ = riakc_pb_socket:put(Pid, UserObj),
+    riakc_pb_socket:stop(Pid),
+    io:format("User record for ~p updated~n", [Email]).
+
+format_port(Port) when is_integer(Port) ->
+    Port;
+format_port(Port) when is_list(Port) ->
+    list_to_integer(Port).
