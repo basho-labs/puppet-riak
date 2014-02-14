@@ -52,3 +52,9 @@ bumps in the road.
    This issue affects a single test that exposed the issue; overriding
    puppet variables with rspec variables. The test is currently marked as
    pending.
+
+
+
+[1]: http://basho.com/
+[2]: https://github.com/basho/puppet-riak/wiki
+[3]: https://github.com/basho/puppet-riak/wiki/Testing-with-Vagrant
