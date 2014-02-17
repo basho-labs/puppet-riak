@@ -58,7 +58,7 @@ task :spec_prep do
 
   FileUtils::mkdir_p("spec/fixtures/modules")
   fixtures("symlinks").each do |source, target|
-    File::exists?(target) || FileUtils::ln_s(source, target)
+    FileUtils.ln_s(source, target) unless File.symlink?(target)
   end
 
   FileUtils::mkdir_p("tests/data") unless File.exists? "tests/data"
