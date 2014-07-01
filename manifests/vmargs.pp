@@ -14,8 +14,8 @@
 class riak::vmargs (
   $cfg         = {},
   $erl_log_dir = hiera('erl_log_dir', $riak::params::erl_log_dir),
-  $template    = hiera('vm_args_template', ''),
   $source      = hiera('vm_args_source', ''),
+  $template    = hiera('vm_args_template', ''),
   $absent      = false,
 ) inherits riak::params {
 
