@@ -26,6 +26,14 @@
 # template:
 #   Sets the content of the content parameter for the main configuration file
 #
+# vmargs_source:
+#   Sets the content of source parameter for vm.args configuration file
+#   If defined, riak's vm.args file will have the param: source => $source.
+#   Mutually exclusive with $vmargs_template.
+#
+# vmargs_template:
+#   Sets the content of the content parameter for the vm.args configuration file
+#
 # architecture:
 #   What architecture to fetch/run on
 #
@@ -83,6 +91,8 @@ class riak (
   $download_hash       = hiera('download_hash', $riak::params::download_hash),
   $source              = hiera('source', ''),
   $template            = hiera('template', ''),
+  $vmargs_source       = hiera('vmargs_source', ''),
+  $vmargs_template     = hiera('vmargs_template', ''),
   $architecture        = hiera('architecture', $riak::params::architecture),
   $log_dir             = hiera('log_dir', $riak::params::log_dir),
   $erl_log_dir         = hiera('erl_log_dir', $riak::params::erl_log_dir),
@@ -227,6 +237,8 @@ class riak (
 
   class { 'riak::vmargs':
     absent  => $absent,
+    source   => $vmargs_source,
+    template => $vmargs_template,
     cfg     => $vmargs_cfg,
     require => [
       File[$etc_dir],
