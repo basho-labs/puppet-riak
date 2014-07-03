@@ -13,6 +13,12 @@
 # package_hash:
 #   A URL of a hash-file or sha2-string in hexdigest
 #
+# manage_ulimit:
+#   If +true+ it will try to install a template and set the ulimits for the
+#   riak user in /etc/security/limits.conf. If you manage this file in another
+#   module then you should set this to +false+ and ensure you set appropriate
+#   limits for riak as per riak::params::ulimit
+#
 # manage_repos:
 #   If +true+ it will try to setup the repositories provided by basho.com to
 #   install Riak. If you manage your own repositories for whatever reason you
@@ -88,6 +94,7 @@ class riak (
   $download            = hiera('download', $riak::params::download),
   $use_repos           = hiera('use_repos', $riak::params::use_repos),
   $manage_repos        = hiera('manage_repos', true),
+  $manage_ulimit       = hiera('manage_ulimit', true),
   $download_hash       = hiera('download_hash', $riak::params::download_hash),
   $source              = hiera('source', ''),
   $template            = hiera('template', ''),
@@ -229,10 +236,11 @@ class riak (
   }
 
   class { 'riak::config':
-    absent       => $absent,
-    manage_repos => $manage_repos_real,
-    require      => Anchor['riak::start'],
-    before       => Anchor['riak::end'],
+    absent        => $absent,
+    manage_repos  => $manage_repos_real,
+    manage_ulimit => $manage_ulimit,
+    require       => Anchor['riak::start'],
+    before        => Anchor['riak::end'],
   }
 
   class { 'riak::vmargs':

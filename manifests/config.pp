@@ -7,8 +7,9 @@
 # a "status" parameter, yet.  Working around that for now.
 
 class riak::config (
-  $absent       = false,
-  $manage_repos = true,
+  $absent        = false,
+  $manage_repos  = true,
+  $manage_ulimit = true,
 ) {
   $ulimit = $riak::ulimit
   $limits_template = $riak::limits_template
@@ -68,10 +69,12 @@ class riak::config (
     }
   }
 
-  file { '/etc/security/limits.conf':
-    owner   => 'root',
-    group   => 'root',
-    mode    => '644',
-    content => template($limits_template)
+  if $manage_ulimit == true {
+    file { '/etc/security/limits.conf':
+      owner   => 'root',
+      group   => 'root',
+      mode    => '644',
+      content => template($limits_template)
+    }
   }
 }
