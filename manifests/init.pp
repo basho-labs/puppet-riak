@@ -13,6 +13,11 @@
 # package_hash:
 #   A URL of a hash-file or sha2-string in hexdigest
 #
+# install_curl:
+#   If true, this module will define a package['curl'] resource which is necessary
+#   to support managing repos. If you wish to manage the installation of curl via
+#   another module, then you should set this to false.
+#
 # manage_repos:
 #   If +true+ it will try to setup the repositories provided by basho.com to
 #   install Riak. If you manage your own repositories for whatever reason you
@@ -87,6 +92,7 @@ class riak (
   $package             = hiera('package', $riak::params::package),
   $download            = hiera('download', $riak::params::download),
   $use_repos           = hiera('use_repos', $riak::params::use_repos),
+  $install_curl        = hiera('install_curl', true),
   $manage_repos        = hiera('manage_repos', true),
   $download_hash       = hiera('download_hash', $riak::params::download_hash),
   $source              = hiera('source', ''),
@@ -230,6 +236,7 @@ class riak (
 
   class { 'riak::config':
     absent       => $absent,
+    install_curl => $install_curl,
     manage_repos => $manage_repos_real,
     require      => Anchor['riak::start'],
     before       => Anchor['riak::end'],
