@@ -48,6 +48,9 @@
 # architecture:
 #   What architecture to fetch/run on
 #
+# ip:
+#   What ip address to listen on
+#
 # == Requires
 #
 # * stdlib (module)
@@ -112,6 +115,7 @@ class riak (
   $etc_dir             = hiera('etc_dir', $riak::params::etc_dir),
   $data_dir            = hiera('data_dir', $riak::params::data_dir),
   $service_autorestart = hiera('service_autorestart', $riak::params::service_autorestart),
+  $ip                  = hiera('ip', $::ipaddress),
   $cfg                 = hiera_hash('cfg', {}),
   $vmargs_cfg          = hiera_hash('vmargs_cfg', {}),
   $disable             = false,
