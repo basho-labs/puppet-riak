@@ -39,14 +39,14 @@ class riak::appconfig(
       inet_dist_listen_max => 7999,
     },
     riak_api  => {
-      pb_ip   => $::ipaddress,
+      pb_ip   => $riak::ip,
       pb_port => 8087,
     },
     riak_core => {
       ring_state_dir     => "${$riak::params::data_dir}/ring",
       ring_creation_size => 64,
       http               => {
-        "__string_${$::ipaddress}" => 8098,
+        "__string_${$riak::ip}" => 8098,
       },
       handoff_port      => 8099,
       dtrace_support    => false,
