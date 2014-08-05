@@ -43,7 +43,7 @@ class riak::appconfig(
       pb_port => 8087,
     },
     riak_core => {
-      ring_state_dir     => "${$riak::params::data_dir}/ring",
+      ring_state_dir     => "${$riak::data_dir}/ring",
       ring_creation_size => 64,
       http               => {
         "__string_${$riak::ip}" => 8098,
@@ -51,10 +51,10 @@ class riak::appconfig(
       handoff_port      => 8099,
       dtrace_support    => false,
       platform_bin_dir  => $riak::params::bin_dir,
-      platform_data_dir => $riak::params::data_dir,
-      platform_etc_dir  => $riak::params::etc_dir,
+      platform_data_dir => $riak::data_dir,
+      platform_etc_dir  => $riak::etc_dir,
       platform_lib_dir  => $riak::params::lib_dir,
-      platform_log_dir  => $riak::params::log_dir,
+      platform_log_dir  => $riak::log_dir,
     },
     riak_kv => {
       storage_backend       => '__atom_riak_kv_bitcask_backend',
@@ -75,15 +75,15 @@ class riak::appconfig(
       enabled => false,
     },
     merge_index => {
-      data_root            => "${$riak::params::data_dir}/merge_index",
+      data_root            => "${$riak::data_dir}/merge_index",
       buffer_rollover_size => 1048576,
       max_compact_segments => 20,
     },
     bitcask => {
-      data_root => "${$riak::params::data_dir}/bitcask",
+      data_root => "${$riak::data_dir}/bitcask",
     },
     eleveldb => {
-      data_root => "${$riak::params::data_dir}/leveldb",
+      data_root => "${$riak::data_dir}/leveldb",
     },
     lager => {
       handlers => {
