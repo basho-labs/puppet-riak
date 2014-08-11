@@ -53,6 +53,8 @@ class riak::vmargs (
     ensure  => $manage_file,
     content => $manage_template,
     source  => $manage_source,
+    owner   => 'riak',
+    group   => 'riak',
     require => Anchor['riak::vmargs::start'],
     before  => Anchor['riak::vmargs::end'],
   }

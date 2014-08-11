@@ -238,6 +238,7 @@ class riak (
     template => $template,
     cfg      => $cfg,
     require  => [
+      Package[$package],
       File[$etc_dir],
       Anchor['riak::start'],
     ],
@@ -260,6 +261,7 @@ class riak (
     template => $vmargs_template,
     cfg     => $vmargs_cfg,
     require => [
+      Package[$package],
       File[$etc_dir],
       Anchor['riak::start'],
     ],
@@ -270,7 +272,10 @@ class riak (
   group { 'riak':
     ensure => present,
     system => true,
-    require => Anchor['riak::start'],
+    require => [
+      Package[$package],
+      Anchor['riak::start'],
+    ],
     before  => Anchor['riak::end'],
   }
 
