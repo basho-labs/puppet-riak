@@ -152,6 +152,8 @@ class riak::appconfig(
     ensure  => $manage_file,
     content => $manage_template,
     source  => $manage_source,
+    owner   => 'riak',
+    group   => 'riak',
     require => [
       File["${$appcfg[riak_core][platform_log_dir]}"],
       File["${$appcfg[riak_core][platform_lib_dir]}"],
