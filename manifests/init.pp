@@ -51,6 +51,12 @@
 # ip:
 #   What ip address to listen on
 #
+# riak_uid:
+#   Sets the riak user UID. If no user ID is specified then one will be chosen automatically
+#
+# riak_gid:
+#   Sets the riak group GID. If no group ID is specified then one will be chosen automatically
+#
 # == Requires
 #
 # * stdlib (module)
@@ -122,7 +128,9 @@ class riak (
   $disableboot         = false,
   $absent              = false,
   $ulimit              = $riak::params::ulimit,
-  $limits_template     = $riak::params::limits_template
+  $limits_template     = $riak::params::limits_template,
+  $riak_uid            = hiera('riak_uid', $riak::params::riak_uid),
+  $riak_gid            = hiera('riak_gid', $riak::params::riak_gid)
 ) inherits riak::params {
 
   include stdlib
@@ -272,6 +280,7 @@ class riak (
   group { 'riak':
     ensure => present,
     system => true,
+    gid => $riak_gid,
     require => [
       Package[$package],
       Anchor['riak::start'],
@@ -284,6 +293,7 @@ class riak (
     system => true,
     gid     => 'riak',
     home    => $data_dir,
+    uid => $riak_uid,
     require => [
       Group['riak'],
       Anchor['riak::start'],
