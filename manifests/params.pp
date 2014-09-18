@@ -67,4 +67,8 @@ class riak::params {
 
   $ulimit = 4096
   $limits_template = 'riak/limits.conf.erb'
+
+  $riak_uid = undef
+  $riak_gid = undef
+ 
 }
