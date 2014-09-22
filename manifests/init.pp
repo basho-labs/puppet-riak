@@ -129,8 +129,8 @@ class riak (
   $absent              = false,
   $ulimit              = $riak::params::ulimit,
   $limits_template     = $riak::params::limits_template,
-  $riak_uid            = hiera('riak_uid', $riak::params::riak_uid),
-  $riak_gid            = hiera('riak_gid', $riak::params::riak_gid)
+  $riak_uid            = $riak::params::riak_uid,
+  $riak_gid            = $riak::params::riak_gid
 ) inherits riak::params {
 
   include stdlib
