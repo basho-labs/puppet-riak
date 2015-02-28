@@ -92,7 +92,7 @@ class riak::appconfig(
           ['__tuple', $riak::params::info_log,  '__atom_info', 10485760, '$D0', 5],
         ]},
       crash_log             => $riak::params::crash_log,
-      crash_log_msg_side    => 65536,
+      crash_log_msg_size    => 65536,
       crash_log_size        => 10485760,
       crash_log_date        => '$D0',
       crash_log_count       => 5,
