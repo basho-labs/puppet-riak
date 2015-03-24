@@ -73,7 +73,7 @@ Basho Labs repos survive because of community contribution. Here’s how to get 
 * To report a bug or issue, please open a new issue against this repository
 
 ### Maintainers
-* Henrik Feldt (@haf)
+* Henrik Feldt ([@haf](https://github.com/haf))
 * and You! [Read up](https://github.com/basho-labs/the-riak-community/blob/master/config-mgmt-strategy.md) and get involved
 
 You can [read the full guidelines](http://docs.basho.com/riak/latest/community/bugs/) for bug reporting and code contributions on the Riak Docs. And **thank you!** Your contribution is incredible important to us.
