@@ -1,14 +1,16 @@
 # Puppet module for Riak
 
-This module allows you to manage Riak with puppet.
+This module allows you to manage Riak with Puppet.
 
-Riak is a Dynamo-inspired key/value store that scales predictably and easily.
-Riak combines a decentralized key/value store, a flexible map/reduce engine,
-and a friendly HTTP/JSON query interface to provide a database ideally suited
-for Web applications. And, without any object-relational mappers and other
-heavy middleware, applications built on Riak can be both simpler and more
-powerful. For complete documentation and source code, see the Riak home page
-at [Basho][1].
+## Description
+
+[Riak](http://basho.com/riak/) is an open source, distributed database that
+focuses on high availability, horizontal scalability, and *predictable*
+latency.
+
+This repository is **community supported**. We both appreciate and need your contribution to keep it stable. For more on how to contribute, [take a look at the contribution process](#contribution).
+
+Thank you for being part of the community! We love you for it. 
 
 ## Getting Started
 
@@ -54,7 +56,24 @@ bumps in the road.
    pending.
 
 
-
-[1]: http://basho.com/
 [2]: https://github.com/basho/puppet-riak/wiki
 [3]: https://github.com/basho/puppet-riak/wiki/Testing-with-Vagrant
+
+##Contributions 
+
+Basho Labs repos survive because of community contribution. Here’s how to get started.
+
+* Fork the appropriate sub-projects that are affected by your change
+* Create a topic branch for your change and checkout that branch
+     git checkout -b some-topic-branch
+* Make your changes and run the test suite if one is provided (see below)
+* Commit your changes and push them to your fork
+* Open a pull request for the appropriate project
+* Contributors will review your pull request, suggest changes, and merge it when it’s ready and/or offer feedback
+* To report a bug or issue, please open a new issue against this repository
+
+### Maintainers
+* Henrik Feldt (@haf)
+* and You! [Read up](https://github.com/basho-labs/the-riak-community/blob/master/config-mgmt-strategy.md) and get involved
+
+You can [read the full guidelines](http://docs.basho.com/riak/latest/community/bugs/) for bug reporting and code contributions on the Riak Docs. And **thank you!** Your contribution is incredible important to us.
