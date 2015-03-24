@@ -65,7 +65,7 @@ Basho Labs repos survive because of community contribution. Here’s how to get 
 
 * Fork the appropriate sub-projects that are affected by your change
 * Create a topic branch for your change and checkout that branch
-     git checkout -b some-topic-branch
+   `git checkout -b some-topic-branch`
 * Make your changes and run the test suite if one is provided (see below)
 * Commit your changes and push them to your fork
 * Open a pull request for the appropriate project
