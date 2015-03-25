@@ -1,59 +1,46 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-require 'fileutils'
+# This vagrant environment provides a clean slate to develop or test the riak
+# module in. It does not currently configure very much of that environment.
+#
+# this requires one additional vagrant plugin:
+# https://github.com/adrienthebo/vagrant-auto_network
+# install with:
+# vagrant plugin install vagrant-auto_network
+#
+# In addition, you should probably also use:
+# - vagrant-cachier will cache package downloads
+# - vagrant-vbguest will reinstall virtualbox guest additions as necessary
+# To install those, run:
+# vagrant plugin install vagrant-vbguest vagrant-cachier
 
 Vagrant.configure("2") do |config|
 
-  # choices for virtual machines:
-  #config.vm.box = 'precise64'
-  #config.vm.box_url = 'http://files.vagrantup.com/precise64.box'
-  #config.vm.box = 'debian-6.0'
-  #config.vm.box_url = 'http://puppetlabs.s3.amazonaws.com/pub/Squeeze64.box'
-  config.vm.box = 'CentOS-6.3_x86_64-small'
-  config.vm.box_url = 'https://1412126a-vagrant.s3.amazonaws.com/CentOS-6.3-x86_64-reallyminimal.box'
+  # Using vagrant-cachier improves performance if you run repeated yum/apt updates
+  if defined? VagrantPlugins::Cachier
+    config.cache.auto_detect = true
+  end
 
+  # choices for virtual machines:
   config.vm.synced_folder ".", "/etc/puppet/modules/riak"
 
-  # give all nodes a little bit more memory:
-  config.vm.provider "virtualbox" do |v|
-    v.customize ["modifyvm", :id, "--memory", 1024]
+  # give all nodes a little bit more memory and CPU cores:
+  config.vm.provider :virtualbox do |vb|
+    vb.customize ["modifyvm", :id, "--memory", "1024", "--cpus", "2", "--ioapic", "on"]
   end
 
   # specify all Riak VMs:
   nodes = 1
-  baseip = 5
-  (1..nodes).each do |n|
-    ip   = "10.42.0.#{baseip + n.to_i}"
-    name = "riak-#{n}.local"
-    config.vm.define name do |cfg|
-      #cfg.vm.host_name = name
-      cfg.vm.network :private_network, ip: "#{ip}"
-
-      #get those gems installed
-      #cfg.vm.provision :shell, :path => "shellprovision/bootstrap.sh"
-      # specify puppet for provisioning
-      cfg.vm.provision :puppet do |puppet|
-        puppet.manifests_path = File.join 'spec', 'fixtures', 'manifests'
-        puppet.module_path    = File.join 'spec', 'fixtures', 'modules'
-        puppet.manifest_file  = 'vagrant-riak.pp'
-        # '--trace', '--debug', '--verbose',
-        puppet.options        = ['--trace', '--debug', '--verbose','--graph', '--graphdir /vagrant']
-
+  ['puppetlabs/centos-7.0-64-puppet','puppetlabs/ubuntu-14.04-64-puppet','puppetlabs/centos-6.6-64-puppet','puppetlabs/ubuntu-12.04-64-puppet','puppetlabs/debian-7.8-64-puppet'].each do |box|
+    platform = box.gsub('/','-')
+    (1..nodes).each do |n|
+      config.vm.define "#{platform}-#{n}" do |node|
+        node.vm.box = box
+        node.vm.hostname = "#{platform}-#{n}"
+        node.vm.network :private_network, :auto_network => true
       end
     end
   end
 
-  # for serving packages
- #config.vm.define :"coroutine.local" do |cfg|
- #  cfg.vm.host_name = 'coroutine.local'
- #  cfg.vm.network :hostonly, "10.42.0.20"
- #  cfg.vm.customize ["modifyvm", :id, "--memory", 512]
- #  cfg.vm.provision :puppet do |puppet|
- #    puppet.manifests_path = File.join 'spec', 'fixtures', 'manifests'
- #    puppet.module_path    = File.join 'spec', 'fixtures', 'modules'
- #    puppet.manifest_file  = 'vagrant-coroutine.pp'
- #    puppet.options        = []
- #  end
- #end
 end
