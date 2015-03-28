@@ -1,0 +1,13 @@
+HOSTS:
+  debian-wheezy-x86_64:
+    roles:
+      - master
+      - agent
+    platform: debian-wheezy-x86_64
+    hypervisor: vcloud
+    template: debian-7-x86_64
+CONFIG:
+  datastore: instance0
+  resourcepool: delivery/Quality Assurance/FOSS/Dynamic
+  folder: Delivery/Quality Assurance/FOSS/Dynamic
+  pooling_api: http://vmpooler.delivery.puppetlabs.net/

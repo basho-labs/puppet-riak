@@ -1,85 +1,110 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
-
 require 'spec_helper'
-require 'shared_contexts'
+shared_examples_for "class required behavior" do
+  it { is_expected.to compile.with_all_deps }
+  it { is_expected.to contain_class('riak') }
+  it { is_expected.to contain_class('riak::params') }
+  it { is_expected.to contain_class('riak::service').that_subscribes_to('riak::config') }
+  it { is_expected.to contain_file('/etc/riak/riak.conf').with_content(/nodename = riak@/) }
+end
 
-describe 'riak', :type => :class do
+describe 'riak' do
+  context 'supported operating systems' do
+    on_supported_os.each do |os, facts|
+      context "on #{os}" do
+        let(:facts) do
+          facts
+        end
 
-  let(:title) { "riak" }
+        context "riak class without any parameters" do
+          let(:params) {{ }}
 
-  include_context 'hieradata'
+          it_behaves_like "class required behavior"
 
-  describe 'at baseline with defaults' do
-    let(:params) {{}}
-    it { should contain_class('riak') }
-    # we're defaulting to repos now, not http files
-    it { should contain_package('riak').with_ensure('installed') }
-    it { should contain_service('riak').with({
-        :ensure => 'running',
-        :enable => 'true'
-      }) }
-    it { should contain_file('/etc/riak/app.config').with_ensure('present') }
-    it { should contain_file('/etc/riak/vm.args').with_ensure('present') }
-    it { should contain_riak__vmargs().with_notify('Service[riak]') }
-  end
+          it { is_expected.to contain_class('riak::install') }
+          it { is_expected.to contain_class('riak::config') }
+          it { is_expected.to contain_package('riak').with_ensure('present') }
+          it { is_expected.to contain_service('riak') }
+          case facts[:osfamily]
+          when 'RedHat'
+            it { is_expected.to contain_class('riak::repository::el') }
+            it { is_expected.to contain_yumrepo('basho_riak') }
+          when 'Debian'
+            it { is_expected.to contain_class('riak::repository::debian') }
+            it { is_expected.to contain_apt__source('riak') }
+          end
+        end
+        context "riak class with repositories disabled" do
+          let(:params) {{
+            :manage_repo => false
+          }}
 
-  describe 'custom package configuration' do
-    let(:params) { { :version => '1.2.0', :package => 'custom_riak',
-                     :download_hash => 'abcd', :use_repos => false } }
-    it 'should be downloading the package to be installed' do
-      subject.should contain_httpfile('/tmp/custom_riak-1.2.0.deb').
-        with({
-          :path => '/tmp/custom_riak-1.2.0.deb',
-          :hash => 'abcd' })
-    end
-    it { should contain_package('custom_riak').
-        with({
-          :ensure => 'installed',
-          :source =>'/tmp/custom_riak-1.2.0.deb'}) }
+          it_behaves_like "class required behavior"
 
-    context 'with :use_repos => true' do
-      let(:params) { {:use_repos => true, :package => 'riak-1.2.1-1.el6'} }
-
-      it do
-        should contain_service('riak').with_require(%Q([Class[Riak::Appconfig]\
-{:name=>"Riak::Appconfig"}, Class[Riak::Vmargs]{:name=>"Riak::Vmargs\
-"}, Class[Riak::Config]{:name=>"Riak::Config"}, User[riak]{:name=>\
-"riak"}, Package[riak-1.2.1-1.el6]{:name=>"riak-1.2.1-1.el6"}, Anc\
-hor[riak::start]{:name=>"riak::start"}]))
+          it { is_expected.to contain_class('riak::install') }
+          it { is_expected.to contain_class('riak::config') }
+          it { is_expected.to contain_package('riak').with_ensure('present') }
+          it { is_expected.to contain_service('riak') }
+          case facts[:osfamily]
+          when 'RedHat'
+            it { is_expected.to_not contain_class('riak::repository::el') }
+            it { is_expected.to_not contain_yumrepo('basho_riak') }
+          when 'Debian'
+            it { is_expected.to_not contain_class('riak::repository::debian') }
+            it { is_expected.to_not contain_apt__source('riak') }
+          end
+        end
+        context "riak class with package set to specific version" do
+          let(:params) {{
+            :version => '2.0.5'
+          }}
+          it_behaves_like "class required behavior"
+          it { is_expected.to contain_package('riak').with_ensure('2.0.5') }
+        end
+        context "riak class with package install disabled" do
+          let(:params) {{
+            :manage_package => false
+          }}
+          it_behaves_like "class required behavior"
+          it { is_expected.to_not contain_package('riak') }
+          it { is_expected.to_not contain_class('riak::install') }
+        end
+        context "riak class with custom package name" do
+          let(:params) {{
+            :package_name => 'ermongo'
+          }}
+          it_behaves_like "class required behavior"
+          it { is_expected.to contain_package('ermongo') }
+        end
+        context "riak class with custom service name" do
+          let(:params) {{
+            :service_name => 'ermongo'
+          }}
+          it_behaves_like "class required behavior"
+          it { is_expected.to contain_service('ermongo') }
+        end
+        context "riak class with custom config settings" do
+          let(:params) {{
+            :settings => {
+              'foo'    => 'bar',
+              'dtrace' => 'on',
+            }
+          }}
+          it_behaves_like "class required behavior"
+          it { is_expected.to contain_file('/etc/riak/riak.conf').with_content(/foo = bar/) }
+          it { is_expected.to contain_file('/etc/riak/riak.conf').with_content(/dtrace = on/) }
+        end
       end
     end
   end
 
-  def res t, n
-    catalogue.resource(t, n).send(:parameters)
-  end
+  context 'unsupported operating system' do
+    describe 'riak class without any parameters on Plan9' do
+      let(:facts) {{
+        :osfamily        => 'plan9',
+        :operatingsystem => 'plan9',
+      }}
 
-  describe 'when changing configuration' do
-    #before(:all) { puts catalogue.resources }
-    it("will restart Service") {
-      res('class', 'Riak::Appconfig')[:notify].
-        should eq('Service[riak]') }
+      it { expect { is_expected.to contain_package('riak') }.to raise_error(Puppet::Error, /plan9 not supported/) }
+    end
   end
-
-  describe 'when changing configuration, the service' do
-    let(:params) { { :service_autorestart => false } }
-    it('will not restart') {
-      res('class', 'Riak::Appconfig')[:notify].nil?.should be_true }
-  end
-
-  describe 'when decommissioning (absent):' do
-    let(:params) { { :absent => true } }
-    it("should remove the riak package") {
-      should contain_package('riak').with_ensure('absent') }
-    it("should remove configuration file File[/etc/riak/vm.args]") {
-      should contain_file('/etc/riak/vm.args').with_ensure('absent') }
-    it("remove configuration File[/etc/riak/app.config]") {
-      should contain_file('/etc/riak/app.config').with_ensure('absent') }
-    it("should stop Service[riak]") {
-      should contain_service('riak').with_ensure('stopped') }
-    it("should disable boot of Service[riak]") {
-      should contain_service('riak').with_enable('false') }
-  end
-
 end

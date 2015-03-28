@@ -30,6 +30,9 @@ Vagrant.configure("2") do |config|
     vb.customize ["modifyvm", :id, "--memory", "1024", "--cpus", "2", "--ioapic", "on"]
   end
 
+  config.vm.provision "shell",
+    inline: "puppet module install puppetlabs-apt"
+
   # specify all Riak VMs:
   nodes = 1
   ['puppetlabs/centos-7.0-64-puppet','puppetlabs/ubuntu-14.04-64-puppet','puppetlabs/centos-6.6-64-puppet','puppetlabs/ubuntu-12.04-64-puppet','puppetlabs/debian-7.8-64-puppet'].each do |box|

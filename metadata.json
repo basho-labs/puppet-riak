@@ -1,0 +1,36 @@
+{
+  "name": "basholabs-riak",
+  "version": "0.1.0",
+  "author": "basholabs",
+  "summary": "Manage Riak 2.x",
+  "license": "Apache-2.0",
+  "source": "github.com/basho-labs/puppet-riak",
+  "project_page": "https://github.com/basho-labs/puppet-riak",
+  "issues_url": "https://github.com/basho-labs/puppet-riak/issues",
+  "dependencies": [
+    {
+      "name": "puppetlabs-stdlib",
+      "version_requirement": ">= 1.0.0"
+    },
+    {
+      "name": "puppetlabs-apt",
+      "version_requirement": ">= 1.0.0"
+    }
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    }
+  ]
+}

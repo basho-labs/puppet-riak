@@ -1,22 +1,25 @@
-#ruby=1.9.3
+#ruby=2.1.5
 #ruby-gemset=puppet-riak
-# this Gemfile is for the development of the module, you don't need all of these to RUN the module with puppet
-source 'https://rubygems.org'
-gem 'mocha'
-gem 'puppet'
-gem 'puppet-lint'
-gem 'hiera' #, :git => 'git://github.com/puppetlabs/hiera.git' <- not working
-gem 'hiera-puppet'
-gem 'rspec'
-gem 'rspec-puppet'
-gem 'rspec-hiera-puppet' # for unit-testing using hiera data
-gem 'puppetlabs_spec_helper'
+source "https://rubygems.org"
 
-group :testing do
-  gem 'guard' # for running specs easily
-  gem 'libnotify' #requires: 'sudo apt-get install libnotify-bin'
-  # for running 'rake vagrant:provision' when editing
-  gem 'guard-rake', :git => 'git://github.com/joergschiller/guard-rake.git'
-  gem 'guard-rspec' # for running specs automatically
-  gem 'guard-puppet-lint'
+group :test do
+  gem "rake"
+  gem "puppet", ENV['PUPPET_VERSION'] || '~> 3.7.3'
+  gem "rspec-puppet", :git => 'https://github.com/rodjek/rspec-puppet.git'
+  gem "puppetlabs_spec_helper"
+  gem "metadata-json-lint"
+  gem "rspec-puppet-facts"
+end
+
+group :development do
+  gem "travis"
+  gem "travis-lint"
+  gem "vagrant-wrapper"
+  gem "puppet-blacksmith"
+  gem "guard-rake"
+end
+
+group :system_tests do
+  gem "beaker"
+  gem "beaker-rspec"
 end
