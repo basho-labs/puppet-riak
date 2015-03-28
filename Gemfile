@@ -17,6 +17,7 @@ group :development do
   gem "vagrant-wrapper"
   gem "puppet-blacksmith"
   gem "guard-rake"
+  gem "json"
 end
 
 group :system_tests do

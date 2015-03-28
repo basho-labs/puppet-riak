@@ -14,6 +14,7 @@
 # - vagrant-vbguest will reinstall virtualbox guest additions as necessary
 # To install those, run:
 # vagrant plugin install vagrant-vbguest vagrant-cachier
+require 'json'
 
 Vagrant.configure("2") do |config|
 
@@ -30,9 +31,20 @@ Vagrant.configure("2") do |config|
     vb.customize ["modifyvm", :id, "--memory", "1024", "--cpus", "2", "--ioapic", "on"]
   end
 
-  config.vm.provision "shell",
-    inline: "puppet module install puppetlabs-apt"
+#  config.vm.provision "shell",
+#    inline: "puppet module install puppetlabs-apt"
 
+  # generate list of puppet modules to be installed from metadata.json
+  metadata_json_file = "#{File.dirname(__FILE__)}/metadata.json"
+  if File.exist?(metadata_json_file)
+    JSON.parse(File.read(metadata_json_file))['dependencies'].each {|key,value|
+      module_name = key['name'].to_s
+      config.vm.provision "shell",
+          inline: "puppet module install #{module_name}"
+    }
+  else
+    puts "metadata.json not found; skipping install of dependencies"
+  end
   # specify all Riak VMs:
   nodes = 1
   ['puppetlabs/centos-7.0-64-puppet','puppetlabs/ubuntu-14.04-64-puppet','puppetlabs/centos-6.6-64-puppet','puppetlabs/ubuntu-12.04-64-puppet','puppetlabs/debian-7.8-64-puppet'].each do |box|
