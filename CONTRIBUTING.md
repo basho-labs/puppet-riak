@@ -39,7 +39,7 @@ Install the dependencies like so...
 To run beaker tests, you'll need to install [vagrant](https://www.vagrantup.com) and [virtualbox](https://www.virtualbox.org/). Once those are installed, install some useful vagrant plugins:
 
 ```bash
-vagrant plugin install vagrant-vbguest vagrant-cachier vagrant-auto_network
+vagrant plugin install vagrant-vbguest vagrant-cachier vagrant-auto_network vagrant-hosts
 ```
 
 If you're using vagrant with VMWare, you're on your own. I haven't had much luck with it, but it can probably work if you know what you're doing. The beaker tests assume that virtualbox will be the provider, and you may need to disable / uninstall the vagrant vmware plugin.
