@@ -12,15 +12,13 @@
 # This sets some (basically random) configuration settings to validate that
 # the module generates valid config files
 class { '::riak':
-  package_name                                => 'riak',
-  service_name                                => 'riak',
-  manage_package                              => true,
-  manage_repo                                 => true,
-  version                                     => 'latest',
-  settings                                    => {
-    'log.syslog'                              => 'on',
-    'erlang.schedulers.force_wakeup_interval' => '500',
-    'erlang.schedulers.compaction_of_load'    => false,
-    'buckets.default.last_write_wins'         => true,
+  package_name   => 'riak',
+  service_name   => 'riak',
+  manage_package => true,
+  manage_repo    => true,
+  version        => 'latest',
+  settings       => {
+    'log.syslog'                 => 'on',
+    'listener.protobuf.internal' => "${::ipaddress}:8087"
   },
 }
