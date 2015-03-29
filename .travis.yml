@@ -9,24 +9,13 @@ rvm:
   - jruby-19mode
 script: bundle exec rake test
 env:
-  - PUPPET_VERSION="~> 3.7.0" FUTURE_PARSER=yes
-  - PUPPET_VERSION="~> 3.7.0"
-  - PUPPET_VERSION="~> 3.7.0" STRICT_VARIABLES=yes FUTURE_PARSER=yes
-  - PUPPET_VERSION="~> 3.6.0"
+  - PUPPET_VERSION="~> 3.7.4" FUTURE_PARSER=yes
+  - PUPPET_VERSION="~> 3.7.4" STRICT_VARIABLES=yes FUTURE_PARSER=yes
 matrix:
   exclude:
   - rvm: jruby-19mode
-    env: PUPPET_VERSION="~> 3.6.0"
-  - rvm: jruby-19mode
-    env: PUPPET_VERSION="~> 3.7.0" FUTURE_PARSER=yes
-  - rvm: jruby-19mode
-    env: PUPPET_VERSION="~> 3.7.0"
+    env: PUPPET_VERSION="~> 3.7.4" FUTURE_PARSER=yes
   - rvm: 1.9.3
-    env: PUPPET_VERSION="~> 3.6.0"
-  - rvm: 1.9.3
-    env: PUPPET_VERSION="~> 3.7.0" FUTURE_PARSER=yes
-  - rvm: 1.9.3
-    env: PUPPET_VERSION="~> 3.7.0"
+    env: PUPPET_VERSION="~> 3.7.4" FUTURE_PARSER=yes
   allow_failures:
-    - env: PUPPET_VERSION="~> 3.6.0"
     - rvm: 1.9.3

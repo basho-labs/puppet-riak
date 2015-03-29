@@ -5,6 +5,7 @@ unless ENV['BEAKER_provision'] == 'no'
   hosts.each do |host|
     # Install Puppet
     on host, 'curl https://raw.githubusercontent.com/danieldreier/puppet-installer/master/install_puppet.sh | bash'
+    on host, 'puppet config set parser future'
   end
 end
 

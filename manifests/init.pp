@@ -8,23 +8,13 @@
 #   Explanation of what this parameter affects and what it defaults to.
 #
 class riak (
-  $package_name   = $::riak::params::package_name,
-  $service_name   = $::riak::params::service_name,
-  $manage_package = $::riak::params::manage_package,
-  $manage_repo    = $::riak::params::manage_repo,
-  $version        = $::riak::params::version,
-  $settings       = {},
+  String[1] $package_name = $::riak::params::package_name,
+  String[1] $service_name = $::riak::params::service_name,
+  Boolean $manage_package = $::riak::params::manage_package,
+  Boolean $manage_repo    = $::riak::params::manage_repo,
+  String[1] $version      = $::riak::params::version,
+  Hash[String, Variant[String, Boolean, Integer]] $settings = {},
 ) inherits ::riak::params {
-
-  # basic input validation
-  # when we switch to puppet 4 DSL we can use typed variables
-  validate_string($package_name)
-  validate_string($service_name)
-  validate_bool($manage_package)
-  validate_bool($manage_repo)
-  validate_string($version)
-  validate_hash($settings)
-
   if $manage_repo and $manage_package {
     include ::riak::repository
   }
