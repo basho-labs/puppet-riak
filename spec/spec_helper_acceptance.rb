@@ -5,7 +5,6 @@ unless ENV['BEAKER_provision'] == 'no'
   hosts.each do |host|
     # Install Puppet
     on host, 'curl https://raw.githubusercontent.com/danieldreier/puppet-installer/master/install_puppet.sh | bash'
-    on host, 'puppet config set parser future'
   end
 end
 
@@ -18,9 +17,13 @@ RSpec.configure do |c|
 
   # Configure all nodes in nodeset
   c.before :suite do
-    # Install module and dependencies
+    # set necessary basic settings
     puppet_module_install(:source => proj_root, :module_name => 'riak', :target_module_path => '/etc/puppet/modules')
     hosts.each do |host|
+      on host, 'puppet config set parser future'
+      on host, 'puppet apply -e "host {$::hostname: ip => $::ipaddress}"'
+      on host, 'puppet apply -e "host {$::fqdn: ip => $::ipaddress}"'
+    # Install module and dependencies
       on host, puppet('module', 'install', 'puppetlabs-stdlib'), { :acceptable_exit_codes => [0,1] }
       on host, puppet('module', 'install', 'puppetlabs-apt'), { :acceptable_exit_codes => [0,1] }
     end
