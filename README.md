@@ -17,6 +17,7 @@
 
 This module manages the 2.x versions of the Riak distributed key-value store.
 
+
 ## Module Description
 
 [Riak](http://basho.com/riak/) is an open source, distributed database that
@@ -110,7 +111,35 @@ The Riak RPMs distributed by Basho are [not GPG signed](https://github.com/basho
 the module disabled GPG verification in that Yum repository. The apt packages
 are signed, so this only applies to EL platforms.
 
-## Development
+## Contribution
 
-Please contribute to this module. This module has extensive test coverage in
-order to make contributing easier. Please read CONTRIBUTING.md for details.
+Please contribute to this module. This module has extensive test coverage in order to make contributing easier. Please read CONTRIBUTING.md for details.
+
+### Maintainers
+* Hendrik Feldt ([GitHub](https://github.com/haf))
+* Daniel Dreier ([GitHub](https://github.com/danieldreier))
+* Matt Brender ([GitHub](https://github.com/mjbrender))
+* and You! [Read up](https://github.com/basho-labs/the-riak-community/blob/master/config-mgmt-strategy.md) and get involved
+
+You can [read the full guidelines](http://docs.basho.com/riak/latest/community/bugs/) for bug reporting and code contributions on the Riak Docs. And **thank you!** Your contribution is incredible important to us.
+
+## License and Authors
+
+* Author: Daniel Dreier (<daniel.dreier@gmail.com>)
+* Author: Hendrik Feldt (<henrik@haf.se>)
+* Author: Matt Brender (<mbrender@basho.com>)
+
+
+Copyright (c) 2015 Basho Technologies, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+[http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
