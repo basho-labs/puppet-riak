@@ -1,74 +1,82 @@
-# == Class: riak::params
+# == Class riak::params
 #
-# This class implements the module params pattern, but it's loaded using hiera
-# as opposed to the 'default' usage of coding the parameter values in your
-# manifest.
-#
-# == Usage
-#
-# Don't use this class directly; it's being used where it is needed.
-# Hiera will try and inject overrides where these properties are being used.
+# This class is meant to be called from riak.
+# It sets variables according to platform.
 #
 class riak::params {
-
-  $package = $::operatingsystem ? {
-    default => 'riak',
+  $version          = 'present' # setting to latest could result in uplanned upgrades
+  $manage_repo      = true
+  $manage_package   = true
+  $riak_conf        = '/etc/riak/riak.conf'
+  $riak_user        = 'riak'
+  $riak_group       = 'riak'
+  $default_settings = {
+    'anti_entropy'                      => 'active',
+    'bitcask.data_root'                 => '$(platform_data_dir)/bitcask',
+    'bitcask.io_mode'                   => 'erlang',
+    'distributed_cookie'                => 'riak',
+    'dtrace'                            => 'off',
+    'erlang.async_threads'              => '64',
+    'erlang.max_ports'                  => '65536',
+    'leveldb.maximum_memory.percent'    => '70',
+    'listener.http.internal'            => '127.0.0.1:8098',
+    'listener.protobuf.internal'        => '127.0.0.1:8087',
+    'log.console'                       => 'file',
+    'log.console.file'                  => '$(platform_log_dir)/console.log',
+    'log.console.level'                 => 'info',
+    'log.crash.file'                    => '$(platform_log_dir)/crash.log',
+    'log.crash.maximum_message_size'    => '64KB',
+    'log.crash'                         => 'on',
+    'log.crash.rotation'                => '$D0',
+    'log.crash.rotation.keep'           => '5',
+    'log.crash.size'                    => '10MB',
+    'log.error.file'                    => '$(platform_log_dir)/error.log',
+    'log.syslog'                        => 'off',
+    'nodename'                          => "riak@${::fqdn}",
+    'object.format'                     => '1',
+    'object.siblings.maximum'           => '100',
+    'object.siblings.warning_threshold' => '25',
+    'object.size.maximum'               => '50MB',
+    'object.size.warning_threshold'     => '5MB',
+    'platform_bin_dir'                  => '/usr/sbin',
+    'platform_data_dir'                 => '/var/lib/riak',
+    'platform_etc_dir'                  => '/etc/riak',
+    'platform_lib_dir'                  => '/usr/lib64/riak/lib',
+    'platform_log_dir'                  => '/var/log/riak',
+    'riak_control.auth.mode'            => 'off',
+    'riak_control'                      => 'off',
+    'search'                            => 'off',
+    'search.solr.jmx_port'              => '8985',
+    'search.solr.jvm_options'           => '-d64 -Xms1g -Xmx1g -XX:+UseStringCache -XX:+UseCompressedOops',
+    'search.solr.port'                  => '8093',
+    'search.solr.start_timeout'         => '30s',
+    'storage_backend'                   => 'bitcask',
   }
 
-  $deps = $::operatingssytem ? {
-    /(?i:centos|redhat|Amazon)/ => [],
-    default                     => [],
+  case $::osfamily {
+    'Debian': {
+      $package_name               = 'riak'
+      $service_name               = 'riak'
+      $platform_specific_settings = {}
+    }
+    'RedHat', 'Amazon': {
+      $package_name               = 'riak'
+      $service_name               = 'riak'
+      $platform_specific_settings = {}
+    }
+    # FreeBSD is included as an example of platform-specific config settings
+    # there's no actual test coverage for FreeBSD (yet)
+    'FreeBSD': {
+      $package_name               = 'riak'
+      $service_name               = 'riak'
+      $platform_specific_settings = {
+        'platform_etc_dir' => '/usr/local/etc/riak',
+      }
+    }
+    default: {
+      fail("${::operatingsystem} not supported")
+    }
   }
+  $settings = merge($default_settings,$platform_specific_settings)
 
-  $package_type = $::operatingsystem ? {
-    /(?i:centos|redhat|Amazon)/ => 'rpm',
-    default                     => 'deb',
-  }
-
-  $package_provider = $::operatingsystem ? {
-    /(?i:centos|redhat|Amazon)/ => 'rpm',
-    default                     => 'dpkg',
-  }
-
-  $architecture = $::operatingsystem ? {
-    /(?i:centos|redhat|Amazon)/ => 'x86_64',
-    default                     => 'amd64',
-  }
-
-  $has_restart = $::operatingsystem ? {
-    /(?i:centos|redhat|Amazon)/ => true,
-    default                     => false,
-  }
-
-  $version = '1.3.0'
-  $version_maj_min = semver_maj_min($version)
-  $use_repos = true
-  $get = $::operatingsystem ? {
-    /(?i:centos|redhat|Amazon)/ => "/riak/${version_maj_min}/${version}/rhel/6/riak-${version}-1.el6.${architecture}.${package_type}",
-    default                     => "/riak/${version_maj_min}/${version}/ubuntu/precise/riak_${version}-1_${architecture}.${package_type}",
-  }
-
-  $download = "http://downloads.basho.com.s3-website-us-east-1.amazonaws.com${get}"
-
-  $download_hash = "${download}.sha"
-
-  $log_dir = '/var/log/riak'
-  $error_log = "${log_dir}/error.log"
-  $info_log = "${log_dir}/console.log"
-  $crash_log = "${log_dir}/crash.log"
-
-  $erl_log_dir = '/var/log/riak'
-  $data_dir = '/var/lib/riak'
-  $lib_dir = '/usr/lib/riak'
-  $bin_dir = '/usr/sbin'
-  $etc_dir = '/etc/riak'
-
-  $service_autorestart = true
-
-  $ulimit = 4096
-  $limits_template = 'riak/limits.conf.erb'
-
-  $riak_uid = undef
-  $riak_gid = undef
- 
 }

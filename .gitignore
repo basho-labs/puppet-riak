@@ -8,6 +8,13 @@ fixtures/
 Gemfile.lock
 files/packages/
 graphs/
-metadata.json
 .project
 *.dot
+.*.sw?
+pkg
+spec/fixtures
+.rspec_system
+.vagrant
+.bundle
+vendor
+log
