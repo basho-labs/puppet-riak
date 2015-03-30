@@ -118,6 +118,7 @@ Please contribute to this module. This module has extensive test coverage in ord
 ### Maintainers
 * Hendrik Feldt ([GitHub](https://github.com/haf))
 * Daniel Dreier ([GitHub](https://github.com/danieldreier))
+* Matt Brender ([GitHub](https://github.com/mjbrender))
 * and You! [Read up](https://github.com/basho-labs/the-riak-community/blob/master/config-mgmt-strategy.md) and get involved
 
 You can [read the full guidelines](http://docs.basho.com/riak/latest/community/bugs/) for bug reporting and code contributions on the Riak Docs. And **thank you!** Your contribution is incredible important to us.
@@ -126,6 +127,7 @@ You can [read the full guidelines](http://docs.basho.com/riak/latest/community/b
 
 * Author: Daniel Dreier (<daniel.dreier@gmail.com>)
 * Author: Hendrik Feldt (<henrik@haf.se>)
+* Author: Matt Brender (<mbrender@basho.com>)
 
 
 Copyright (c) 2015 Basho Technologies, Inc.
