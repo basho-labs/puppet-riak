@@ -1,5 +1,5 @@
 name          'basholabs-riak'
-version       '0.1.0'
+version       '0.2.0'
 source        'github.com/basho-labs/puppet-riak'
 author        'basholabs'
 license       'Apache 2.0'
