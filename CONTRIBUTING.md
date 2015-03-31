@@ -205,3 +205,51 @@ The ideal imagined workflow is to:
 - consider updating beaker tests if there's new functionality being delivered that you need to integration test and can't just get in rspec-puppet.
 - update docs as necessary
 - commit, push to your fork, and make a pull request
+
+
+## How to Release to Puppet Forge
+
+To release to Puppet Forge:
+
+```bash
+git clone git@github.com:basho-labs/puppet-riak.git
+cd puppet-riak
+bundle install
+
+# check out a release branch
+checkout -b 'release_x_y_z'
+
+# modify metadata.json, Modulefile, and (optionally) CHANGELOG with a new version number
+# do a git commit with the new version number
+# tag the release:
+bundle exec rake module:tag
+# clean prior builds:
+bundle exec rake clean
+
+# build a new package:
+bundle exec rake build
+
+# run all the tests
+# note that a "rake syntax" is expected to fail because of missing future parser support
+bundle exec rake metadata
+bundle exec rake lint
+bundle exec rake syntax:templates
+bundle exec rake spec
+bash spec/run_virtualbox_tests.sh # this will take a long time, possibly hours
+
+# if something fails, file a ticket on github.
+# if everything passes...
+
+# git push to your branch (make sure to push tags as well) and make a pull
+# request to get community okay for a release.
+# This is a good time to bikeshed a semver discussion.
+
+# When it gets merged...
+
+# if this is the first time using puppet-blacksmith, set up credentials
+# in ~/.puppetforge.yml
+# (see https://github.com/maestrodev/puppet-blacksmith for an example)
+
+# push to Puppet Forge using the API:
+rake module:push
+```
