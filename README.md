@@ -15,10 +15,7 @@
 
 ## Overview
 
-This module manages the 2.x versions of the Riak distributed key-value store.
-
-
-## Module Description
+This module manages the 2.x versions of the Riak distributed key-value store. 
 
 [Riak](http://basho.com/riak/) is an open source, distributed database that
 focuses on high availability, horizontal scalability, and *predictable*
@@ -27,6 +24,9 @@ latency.
 This repository is **community supported**. We both appreciate and need your
 contribution to keep it stable. For more on how to contribute,
 [take a look at the contribution process](#contribution).
+
+
+## Module Description
 
 This module installs the apt or yum repository, installs riak, and starts the
 riak service. This is a very basic module, and does not manage clusters, help
@@ -111,9 +111,9 @@ The Riak RPMs distributed by Basho are [not GPG signed](https://github.com/basho
 the module disabled GPG verification in that Yum repository. The apt packages
 are signed, so this only applies to EL platforms.
 
-## Contribution
+## Development
 
-Please contribute to this module. This module has extensive test coverage in order to make contributing easier. Please read CONTRIBUTING.md for details.
+Basho Labs repos survive because of community contribution. This module has extensive test coverage in order to make contributing easier. Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details. 
 
 ### Maintainers
 * Hendrik Feldt ([GitHub](https://github.com/haf))
