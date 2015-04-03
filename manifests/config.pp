@@ -14,4 +14,17 @@ class riak::config {
     notify  => Service[$::riak::service_name],
     before  => Service[$::riak::service_name],
   }
+  # set ulimits max file handles
+  riak::tuning::limits {
+    "${::riak::params::riak_user}-soft":
+      user    => $::riak::params::riak_user,
+      type    => soft,
+      item    => nofile,
+      value   => $::riak::ulimits_nofile_soft;
+    "${::riak::params::riak_user}-hard":
+      user    => $::riak::params::riak_user,
+      type    => hard,
+      item    => nofile,
+      value   => $::riak::ulimits_nofile_hard;
+  }
 }
