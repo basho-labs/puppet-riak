@@ -6,7 +6,6 @@ shared_examples_for "a running riak service" do
 
   describe service('riak') do
     it { is_expected.to be_enabled }
-    it { is_expected.to be_running riak hard nofile }
   end
 
   describe port(8087) do
