@@ -5,7 +5,6 @@ shared_examples_for "class required behavior" do
   it { is_expected.to contain_class('riak::params') }
   it { is_expected.to contain_class('riak::service').that_subscribes_to('riak::config') }
   it { is_expected.to contain_file('/etc/riak/riak.conf').with_content(/nodename = riak@/) }
-  # it { is_expected.to contain_file('/etc/security/limits.conf').with_content(/riak hard nofile 65536/) }
 end
 
 describe 'riak' do
@@ -94,17 +93,6 @@ describe 'riak' do
           }}
           it_behaves_like "class required behavior"
           it { is_expected.to contain_file('/etc/riak/riak.conf').with_content(/foo = bar/) }
-          it { is_expected.to contain_file('/etc/riak/riak.conf').with_content(
-            /dtrace = on/) }
-        # context "riak class with custom config settings" do
-        #   let(:params) {{
-        #     :ulimits_nofile_soft => 8000,
-        #     :ulimits_nofile_hard => 9000,
-        #   }}
-        #   it_behaves_like "class required behavior"
-        #   it { is_expected.to contain_file('/etc/security/limits.conf').with_content(/riak soft nofile 8000/) }
-        #   it { is_expected.to contain_file('/etc/security/limits.conf').with_content(/riak hard nofile 9000/) }
-        #   end
         end
       end
     end
