@@ -93,6 +93,7 @@ describe 'riak' do
           }}
           it_behaves_like "class required behavior"
           it { is_expected.to contain_file('/etc/riak/riak.conf').with_content(/foo = bar/) }
+           it { is_expected.to contain_file('/etc/riak/riak.conf').with_content(/dtrace = on/) }
         end
       end
     end
