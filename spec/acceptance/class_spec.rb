@@ -6,6 +6,7 @@ shared_examples_for "a running riak service" do
 
   describe service('riak') do
     it { is_expected.to be_enabled }
+    it { is_expected.to be_running }
   end
 
   describe port(8087) do
@@ -64,7 +65,8 @@ describe 'riak class' do
     it_behaves_like "riak self-tests"
 
     describe file('/etc/security/limits.conf') do
-      its(:content) { should contain /riak hard nofile 65536/ } # default setting
+      its(:content) { should contain /riak hard nofile 65536/ }
+      its(:content) { should contain /riak soft nofile 65536/ }
     end
   end
 
