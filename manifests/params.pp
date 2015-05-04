@@ -11,8 +11,8 @@ class riak::params {
   $riak_user           = 'riak'
   $riak_group          = 'riak'
   $ulimits_context     = '/files/etc/security/limits.conf'
-  $ulimits_nofile_soft = '65536'
-  $ulimits_nofile_hard = '65536'
+  $ulimits_nofile_soft = 65536
+  $ulimits_nofile_hard = 65536
   $default_settings = {
     'anti_entropy'                      => 'active',
     'bitcask.data_root'                 => '$(platform_data_dir)/bitcask',
