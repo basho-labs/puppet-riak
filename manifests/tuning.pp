@@ -1,8 +1,8 @@
 # Set ulimits max open files
 #
 define riak::tuning::limits (
-    String[1] $user, String[1] $type, String[1] $item, Integer $value
-  ) {
+  String[1] $user, String[1] $type, String[1] $item, Integer $value
+) {
 
   $key = "$user/$type/$item"
   $path_list  = "domain[.=\"$user\"][./type=\"$type\" and ./item=\"$item\"]"
