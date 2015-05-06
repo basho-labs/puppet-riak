@@ -1,11 +1,16 @@
 # == Class: riak
 #
-# Full description of class riak here.
+# Desploy and manage Riak.
 #
 # === Parameters
 #
-# [*sample_parameter*]
-#   Explanation of what this parameter affects and what it defaults to.
+# [*$package_name*]
+# [*$service_name*]
+# [*$manage_package*]
+# [*$manage_repo*]
+# [*$version*]
+# [*$ulimits_nofile_soft*]
+# [*$ulimits_nofile_hard*]
 #
 class riak (
   String[1] $package_name       = $::riak::params::package_name,
