@@ -24,8 +24,8 @@ describe 'riak' do
           it { is_expected.to contain_class('riak::config') }
           it { is_expected.to contain_package('riak').with_ensure('present') }
           it { is_expected.to contain_service('riak') }
-          # it { is_expected.to contain_file('/etc/security/limits.conf').with_content(/riak hard nofile 65536/) }
-          # it { is_expected.to contain_file('/etc/security/limits.conf').with_content(/riak soft nofile 65536/) }
+          it { is_expected.to contain_file('/etc/security/limits.conf').with_content(/riak hard nofile 65536/) }
+          it { is_expected.to contain_file('/etc/security/limits.conf').with_content(/riak soft nofile 65536/) }
 
           case facts[:osfamily]
             when 'RedHat'
