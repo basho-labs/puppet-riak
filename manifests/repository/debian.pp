@@ -8,7 +8,6 @@ class riak::repository::debian {
   apt::source { 'riak':
     location   => 'https://packagecloud.io/basho/riak/debian/',
     key        => '418A7F2FB0E1E6E7EABF6FE8C2E73424D59097AB',
-    key_source => 'https://packagecloud.io/gpg.key',
     pin        => '550',
     repos      => 'main',
     release    => $::lsbdistcodename,
