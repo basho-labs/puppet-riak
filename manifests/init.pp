@@ -1,6 +1,6 @@
 # == Class: riak
 #
-# Desploy and manage Riak.
+# Deploy and manage Riak.
 #
 # === Parameters
 #
