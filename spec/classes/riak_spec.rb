@@ -1,4 +1,5 @@
 require 'spec_helper'
+
 shared_examples_for "class required behavior" do
   it { is_expected.to compile.with_all_deps }
   it { is_expected.to contain_class('riak') }
@@ -107,4 +108,5 @@ describe 'riak' do
       it { expect { is_expected.to contain_package('riak') }.to raise_error(Puppet::Error, /plan9 not supported/) }
     end
   end
+
 end

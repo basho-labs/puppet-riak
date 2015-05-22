@@ -63,6 +63,11 @@ describe 'riak class' do
 
     it_behaves_like "a running riak service"
     it_behaves_like "riak self-tests"
+
+    describe file('/etc/security/limits.conf') do
+      its(:content) { should contain /riak hard nofile 65536/ }
+      its(:content) { should contain /riak soft nofile 65536/ }
+    end
   end
 
   context 'with config parameters set' do
