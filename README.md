@@ -15,7 +15,7 @@
 
 ## Overview
 
-This module manages the 2.x versions of the Riak distributed key-value store. 
+This module manages the 2.x versions of the Riak distributed key-value store.
 
 [Riak](http://basho.com/riak/) is an open source, distributed database that
 focuses on high availability, horizontal scalability, and *predictable*
@@ -81,6 +81,58 @@ class { '::riak':
 }
 ```
 
+A configuration with custom performance tuning.
+
+Increase the per-user open files limit (ulimits):
+
+```puppet
+class { '::riak':
+  ulimits_nofile_soft => 88536,
+  ulimits_nofile_hard => 98536,
+}
+```
+
+## Reference
+
+###Parameters
+
+The following parameters are available in the `::riak` class:
+
+####`package_name`
+
+Name of the Riak package to install.
+Default: `riak`
+
+####`service_name`
+
+Name of the Riak service.
+Default: `riak`
+
+####`manage_package`
+
+Whether to install the Riak package.
+Default: `true`
+
+####`manage_repo`
+
+Whether to setup and enable the remote yum or apt package repos from which Riak will be installed. The repo is hosted at [packagecloud.io.](https://packagecloud.io) If you set this to `false` the Riak packages will need to be present in your existing package repos.
+Default: `true`
+
+####`version`
+
+The version of Riak to manage. Set the package version if desired.
+Default: `present` (Setting to latest could result in unplanned upgrades.)
+
+####`ulimits_nofile_soft`
+
+Set per-user open files soft limit in `/etc/security/limits.conf`
+Default: `65536`
+
+####`ulimits_nofile_hard`
+
+Set per-user open files hard limit in `/etc/security/limits.conf`
+Default: `65536`
+
 ## Limitations
 
 This module is only expected to work with:
@@ -113,7 +165,7 @@ are signed, so this only applies to EL platforms.
 
 ## Development
 
-Basho Labs repos survive because of community contribution. This module has extensive test coverage in order to make contributing easier. Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details. 
+Basho Labs repos survive because of community contribution. This module has extensive test coverage in order to make contributing easier. Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
 ### Maintainers
 * Hendrik Feldt ([GitHub](https://github.com/haf))

@@ -1,4 +1,8 @@
-# Set ulimits max open files
+# == Class riak::tuning
+#
+# This class tunes the system for performance.
+# see http://docs.basho.com/riak/latest/ops/tuning/linux/
+# for descriptions of these settings
 #
 define riak::tuning::limits (
   String[1] $user, String[1] $type, String[1] $item, Integer $value
