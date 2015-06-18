@@ -1,3 +1,7 @@
+2015-5-22 Release 0.2.3
+- Enable performance tuning of ulimits (per-user open file limit)
+- Update repo management for Debian to match change in puppetlabs-apt
+- Update docs
 2015-3-30 Release 0.2.0
 - Rewrite for Riak 2
 - Require puppet 3.7 and future parser

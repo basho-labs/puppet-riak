@@ -2,16 +2,6 @@
 #
 # Deploy and manage Riak.
 #
-# === Parameters
-#
-# [*$package_name*]
-# [*$service_name*]
-# [*$manage_package*]
-# [*$manage_repo*]
-# [*$version*]
-# [*$ulimits_nofile_soft*]
-# [*$ulimits_nofile_hard*]
-#
 class riak (
   String[1] $package_name       = $::riak::params::package_name,
   String[1] $service_name       = $::riak::params::service_name,
