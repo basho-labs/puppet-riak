@@ -4,10 +4,16 @@
 #
 class riak::repository {
 
-  case $::osfamily {
-    'Redhat': { include riak::repository::el }
-    'Debian': { include riak::repository::debian }
-    default: { fail("No package repository is available for ${::osfamily}") }
+  case $::operatingsystem {
+
+    'ubuntu': { include riak::repository::ubuntu }
+    default: {
+      case $::osfamily {
+        'Redhat': { include riak::repository::el }
+        'Debian': { include riak::repository::debian }
+        default: { fail("No package repository is available for ${::osfamily}") }
+      }
+    }
   }
 
 }
